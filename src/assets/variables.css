@@ -1,0 +1,10 @@
+:root {
+  --sidebar-width: 238px;
+  --main-box-color: #559db3;
+  --colorful-button-add:  #55B39A;
+  --colorful-button-remove: #B36B55;
+  --colorful-opacity: 1;
+  --light-buttons: #fff;
+  --light-opacity: 0.4;
+  --text-color: '#000000'
+}

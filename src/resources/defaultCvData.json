@@ -1,0 +1,114 @@
+{
+    "cv": {
+        "personal": [
+            {
+                "key": "username",
+                "value": "Panda Roux",
+                "required": true
+            },
+            {
+                "key": "job",
+                "value": "Developpeur Web",
+                "required": true
+            },
+            {
+                "key": "age",
+                "value": 30,
+                "required": false
+            }
+        ],
+        "picture": "https://placehold.co/300x300",
+        "contact": [
+            {
+                "key": "email",
+                "value": "pandaroux@nature.com",
+                "required": true
+            },
+            {
+                "key": "address",
+                "value": "15 Avenue de la Forêt du Panda, Népal 83566",
+                "required": true
+            },
+            {
+                "key": "phoneNumber",
+                "value": "06 07 08 09 10",
+                "required": true
+            }
+        ],
+        "skills": [
+            "Développement web, HTML, CSS, PHP, JS",
+            "Nourrir les hérissons",
+            "Nourrir les hérissons"
+        ],
+        "spokenLanguages": [
+            {
+                "key": "lang1",
+                "value": "Français",
+                "level": "C2",
+                "required": true
+            },
+            {
+                "key": "lang2",
+                "value": "Anglais",
+                "level": "C1",
+                "required": false
+            }
+        ],
+        "hobbies": "Musique, arts graphiques, sports de glisse, sports de combat, mécanique, travail manuel",
+        "resume": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam, aliquid quod! Harum, dolorum assumenda. Iusto ullam deserunt officia enim in voluptatibus impedit voluptates aliquid debitis architecto, delectus excepturi eaque necessitatibus.",
+        "professionalXp": {
+            "title": "Expériences professionelles",
+            "jobs": [
+                {
+                    "job": "Eleveur de hérissons",
+                    "period": "2022-2024",
+                    "months": "",
+                    "description": "Durant cette période j'ai élevé beaucoup de petits hérissons et je les ai soignés et puis aussi bla bla bla bla bla bla bla bla"
+                },
+                {
+                    "job": "Eleveur de bestioles",
+                    "period": "2020",
+                    "months": "6",
+                    "description": "Durant cette période j'ai élevé beaucoup de petites bestioles et je les ai soignées et puis aussi bla bla bla bla bla bla bla bla"
+                },
+                {
+                    "job": "Eleveur de hérissons",
+                    "period": "2018-2019",
+                    "months": "",
+                    "description": "Durant cette période j'ai élevé beaucoup de petits blablas !"
+                },
+                {
+                    "job": "Eleveur de bestioles",
+                    "period": "2017",
+                    "months": "2",
+                    "description": "Durant cette période bla bla bla bla bla bla bla bla"
+                }
+            ]
+        },
+        "extraXp": [
+            {
+                "job": "Eleveur de hérissons",
+                "description": "Durant cette période j'ai élevé beaucoup de petites bestioles et je les ai soignées et puis aussi bla bla bla bla bla bla bla bla"
+            },
+            {
+                "job": "Eleveur de hérissons",
+                "description": "Durant cette période j'ai élevé beaucoup de petites bestioles et je les ai soignées et puis aussi bla bla bla bla bla bla bla bla"
+            }
+        ]
+    },
+    "layout": {
+        "sidebarSize": 275
+    },
+    "config": {
+        "limits": {
+            "personal": 2,
+            "contact": 5,
+            "skills": 10,
+            "spokenLanguages": 5,
+            "hobbies": 15,
+            "professionalXp": 10,
+            "education": 10,
+            "extraXp": 10
+        }
+    }
+}
