@@ -17,7 +17,10 @@
                 "required": false
             }
         ],
-        "picture": "https://placehold.co/300x300",
+        "picture": {
+            "path": "https://placehold.co/300x300",
+            "imageBorderRadius": 2
+        },
         "contact": [
             {
                 "key": "email",
@@ -37,7 +40,6 @@
         ],
         "skills": [
             "Développement web, HTML, CSS, PHP, JS",
-            "Nourrir les hérissons",
             "Nourrir les hérissons"
         ],
         "spokenLanguages": [

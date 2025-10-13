@@ -1,8 +1,11 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import EditableInput from "./EditableInput.vue";
 import ImageUploader from "./ImageUploader.vue";
-import AddItemButton from "./AddItemButton.vue";
+import ButtonAddContact from "./ButtonAddContact.vue";
+import ButtonAddSkill from "./ButtonAddSkill.vue";
+import ButtonAddLanguage from "./ButtonAddLanguage.vue";
+import ButtonDeleteItem from "./ButtonDeleteItem.vue";
 import languages from "../resources/languages.json"
 
 const languageList = ref(languages)
@@ -32,64 +35,62 @@ const handleSidebarResize = (event) => {
   });
 };
 
-const addItem = (path, value) => {
-  const cvData = JSON.parse(JSON.stringify(props.cvData));
-  const keys = path.split('.');
-  let data = cvData.cv;
+const focusNewInput = async (keys) => {
+  await nextTick()
+  focusTarget.value = $cv.value[keys[0]].length;
+}
 
-  console.log(path, value);
-  console.log(keys);
+const handleSkills = (index, value, action = 'update') => {
+  const updatedArray = action === 'add'
+    ? [...$cv.value['skills'], value]
+    : $cv.value.skills.map((skill, i) => i === index ? value : skill)
 
-  for (let i = 0; i < keys.length - 1; i++) {
-    data = data[keys[i]];
-  }
-
-  console.log(data);
-
-  // data.push({ "key": lastKey, "value": value, "required": false })
-
-  // setTimeout(() => {
-  //   focusTarget.value = index;
-
-  // }, 0);
-  // focusTarget.value = null;
-};
-
-
-const updateSkills = (index, value) => {
+  console.log(updatedArray);
   emit("update:cvData", {
     ...props.cvData,
     cv: {
       ...props.cvData.cv,
-      skills: props.cvData.cv.skills.map((skill, i) => i === index ? value : skill)
+      skills: updatedArray
     }
   });
 };
 
-const updateContact = (path, value) => {
+const handleContact = (path, value, action = 'update') => {
   const keys = path.split('.');
-  const lastKey = keys[keys.length - 1];
+  const arrayKey = keys[0];
+  const itemKey = keys[keys.length - 1];
+
+  const updatedArray = action === 'add'
+    ? [...$cv.value[arrayKey], { key: itemKey, value }]
+    : $cv.value[arrayKey].map(item =>
+      item.key === itemKey ? { ...item, value } : item
+    );
 
   emit("update:cvData", {
     ...props.cvData,
     cv: {
       ...props.cvData.cv,
-      contact: $cv.value.contact.map(item =>
-        item.key === lastKey ? { ...item, value } : item
-      )
+      [arrayKey]: updatedArray
     }
   });
+
+  if (action === 'add') {
+    focusNewInput(keys);
+    focusTarget.value = null;
+  }
 };
 
-const updatePicture = (value) => {
+const updatePicture = (updates) => {
   emit("update:cvData", {
     ...props.cvData,
     cv: {
       ...props.cvData.cv,
-      picture: $cv.value.picture = value
+      picture: {
+        ...props.cvData.cv.picture,
+        ...updates
+      }
     }
-  }
-  );
+  });
 };
 
 const updatePersonal = (path, value) => {
@@ -107,7 +108,48 @@ const updatePersonal = (path, value) => {
   });
 };
 
+const updateLanguage = (index, field, value) => {
+  handleLanguage('update', `spokenLanguages.${index}.${field}`, value);
+};
+
+const handleLanguage = (action = 'update', path, value) => {
+  let updatedLanguages;
+
+  if (action === 'add') {
+    const maxKey = Math.max(
+      ...$cv.value.spokenLanguages.map(lang =>
+        parseInt(lang.key.replace('lang', '')) || 0
+      )
+    );
+
+    const newLanguage = {
+      key: `lang${maxKey + 1}`,
+      value: "",
+      level: "--",
+      required: false
+    };
+    updatedLanguages = [...$cv.value.spokenLanguages, newLanguage];
+  }
+  else {
+    const keys = path.split('.');
+    const langKey = keys[1];
+    const field = keys[2];
+
+    updatedLanguages = $cv.value.spokenLanguages.map(item =>
+      item.key === langKey ? { ...item, [field]: value } : item)
+  }
+
+  emit("update:cvData", {
+    ...props.cvData,
+    cv: {
+      ...props.cvData.cv,
+      spokenLanguages: updatedLanguages
+    }
+  });
+};
+
 const removeItem = (path, index) => {
+  console.log(path);
   const cvData = JSON.parse(JSON.stringify(props.cvData));
   const keys = path.split('.');
   let data = cvData.cv;
@@ -119,15 +161,12 @@ const removeItem = (path, index) => {
 
   if (Array.isArray(data) && data.length > 0 && data[0].hasOwnProperty('key')) {
     const item = data.find(i => i.key === lastKey);
-    console.log(item);
-
     const index = data.indexOf(item);
     if (index > -1) {
       data.splice(index, 1);
     }
   }
   else {
-    console.log(data[lastKey]);
     if (data.length < 1) {
 
       return
@@ -170,8 +209,10 @@ const removeItem = (path, index) => {
     </div>
 
     <ImageUploader
-      :path="$cv.picture"
-      @update:path="updatePicture($event)"
+      :path="$cv.picture.path"
+      :imageBorderRadius="$cv.picture.imageBorderRadius"
+      @update:path="(value) => updatePicture({ path: value })"
+      @update:imageBorderRadius="(value) => updatePicture({ imageBorderRadius: value })"
     />
 
     <div class="infos box-color">
@@ -189,24 +230,23 @@ const removeItem = (path, index) => {
             <EditableInput
               :label="contact.key"
               :modelValue="$cv.contact[index].value"
-              @update:modelValue="updateContact(`contact.${contact.key}`, $event)"
+              @update:modelValue="handleContact(`contact.${contact.key}`, $event)"
               :defaultFontSize="11"
-              :must-focus="focusTarget === ($cv.contact.length - 1)"
+              :must-focus="focusTarget === ($cv.contact.length)"
             />
 
-            <div
-              class="removeItem"
-              v-show="$cv.contact.length > 1"
-              @click="removeItem(`contact.${contact.key}`, index)"
-            >
-            </div>
+            <ButtonDeleteItem
+              :show="$cv.contact.length > 1"
+              @delete="removeItem(`contact.${contact.key}`, index)"
+            />
+
           </li>
-          <AddItemButton
+          <ButtonAddContact
             :storedData="$cv.contact"
             :defaultData="defaultCvData.cv.contact"
             pathPrefix="contact"
             defaultValue="LinkedIn, site perso, Twitter/X..."
-            @addItem="addItem"
+            @addContact="handleContact"
           />
 
         </ul>
@@ -226,23 +266,19 @@ const removeItem = (path, index) => {
             <EditableInput
               :label="'skills'"
               :modelValue="$cv.skills[index]"
-              @update:modelValue="updateSkills(index, $event)"
+              @update:modelValue="handleSkills(index, $event)"
               :defaultFontSize="12"
             />
 
-            <div
-              class="removeItem"
-              v-show="$cv.skills.length > 1"
+            <ButtonDeleteItem
+              :show="$cv.skills.length > 1"
               @click="removeItem('skills', index)"
-            >
-            </div>
+            />
+
           </li>
-          <AddItemButton
-            :storedData="$cv.skills"
-            pathPrefix="skills"
-            defaultValue="Nouvelle compétence"
-            @addItem="addItem"
-          />
+
+          <ButtonAddSkill @addSkill="handleSkills" />
+
         </ul>
 
       </div>
@@ -256,7 +292,7 @@ const removeItem = (path, index) => {
         <ul class="languages-list">
           <li
             v-for="(language, index) in $cv.spokenLanguages"
-            :key="language.language"
+            :key="language.key"
           >
             <label>
               <p>
@@ -265,9 +301,9 @@ const removeItem = (path, index) => {
                   :id="`language-select-${index}`"
                   class="language-select"
                   :value="$cv.spokenLanguages[index].value"
-                  @change="updateLanguage(`spokenLanguages.lang${index + 1}`, $event.target.value, index)"
+                  @change="updateLanguage(language.key, 'value', $event.target.value)"
                 >
-                  <option value="">Sélectionnez...</option>
+                  <option value="">--</option>
                   <option
                     v-for="item in languageList"
                     :key="item.code"
@@ -284,9 +320,9 @@ const removeItem = (path, index) => {
               name="language-level"
               :id="`level-select-${index}`"
               :value="$cv.spokenLanguages[index].level"
-              @change="updateLanguage('spokenLanguages.level', $event.target.value, index)"
+              @change="updateLanguage(language.key, 'level', $event.target.value)"
             >
-              <option value="">-- Sélectionnez un niveau --</option>
+              <option value="--">--</option>
               <option value="A1">A1</option>
               <option value="A2">A2</option>
               <option value="B1">B1</option>
@@ -294,14 +330,12 @@ const removeItem = (path, index) => {
               <option value="C1">C1</option>
               <option value="C2">C2</option>
             </select>
+            <ButtonDeleteItem
+              :show="$cv.spokenLanguages.length > 1"
+              @delete="removeItem(`spokenLanguages.${language.key}`, index)"
+            />
           </li>
-          <AddItemButton
-            :storedData="$cv.spokenLanguages"
-            :defaultData="defaultCvData.cv.spokenLanguages"
-            pathPrefix="spokenLanguages"
-            defaultValue="LinkedIn, site perso, Twitter/X..."
-            @addItem="addItem"
-          />
+          <ButtonAddLanguage @addLanguage="handleLanguage" />
         </ul>
       </div>
 
@@ -387,7 +421,7 @@ const removeItem = (path, index) => {
   font-size: larger;
   font-weight: bold;
   color: #f0f1f1;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .contact,
@@ -458,7 +492,7 @@ ul.languages-list li {
   }
 
   & :deep(p) {
-    margin: 8px 0;
+    margin: 6px 0;
   }
 }
 
@@ -503,67 +537,8 @@ ul.languages-list li {
   }
 }
 
-.skills-list:last-child:hover .newItem,
-.contact-list:last-child:hover .newItem,
-.languages-list:last-child:hover .newItem {
-  height: 22px;
-  margin-top: 7px;
-
-  &::before {
-    opacity: var(--colorful-opacity);
-    width: 100%;
-  }
-
-  &::after {
-    opacity: 0.9;
-  }
-}
-
-button.addItem {
-  all: unset;
-}
-
-.contact:hover {
-  & .contact-list {
-    padding-bottom: 14px;
-  }
-}
-
-.newItem {
-  position: relative;
-  width: 98%;
-  height: 0;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: height 100ms ease-out;
-  margin: 0;
-
-  &::before {
-    content: '';
-    position: absolute;
-    background-color: var(--colorful-button-add);
-    border-radius: 5px;
-    opacity: 0;
-    height: 22px;
-    z-index: 1;
-    width: 100%;
-    transition: width 100ms ease-out;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 1px;
-  }
-
-  &::after {
-    content: '+';
-    position: absolute;
-    top: 50%;
-    left: 51%;
-    transform: translate(-50%, -50%);
-    font-weight: bold;
-    font-size: 18px;
-    color: #ffffff;
-    opacity: 0;
-    z-index: 2;
-    pointer-events: none;
-  }
+.removeItem::before:hover {
+  box-shadow: var(--box-shadow-hover);
 }
 
 .language-select {

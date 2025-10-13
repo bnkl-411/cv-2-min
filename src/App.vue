@@ -10,7 +10,7 @@ const dlJSON = () => {
 
   const a = document.createElement('a')
   a.href = url
-  a.download = 'monFichier.txt'
+  a.download = 'cvData.json'
   a.click()
 
   URL.revokeObjectURL(url)
