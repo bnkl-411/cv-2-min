@@ -1,22 +1,30 @@
 <script setup>
 
-defineProps({
+const props = defineProps({
     path: String,
     imageBorderRadius: { type: Number, default: 2 },
 })
 
+const isDisabled = () => props.path === "https://placehold.co/300x300?text=Photo"
+
 const emit = defineEmits(['update:path', 'update:imageBorderRadius'])
 
 const uploadPicture = (e) => {
+    console.log('test');
     const file = e.target.files.item(0)
 
     if (!file) { return false }
     if (!file.type.match('image.*')) { return false }
 
-    const fileReader = new FileReader(file)
+    const fileReader = new FileReader()
 
-    fileReader.onload = (evt) => {
-        emit('update:path', evt.target.result)
+    fileReader.onload = (event) => {
+        emit('update:path', event.target.result)
+        e.target.value = ''
+
+    };
+    fileReader.onerror = (error) => {
+        console.error('Erreur FileReader:', error)
     };
     fileReader.readAsDataURL(file);
 }
@@ -28,39 +36,49 @@ const updateRadius = (value) => {
 </script>
 <template>
     <div class="picture_container">
-        <label
-            for="user-picture"
-            class="custom-file-upload"
-        >
-            <div class="image-wrapper">
-                <img
-                    :src="path"
-                    class="picture"
-                    :style="{ borderRadius: imageBorderRadius + '%' }"
-                    alt="user_picture"
-                />
 
-                <div class="btns_container">
-                    <div class="image-btn green">↻</div>
-                    <div class="image-btn red">−</div>
-                </div>
-                <input
-                    class="radiusAdjuster"
-                    type="range"
-                    :value="imageBorderRadius"
-                    @change="updateRadius($event.target.value)"
-                    min="0"
-                    max="50"
-                />
+        <div class="image-wrapper">
+            <img
+                :src="path"
+                class="picture"
+                :style="{ borderRadius: imageBorderRadius + '%' }"
+                alt="user_picture"
+            />
+
+            <div class="btns_container">
+
+                <label
+                    for="user-picture"
+                    class="image-btn custom-file-upload green"
+                >
+                    <input
+                        id="user-picture"
+                        type="file"
+                        accept="image/*"
+                        value=""
+                        @change="uploadPicture"
+                    >
+                    {{ isDisabled() ? '+' : '↻' }}
+                </label>
+                <div
+                    id="red"
+                    class="image-btn red"
+                    :class="{ disabled: isDisabled() }"
+                    @click="!isDisabled() && emit('update:path', 'https://placehold.co/300x300?text=Photo')"
+                >−</div>
             </div>
             <input
-                id="user-picture"
-                type="file"
-                accept="image/*"
-                value=""
-                @change=uploadPicture
-            >
-        </label>
+                class="radiusAdjuster"
+                type="range"
+                :value="imageBorderRadius"
+                @change="updateRadius($event.target.value)"
+                min="2"
+                max="50"
+                v-show="!isDisabled()"
+            />
+        </div>
+
+
     </div>
 </template>
 
@@ -151,6 +169,14 @@ input[type="file"] {
 
 .image-btn.red {
     background-color: #B36B55;
+}
+
+#red.disabled {
+    cursor: default;
+    background-color: grey;
+    box-shadow: none;
+    transform: none;
+    /* opacity: 0.9; */
 }
 
 .image-wrapper:hover .image-btn {

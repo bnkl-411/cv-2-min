@@ -6,9 +6,11 @@ import ButtonAddContact from "./ButtonAddContact.vue";
 import ButtonAddSkill from "./ButtonAddSkill.vue";
 import ButtonAddLanguage from "./ButtonAddLanguage.vue";
 import ButtonDeleteItem from "./ButtonDeleteItem.vue";
-import languages from "../resources/languages.json"
+import languages from "../resources/languages.json";
+import Hobbies from "./blocks/VueHobbies.vue"
 
 const languageList = ref(languages)
+
 
 const props = defineProps({
   cvData: {
@@ -21,7 +23,7 @@ const props = defineProps({
   },
 });
 
-const $cv = computed(() => props.cvData.cv)
+const $cv = computed(() => props.cvData.cv);
 const emit = defineEmits(["update:cvData"]);
 const focusTarget = ref(null);
 
@@ -37,7 +39,7 @@ const handleSidebarResize = (event) => {
 
 const focusNewInput = async (keys) => {
   await nextTick()
-  focusTarget.value = $cv.value[keys[0]].length;
+  focusTarget.value = $cv.value[keys].length;
 }
 
 const handleSkills = (index, value, action = 'update') => {
@@ -45,14 +47,17 @@ const handleSkills = (index, value, action = 'update') => {
     ? [...$cv.value['skills'], value]
     : $cv.value.skills.map((skill, i) => i === index ? value : skill)
 
-  console.log(updatedArray);
   emit("update:cvData", {
     ...props.cvData,
     cv: {
-      ...props.cvData.cv,
+      ...$cv.value,
       skills: updatedArray
     }
   });
+  if (action === 'add') {
+    focusNewInput('skills');
+    focusTarget.value = null;
+  }
 };
 
 const handleContact = (path, value, action = 'update') => {
@@ -69,13 +74,13 @@ const handleContact = (path, value, action = 'update') => {
   emit("update:cvData", {
     ...props.cvData,
     cv: {
-      ...props.cvData.cv,
+      ...$cv.value,
       [arrayKey]: updatedArray
     }
   });
 
   if (action === 'add') {
-    focusNewInput(keys);
+    focusNewInput(keys[0]);
     focusTarget.value = null;
   }
 };
@@ -84,9 +89,9 @@ const updatePicture = (updates) => {
   emit("update:cvData", {
     ...props.cvData,
     cv: {
-      ...props.cvData.cv,
+      ...$cv.value,
       picture: {
-        ...props.cvData.cv.picture,
+        ...$cv.value.picture,
         ...updates
       }
     }
@@ -100,7 +105,7 @@ const updatePersonal = (path, value) => {
   emit("update:cvData", {
     ...props.cvData,
     cv: {
-      ...props.cvData.cv,
+      ...$cv.value,
       personal: $cv.value.personal.map(item =>
         item.key === lastKey ? { ...item, value } : item
       )
@@ -142,14 +147,23 @@ const handleLanguage = (action = 'update', path, value) => {
   emit("update:cvData", {
     ...props.cvData,
     cv: {
-      ...props.cvData.cv,
+      ...$cv.value,
       spokenLanguages: updatedLanguages
     }
   });
 };
 
+const updateHobbies = (value) => {
+  emit("update:cvData", {
+    ...props.cvData,
+    cv: {
+      ...$cv.value,
+      hobbies: value
+    }
+  })
+}
+
 const removeItem = (path, index) => {
-  console.log(path);
   const cvData = JSON.parse(JSON.stringify(props.cvData));
   const keys = path.split('.');
   let data = cvData.cv;
@@ -177,6 +191,8 @@ const removeItem = (path, index) => {
   emit("update:cvData", cvData);
 }
 
+console.log(props.cvData.layout.sidebarSize);
+
 </script>
 
 <template>
@@ -196,7 +212,7 @@ const removeItem = (path, index) => {
         label="username"
         :modelValue="$cv.personal[0].value"
         @update:modelValue="updatePersonal('personal.username', $event)"
-        :defaultFontSize="24"
+        :defaultFontSize="22"
         :allow-resizing="{ enabled: true, minFontSize: 16 }"
       />
       <EditableInput
@@ -253,11 +269,9 @@ const removeItem = (path, index) => {
       </div>
 
       <div class="skills">
-
         <div class="sidebar-label">
           COMPÉTENCES
         </div>
-
         <ul class="skills-list">
           <li
             v-for="(skill, index) in $cv.skills"
@@ -268,27 +282,21 @@ const removeItem = (path, index) => {
               :modelValue="$cv.skills[index]"
               @update:modelValue="handleSkills(index, $event)"
               :defaultFontSize="12"
+              :must-focus="focusTarget === ($cv.skills.length)"
             />
-
             <ButtonDeleteItem
               :show="$cv.skills.length > 1"
               @click="removeItem('skills', index)"
             />
-
           </li>
-
           <ButtonAddSkill @addSkill="handleSkills" />
-
         </ul>
-
       </div>
 
       <div class="languages">
-
         <div class="sidebar-label">
           LANGUES
         </div>
-
         <ul class="languages-list">
           <li
             v-for="(language, index) in $cv.spokenLanguages"
@@ -339,19 +347,10 @@ const removeItem = (path, index) => {
         </ul>
       </div>
 
-      <div class="hobbies">
-        <div class="sidebar-label">
-          CENTRES D'INTÉRÊT
-        </div>
-        <ul class="hobbies-list">
-          <li>
-            <p>
-              Musique, arts graphiques, sports de glisse, sports de combat,
-              mécanique, travail manuel
-            </p>
-          </li>
-        </ul>
-      </div>
+      <Hobbies
+        :modelValue="$cv.hobbies"
+        @update:hobbies="updateHobbies($event.target.value)"
+      />
     </div>
   </div>
 </template>
@@ -405,10 +404,7 @@ const removeItem = (path, index) => {
 
 .infos {
   flex: 1;
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-radius: 6px;
   white-space: normal;
   word-break: break-word;
 }
@@ -429,7 +425,7 @@ const removeItem = (path, index) => {
 .hobbies,
 .languages {
   border-radius: 6px;
-  padding: 14px 14px 0px 14px;
+  padding: 15px 15px 0px 15px;
 
 }
 
@@ -537,7 +533,7 @@ ul.languages-list li {
   }
 }
 
-.removeItem::before:hover {
+.removeItem:hover::before {
   box-shadow: var(--box-shadow-hover);
 }
 

@@ -16,7 +16,6 @@ const props = defineProps({
 })
 
 watch(() => props.mustFocus, (newVal) => {
-    console.log(newVal);
     if (newVal) {
         editing.value = true;
         document.getElementById(props.label + '-input')?.focus();
@@ -115,13 +114,5 @@ window.addEventListener("keydown", (e) => {
     outline: none;
     box-shadow: 0 0 0 2px Highlight;
     border-radius: 5px;
-}
-
-.languages-list input {
-    max-width: 125px;
-
-    &:focus {
-        margin: 3px;
-    }
 }
 </style>

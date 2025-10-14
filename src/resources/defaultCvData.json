@@ -18,7 +18,7 @@
             }
         ],
         "picture": {
-            "path": "https://placehold.co/300x300",
+            "path": "https://placehold.co/300x300?text=Photo",
             "imageBorderRadius": 2
         },
         "contact": [
@@ -56,7 +56,7 @@
                 "required": false
             }
         ],
-        "hobbies": "Musique, arts graphiques, sports de glisse, sports de combat, mécanique, travail manuel",
+        "hobbies": "Musique, arts graphiques, sports de glisse, sports de combat,mécanique, travail manuel",
         "resume": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam, aliquid quod! Harum, dolorum assumenda. Iusto ullam deserunt officia enim in voluptatibus impedit voluptates aliquid debitis architecto, delectus excepturi eaque necessitatibus.",
         "professionalXp": {
             "title": "Expériences professionelles",
@@ -99,7 +99,7 @@
         ]
     },
     "layout": {
-        "sidebarSize": 275
+        "sidebarSize": 260
     },
     "config": {
         "limits": {

@@ -3,12 +3,10 @@ import { ref, watch } from 'vue'
 export function useLocalStorage(key, defaultValue) {
   const originalDefault = structuredClone(defaultValue)
   const value = ref(structuredClone(defaultValue))
-
   const isEmpty = (val) => val === undefined || val === null || String(val).trim() === ''
 
   const mergeWithDefaults = (stored, defaults, path = '') => {
     const result = { ...stored }
-
     for (const k in defaults) {
       const defaultVal = defaults[k]
       const storedVal = stored?.[k]
@@ -23,10 +21,9 @@ export function useLocalStorage(key, defaultValue) {
       else if (defaultVal && typeof defaultVal === 'object') {
         result[k] = mergeWithDefaults(storedVal, defaultVal, currentPath)
       } else {
-        result[k] = isEmpty(storedVal) ? defaultVal : storedVal
+        result[k] = isEmpty(storedVal) || storedVal === '' ? defaultVal : storedVal
       }
     }
-
     return result
   }
 
@@ -34,6 +31,7 @@ export function useLocalStorage(key, defaultValue) {
     try {
       const item = localStorage.getItem(key)
       if (item) {
+        // value.value = JSON.parse(item)
         value.value = mergeWithDefaults(JSON.parse(item), defaultValue)
       }
     } catch (e) {
@@ -57,5 +55,5 @@ export function useLocalStorage(key, defaultValue) {
   watch(value, save, { deep: true })
   load()
 
-  return { value, clear }
+  return { value, clear, load }
 }
