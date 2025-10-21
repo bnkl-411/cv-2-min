@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref, watch, computed, nextTick } from "vue"
+import { ref, watch, computed, nextTick, onMounted } from "vue"
 import vFocus from '../../directives/inputFocus'
 import vAutoResize from '../../directives/autoResize'
 
@@ -11,16 +11,26 @@ const props = defineProps({
 
 const modelValue = defineModel({ type: String })
 
+const emit = defineEmits(['handleExtra'])
+
 const editing = ref(false)
 const inputRef = ref(null)
 
-const textColor = computed(() =>
-    modelValue.value === '' ? '#e2e2e2' : 'inherit'
+const isEmpty = computed(() =>
+    modelValue.value === '' ?? false
 )
 
-watch(() => props.mustFocus, (newVal, oldVal) => {
-    console.log(newVal, oldVal);
-    if (newVal & newVal !== oldVal) {
+onMounted(() => {
+    if (props.mustFocus) {
+        editing.value = true
+        nextTick(() => {
+            inputRef.value?.focus()
+        })
+    }
+})
+
+watch(() => props.mustFocus, (newVal) => {
+    if (newVal) {
         editing.value = true
         nextTick(() => {
             inputRef.value?.focus()
@@ -36,24 +46,23 @@ const handleKeydown = (e) => {
 
 const handleBlur = () => {
     editing.value = false
+    emit('handleExtra')
 }
 
 </script>
 <template>
     <div
-        class="extra-padding"
+        :class="['extra-padding', 'hoverable', label, { 'greyed-out': isEmpty }]"
         :id="label"
         v-show="!editing"
         @click="editing = true"
         v-bind="$attrs"
-        :class="label"
         :data-attribute="label"
-        :style="{ color: textColor }"
     >
         {{ modelValue || label }}
     </div>
     <input
-        class="extra-padding"
+        class="extra-padding hoverable"
         ref="inputRef"
         :id="label + '-input'"
         :class="label + '-input restyle-input'"
@@ -82,23 +91,35 @@ const handleBlur = () => {
     text-align: inherit;
     appearance: none;
     outline: none;
+    width: 100%;
+}
+
+.extra-padding {
+    padding: 2px;
+}
+
+.greyed-out {
+    color: #dddcdc;
 }
 
 .username,
 .username-input,
-.job-label,
-.job-label-input,
-.xtra-job-label,
-.xtra-job-label-input {
+.label,
+.label-input,
+.xtra-label,
+.xtra-label-input {
     font-weight: bold;
 }
 
-.job-date,
-.job-date-input {
+.date,
+.date-input {
     font-weight: 500;
+    min-width: 5.5em;
+    text-align: right;
+    margin-right: 5px;
 }
 
-.job-extra-info {
+.extra-info {
     display: flex;
     justify-content: flex-start;
     align-self: flex-end;
@@ -108,45 +129,16 @@ const handleBlur = () => {
     margin-top: -2px;
 }
 
-.job-extra-info-input {
-    display: flex;
-    justify-content: flex-start;
+.extra-info-input {
+    @extend .extra-info;
     gap: 4px;
-    align-self: flex-end;
-    font-style: italic;
-    flex-basis: 100%;
-    padding: 2px;
-    font-size: 10pt;
 }
 
-.job-label {
-    flex: 1;
-    text-align: left;
-    display: flex;
-    justify-content: flex-start;
-    position: relative;
-    margin-left: 13px;
+.label {
+    overflow: auto;
 }
 
-.job-date:hover,
-.job-label:hover,
-.job-extra-info:hover {
-    border-radius: 5px;
-    background-color: #ececec;
-    color: #8a8a8a;
-    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-}
-
-.job-label-input {
+.label-input {
     height: 100%;
-    margin-left: 13px;
-}
-
-.extra-padding {
-    padding: 2px;
-}
-
-.ta-job-desc {
-    padding: 2px;
 }
 </style>

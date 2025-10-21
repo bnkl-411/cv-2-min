@@ -31,8 +31,8 @@ export function useLocalStorage(key, defaultValue) {
     try {
       const item = localStorage.getItem(key)
       if (item) {
-        // value.value = JSON.parse(item)
-        value.value = mergeWithDefaults(JSON.parse(item), defaultValue)
+        // value.value = mergeWithDefaults(JSON.parse(item), defaultValue)
+        value.value = JSON.parse(item)
       }
     } catch (e) {
       console.error('Erreur de chargement:', e)

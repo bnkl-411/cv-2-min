@@ -6,13 +6,13 @@ export const autoResize = {
         // Créer l'élément miroir
         const mirror = document.createElement('span')
         mirror.style.cssText = `
-      visibility: hidden;
-      white-space: pre;
-      position: absolute;
-      left: -9999px;
-      top: 0;
-      pointer-events: none;
-    `
+            visibility: hidden;
+            white-space: pre;
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            pointer-events: none;
+        `
         mirror.setAttribute('aria-hidden', 'true')
         document.body.appendChild(mirror)
 
@@ -46,7 +46,11 @@ export const autoResize = {
 
             // Largeur minimale
             const minWidth = 40
-            el.style.width = Math.max(totalWidth, minWidth) + 'px'
+            const parentWidth = el.parentElement?.offsetWidth || Infinity
+
+            const maxAllowedWidth = parentWidth - (parseFloat(computedStyle.marginLeft) || 0) - (parseFloat(computedStyle.marginRight) || 0)
+
+            el.style.width = Math.min(Math.max(totalWidth, minWidth), maxAllowedWidth) + 'px'
         }
 
         // Stocker la fonction

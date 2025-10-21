@@ -42,7 +42,6 @@ provide('defaultCvData', defaultCvData)
 
     <MainSection
       :cvData="data"
-      :defaultCvData="defaultCvData"
       @update:cvData="data = $event"
     />
 
@@ -63,8 +62,8 @@ provide('defaultCvData', defaultCvData)
   grid-template-columns: var(--sidebar-width) 1fr;
   width: 210mm;
   height: 297mm;
-  padding: 0 10px 10px 10px;
-  margin: 37px auto;
+  padding: 0 12px 10px 12px;
+  margin: 38px auto;
   box-shadow: 0 4px 5px rgba(75, 75, 75, 0.2);
 }
 

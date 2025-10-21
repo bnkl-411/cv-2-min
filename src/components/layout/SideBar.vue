@@ -1,13 +1,11 @@
 <script setup>
 import { computed } from 'vue'
 import PictureUploader from "../ui/PictureUploader.vue";
-
 import TextareaSection from "../ui/TextareaSection.vue"
 import PersonalInfo from '../blocks/PersonalInfo.vue';
 import ContactInfo from '../blocks/ContactInfo.vue';
 import SkillsList from '../blocks/SkillsList.vue';
 import LanguagesList from '../blocks/LanguagesList.vue';
-
 
 const props = defineProps({
   cvData: {
@@ -92,11 +90,8 @@ const handleSidebarResize = (event) => {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
-  margin: 0 auto;
   width: var(--sidebar-width);
-  overflow: hidden;
   gap: 8px;
-  padding: 0 6px;
 }
 
 .infos {
@@ -133,13 +128,6 @@ const handleSidebarResize = (event) => {
 
   .textarea-section {
     padding: 2px;
-
-    &:hover {
-      border-radius: 6px;
-      background-color: rgb(236, 236, 236);
-      color: #8a8a8a;
-      box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-    }
   }
 }
 
@@ -165,12 +153,12 @@ const handleSidebarResize = (event) => {
     padding-left: 2px;
     margin: 2px 0;
 
-    &:hover {
-      border-radius: 5px;
-      background-color: rgb(236, 236, 236);
-      color: #8a8a8a;
-      box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-    }
+    // &:hover {
+    //   border-radius: 5px;
+    //   background-color: rgb(236, 236, 236);
+    //   color: #8a8a8a;
+    //   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+    // }
 
     &:focus-within {
       box-shadow: 0 0 0 2px Highlight;
@@ -183,11 +171,6 @@ const handleSidebarResize = (event) => {
 
     &:hover>.removeItem::before {
       opacity: var(--colorful-opacity);
-    }
-
-    &:hover .newItem:hover~.removeItem::after,
-    &:hover .newItem:hover~.removeItem::before {
-      opacity: 0 !important;
     }
   }
 

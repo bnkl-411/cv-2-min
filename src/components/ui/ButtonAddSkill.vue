@@ -1,9 +1,9 @@
 <script setup>
 
-const emit = defineEmits(["add-skill"]);
+const emit = defineEmits(["addSkill"]);
 
 const handleAddSkill = () => {
-    emit('add-skill', 'Nouvelle compétence');
+    emit('addSkill', 'Nouvelle compétence');
 };
 
 </script>
