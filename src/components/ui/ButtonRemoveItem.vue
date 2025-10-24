@@ -19,6 +19,7 @@ defineProps({
     cursor: pointer;
     position: absolute;
     right: 2px;
+    align-self: center;
 
     &::before {
         content: '';

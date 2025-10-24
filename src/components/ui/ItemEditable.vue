@@ -71,7 +71,7 @@ const handleBlur = () => {
         v-auto-resize
         @blur="handleBlur"
         @keydown="handleKeydown"
-        :placeholder="label"
+        :placeholder="modelValue"
         v-model="modelValue"
     />
 </template>

@@ -1,13 +1,18 @@
 import { createApp } from 'vue'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import App from './App.vue'
 import '../src/assets/variables.css'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 import sidebarResizer from './directives/sidebarResizer'
 
+library.add(fas, far, fab)
+
 const app = createApp(App)
+
+app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.directive('sidebarResizer', sidebarResizer)
 app.mount('#app')

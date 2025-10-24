@@ -4,6 +4,7 @@ import { ref, nextTick } from "vue"
 import ItemEditable from '../ui/ItemEditable.vue'
 import TextareaSection from '../ui/TextareaSection.vue'
 
+
 const modelValue = defineModel({ type: Object, required: true })
 
 const props = defineProps({
@@ -39,61 +40,74 @@ const config = {
 
 const category = config[props.type]
 
-
 </script>
 <template>
-    <div class="header">
+    <div class="left">
         <ItemEditable
             class="date"
             label="date"
             v-model="modelValue.period"
         />
-        <div class="right">
-            <ItemEditable
-                label="label"
-                v-model="modelValue[category.mainField]"
+        <div class="draggable">
+            <font-awesome-icon
+                icon="fa-regular fa-circle"
+                class="fa-stack-2x circle"
             />
-
-            <div v-if="category.hasExtraInfo">
-                <div
-                    v-if="!extraInfo"
-                    class="add-extra-info"
-                    @click="toggleExtraInfo"
-                >
-                    <span class="plus-button"> </span>
-                </div>
-
-                <div
-                    class="xt-info-ctn"
-                    v-else
-                >
-                    <ItemEditable
-                        :must-focus=focusExtraInfo
-                        label="extra-info"
-                        v-model="modelValue.extraInfo"
-                        @handleExtra="handleExtra"
-                    />
-                </div>
-            </div>
-            <TextareaSection
-                class="ta-desc"
-                :name="`job-desc-${props.index}`"
-                v-model="modelValue.description"
+            <font-awesome-icon
+                icon="fa-solid fa-solid fa-sort"
+                class="fa-stack-1x inner-icon"
             />
         </div>
+    </div>
+    <div class="right">
+        <ItemEditable
+            label="label"
+            v-model="modelValue[category.mainField]"
+        />
+
+        <div v-if="category.hasExtraInfo">
+            <div
+                v-if="!extraInfo"
+                class="add-extra-info"
+                @click="toggleExtraInfo"
+            >
+                <span class="plus-button"> </span>
+            </div>
+
+            <div
+                class="xt-info-ctn"
+                v-else
+            >
+                <ItemEditable
+                    :must-focus=focusExtraInfo
+                    label="extra-info"
+                    v-model="modelValue.extraInfo"
+                    @handleExtra="handleExtra"
+                />
+            </div>
+        </div>
+        <TextareaSection
+            class="ta-desc"
+            :name="`job-desc-${props.index}`"
+            v-model="modelValue.description"
+        />
     </div>
 </template>
 
 <style scoped lang="scss">
-.header {
-    display: flex;
-    width: 100%;
-    min-width: 0;
-    align-items: flex-start;
-}
-
 .experience {
     position: relative;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+}
+
+.draggable:active>* {
+    transform: scale(0.9);
+    color: rgb(112, 181, 255);
+    filter: drop-shadow(0 0 8px rgba(112, 181, 255, 0.8));
 }
 
 .right {
@@ -102,6 +116,49 @@ const category = config[props.type]
     flex-direction: column;
     width: 100%;
     min-width: 0;
+}
+
+li:hover .draggable:not(:hover)>* {
+    opacity: .3;
+    transition: all 311ms ease;
+}
+
+.draggable {
+    position: relative;
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    justify-content: center;
+    align-items: center;
+    cursor: move;
+
+    &>* {
+        opacity: 0;
+    }
+
+    &:hover>* {
+        opacity: 1;
+        transition: all 111ms ease;
+    }
+
+    &>* {
+        color: #b4b4b4;
+    }
+}
+
+.fa-stack {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fa-stack-2x {
+    position: absolute;
+}
+
+.inner-icon {
+    z-index: 1;
 }
 
 .xt-info-ctn {
@@ -152,9 +209,9 @@ const category = config[props.type]
     top: 50%;
     left: 50%;
     transform: translate(-50%, -53%);
-    width: 15px;
-    height: 15px;
-    border-radius: 15%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
     cursor: pointer;
     background-color: #ffffff;
     box-shadow: 0px 1px 1px #20211e40, 0px 0px 1px #1E1F214F;

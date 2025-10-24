@@ -30,6 +30,18 @@ const dlJSON = () => {
 const uls = useLocalStorage(currentModel.value, cvModels[currentModel.value])
 const data = toRef(uls, 'data')
 
+const exportToPDF = async () => {
+  if ('print' in window) {
+    const beforePrint = () => {
+      document.title = 'Mon_Document';
+    };
+
+    window.addEventListener('beforeprint', beforePrint);
+    window.print();
+    window.removeEventListener('beforeprint', beforePrint);
+  }
+};
+
 // watch(currentModel, () => {
 //   uls = useLocalStorage(currentModel.value, cvModels[currentModel.value])
 // })
@@ -40,13 +52,13 @@ provide('defaultCvData', cvModels[currentModel.value])
 </script>
 
 <template>
-  <!-- <button @click="print">Download PDF</button> -->
+  <button @click="exportToPDF">Exporter PDF</button>
   <button @click="uls.clear()">INIT CV</button>
   <button @click="uls.load()">LOAD CV</button>
   <button @click="clearLayout">Réinitialiser le template</button>
   <button @click="dlJSON">Télécharger</button>
 
-  <div id="container">
+  <div id="a4-container">
     <Sidebar
       :cvData="data"
       @update:cvData="data = $event"
@@ -58,7 +70,6 @@ provide('defaultCvData', cvModels[currentModel.value])
     />
 
   </div>
-
 </template>
 
 <style scoped>
@@ -68,7 +79,7 @@ provide('defaultCvData', cvModels[currentModel.value])
   min-height: 0;
 }
 
-#container {
+#a4-container {
   background-color: whitesmoke;
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
@@ -77,6 +88,7 @@ provide('defaultCvData', cvModels[currentModel.value])
   padding: 0 12px 10px 12px;
   margin: 38px auto;
   box-shadow: 0 4px 5px rgba(75, 75, 75, 0.2);
+  box-sizing: border-box;
 }
 
 :deep(textarea) {
@@ -101,5 +113,67 @@ provide('defaultCvData', cvModels[currentModel.value])
 
 :deep(textarea::-webkit-scrollbar) {
   display: none;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+  /* Pas de marge navigateur */
+
+  /* Supprime en-têtes et pieds de page du navigateur */
+  @top-left {
+    content: none;
+  }
+
+  @top-center {
+    content: none;
+  }
+
+  @top-right {
+    content: none;
+  }
+
+  @bottom-left {
+    content: none;
+  }
+
+  @bottom-center {
+    content: none;
+  }
+
+  @bottom-right {
+    content: none;
+  }
+
+}
+
+@media print {
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #a4-container {
+    margin: 0 auto;
+    box-shadow: none;
+    overflow: hidden !important;
+  }
+
+  button {
+    display: none !important;
+  }
+
+  * {
+    page-break-inside: avoid;
+    page-break-after: avoid;
+  }
 }
 </style>

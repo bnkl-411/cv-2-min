@@ -1,6 +1,6 @@
 export default {
     updated(el, binding) {
-        if (binding.value) {
+        if (binding) {
             el.focus()
         }
     }
