@@ -138,34 +138,28 @@ const handleSidebarResize = (event) => {
 :deep(.list) {
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 4px;
   margin: 4px 0 -8px 0px;
 
   li {
     display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     list-style: none;
     position: relative;
     padding-left: 2px;
-    margin: 2px 0;
+    justify-content: space-between;
+    align-items: center;
 
-    // &:hover {
-    //   border-radius: 5px;
-    //   background-color: rgb(236, 236, 236);
-    //   color: #8a8a8a;
-    //   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-    // }
+    .removeItem {
+      margin-top: 0;
+    }
 
     &:focus-within {
       box-shadow: 0 0 0 2px Highlight;
       border-radius: 5px;
     }
 
-    &:hover>.removeItem::after {
-      opacity: .9;
-    }
-
-    &:hover>.removeItem::before {
+    &:hover>.removeItem {
       opacity: var(--colorful-opacity);
     }
   }

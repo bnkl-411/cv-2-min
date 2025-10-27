@@ -122,9 +122,10 @@ select {
     border: none;
     background: transparent;
     color: inherit;
-    font: inherit;
     padding: 0;
     margin: 0;
+    font-size: 11pt;
+    font-family: "Inter";
     outline: none;
     box-shadow: none;
     width: 20%;

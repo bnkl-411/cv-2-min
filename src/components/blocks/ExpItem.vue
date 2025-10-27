@@ -48,14 +48,11 @@ const category = config[props.type]
             label="date"
             v-model="modelValue.period"
         />
-        <div class="draggable">
+        <div class="drag-icon draggable">
             <font-awesome-icon
-                icon="fa-regular fa-circle"
-                class="fa-stack-2x circle"
-            />
-            <font-awesome-icon
-                icon="fa-solid fa-solid fa-sort"
-                class="fa-stack-1x inner-icon"
+                icon="fa-solid fa-list"
+                class="fa-stack"
+                size="2xs"
             />
         </div>
     </div>
@@ -71,7 +68,11 @@ const category = config[props.type]
                 class="add-extra-info"
                 @click="toggleExtraInfo"
             >
-                <span class="plus-button"> </span>
+                <font-awesome-icon
+                    icon="fa-regular fa-circle-xmark"
+                    class="plus-button"
+                />
+
             </div>
 
             <div
@@ -104,9 +105,29 @@ const category = config[props.type]
     flex-direction: column;
 }
 
+.draggable {
+    display: flex;
+    position: relative;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    opacity: 0;
+    cursor: move;
+
+    &:hover {
+        transition: all 111ms ease;
+        opacity: 1;
+    }
+
+    &>* {
+        color: #4b4b4b;
+    }
+}
+
 .draggable:active>* {
     transform: scale(0.9);
-    color: rgb(112, 181, 255);
+    color: #70b5ff;
     filter: drop-shadow(0 0 8px rgba(112, 181, 255, 0.8));
 }
 
@@ -116,45 +137,6 @@ const category = config[props.type]
     flex-direction: column;
     width: 100%;
     min-width: 0;
-}
-
-li:hover .draggable:not(:hover)>* {
-    opacity: .3;
-    transition: all 311ms ease;
-}
-
-.draggable {
-    position: relative;
-    flex: 1;
-    display: flex;
-    min-height: 0;
-    justify-content: center;
-    align-items: center;
-    cursor: move;
-
-    &>* {
-        opacity: 0;
-    }
-
-    &:hover>* {
-        opacity: 1;
-        transition: all 111ms ease;
-    }
-
-    &>* {
-        color: #b4b4b4;
-    }
-}
-
-.fa-stack {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.fa-stack-2x {
-    position: absolute;
 }
 
 .inner-icon {
@@ -188,7 +170,7 @@ li:hover .draggable:not(:hover)>* {
         top: 50%;
         transform: translate(-50%, -65%);
         border-top-style: dashed;
-        border-color: rgb(94, 94, 94);
+        border-color: #535353;
         border-width: 2px;
         opacity: 0;
         background-color: #f3f3f3;
@@ -205,39 +187,18 @@ li:hover .draggable:not(:hover)>* {
 }
 
 .plus-button {
+    color: white;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -53%);
+    transform: translate(-50%, -53%) rotate(45deg);
     width: 18px;
     height: 18px;
     border-radius: 50%;
     cursor: pointer;
-    background-color: #ffffff;
-    box-shadow: 0px 1px 1px #20211e40, 0px 0px 1px #1E1F214F;
+    background-color: #cccccc;
+    box-shadow: 0px 1px 1px #1e202140, 0px 0px 1px #1E1F214F;
     opacity: 0;
     transition: opacity 100ms ease;
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 8px;
-        height: 2px;
-        background-color: rgb(82, 82, 82);
-    }
-
-    &::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 2px;
-        height: 8px;
-        background-color: rgb(87, 87, 87);
-    }
 }
 </style>

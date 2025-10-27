@@ -48,6 +48,7 @@ const removeItem = (category, index) => {
 }
 
 const onStartDrag = (e) => {
+    console.log(e.item);
     isDragging.value = true
     e.item.classList.add('is-placeholder')
 }
@@ -98,7 +99,9 @@ const onEndDrag = (e) => {
                                     type="jobs"
                                     v-model="$cv.jobs[index]"
                                 />
-                                <ButtonRemoveItem @delete="removeItem('jobs', index)" />
+                                <div class="user-actions">
+                                    <ButtonRemoveItem @delete="removeItem('jobs', index)" />
+                                </div>
                             </div>
                         </li>
                     </template>
@@ -140,18 +143,25 @@ const onEndDrag = (e) => {
 
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.user-actions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: -13px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    position: absolute;
+    height: 100%;
+    right: 0;
+}
+
 .is-placeholder {
-    border: 2px dashed rgb(112, 181, 255);
+    border: 2px dashed #70b5ff;
     background: transparent;
     color: transparent;
     border-radius: 6px;
-}
-
-.my-ghost {
-    opacity: 0.7;
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .is-dragging {
@@ -186,14 +196,16 @@ const onEndDrag = (e) => {
     width: 100%;
     min-width: 0;
     align-items: stretch;
+    border-radius: 4px;
 }
 
 .experience-item {
-    padding: 6px 6px 6px 0;
+    padding: 4px 2px 4px 0;
 }
 
 :deep(#ta-resume) {
     font-size: 12pt;
+    line-height: 14pt;
 }
 
 .main-label {
@@ -206,16 +218,35 @@ const onEndDrag = (e) => {
 li {
     list-style: none;
     position: relative;
+    box-sizing: content-box;
 
-    & .header {
+    &:hover :deep(.draggable):not(:hover) {
+        opacity: .6;
+    }
 
-        &:hover>.removeItem::after {
-            opacity: .9;
+    & .header:hover {
+        .removeItem {
+            opacity: 1;
         }
+    }
 
-        &:hover>.removeItem::before {
-            opacity: var(--colorful-opacity);
-        }
+    &:hover {
+        box-shadow:
+            0 0 0 2px rgb(112, 181, 255),
+            6px 0 12px -3px rgba(112, 181, 255, 0.3),
+            -4px 0 6px -3px rgba(112, 181, 255, 0.1);
+        border-radius: 6px;
+    }
+
+    &:has(.date:hover),
+    &:has(.label:hover),
+    &:has(.plus-button:hover),
+    &:has(.ta-desc:hover),
+    &:has(.add-extra-info:hover),
+    &:has(.hoverable:hover) {
+        box-shadow:
+            6px 0 12px -3px rgba(112, 181, 255, 0.3),
+            -4px 0 6px -3px rgba(112, 181, 255, 0.1);
     }
 }
 
@@ -226,18 +257,20 @@ li {
 </style>
 
 <style>
-/* Règles NON scopées pour gérer le drag */
 .list.is-dragging .draggable,
 .list.is-dragging .removeItem {
     pointer-events: none !important;
+}
+
+.list.is-dragging li:hover {
+    box-shadow: none;
 }
 
 .list.is-dragging li:hover .draggable>* {
     opacity: 0 !important;
 }
 
-.list.is-dragging li .header:hover>.removeItem::before,
-.list.is-dragging li .header:hover>.removeItem::after {
+.list.is-dragging li .header:hover .user-actions>.removeItem {
     opacity: 0 !important;
 }
 </style>

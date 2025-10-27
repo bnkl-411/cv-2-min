@@ -11,52 +11,31 @@ defineProps({
         class="removeItem"
         v-show="show"
         @click="$emit('delete')"
-    ></div>
+    >
+        <font-awesome-icon
+            icon="fa-solid fa-circle-xmark"
+            style="color: #d06060;"
+        />
+    </div>
 </template>
 
 <style scoped>
 .removeItem {
     cursor: pointer;
-    position: absolute;
-    right: 2px;
-    align-self: center;
+    z-index: 1;
+    margin-top: -13px;
+    opacity: 0;
 
-    &::before {
-        content: '';
-        position: absolute;
-        right: 0;
-        background-color: var(--colorful-button-remove);
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 1px;
-        width: 18px;
-        height: 18px;
+    &>* {
+        border: 2px solid rgb(255, 255, 255);
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
-        z-index: 3;
-        opacity: 0;
-    }
-
-    &::after {
-        content: "-";
-        position: absolute;
-        top: 1px;
-        right: 1px;
-        color: #ffffff;
-        font-weight: bolder;
-        font-size: x-large;
-        text-align: center;
-        opacity: 0;
-        line-height: 10pt;
-        margin-right: 2.4px;
-        z-index: 4;
-    }
-
-    &::before,
-    &::after {
-        transition: opacity ease-in;
-        transition-duration: 122ms;
+        background-color: #ffffff;
     }
 }
 
-.removeItem:hover::before {
-    box-shadow: var(--box-shadow-hover);
+.removeItem:hover {
+    /* box-shadow: var(--box-shadow-hover); */
 }
 </style>
