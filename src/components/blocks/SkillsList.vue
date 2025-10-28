@@ -47,11 +47,11 @@ const removeSkill = (index) => {
             <li
                 v-for="(skill, index) in cvData.cv.skills"
                 :key="index"
+                class="hoverable"
             >
                 <ItemEditable
                     :label="'skills'"
                     v-model="cvData.cv.skills[index]"
-                    :defaultFontSize="11"
                     :must-focus="focusTarget === (cvData.cv.skills.length)"
                 />
 

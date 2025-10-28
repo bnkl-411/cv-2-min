@@ -119,24 +119,37 @@ const onEndDrag = (e) => {
         <section id="education">
             <div class="main-label">Formation</div>
             <ul class="list">
-                <div
-                    v-for="(item, index) in $cv.education"
-                    :key="index"
+                <draggable
+                    v-model="$cv.education"
+                    item-key="id"
+                    handle=".draggable"
+                    @start="onStartDrag"
+                    @end="onEndDrag"
+                    animation=150
+                    easing="cubic-bezier(0.33, 1, 0.68, 1)"
                 >
-                    <li class="experience">
-                        <ExpItem
-                            :index="index"
-                            type="education"
-                            v-model="$cv.education[index]"
-                        />
-                        <ButtonRemoveItem @delete="removeItem('education', index)" />
-                    </li>
-                </div>
-                <button
-                    class="addItemButton"
-                    @click="addItem('education')"
-                >
-                </button>
+                    <template #item="{ index }">
+                        <li class="experience-item">
+                            <div class="header">
+                                <ExpItem
+                                    :index="index"
+                                    type="education"
+                                    v-model="$cv.education[index]"
+                                />
+                                <div class="user-actions">
+                                    <ButtonRemoveItem @delete="removeItem('education', index)" />
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                    <template #footer>
+                        <button
+                            class="addItemButton"
+                            @click="addItem('education')"
+                        >
+                        </button>
+                    </template>
+                </draggable>
             </ul>
         </section>
     </div>
@@ -176,7 +189,7 @@ const onEndDrag = (e) => {
     padding: 0 10px;
 
     & *:focus:not(.addItemButton) {
-        box-shadow: 0 0 0 2px Highlight;
+        box-shadow: 0 0 0 2px #667eea;
         border-radius: 5px;
     }
 }
@@ -244,6 +257,7 @@ li {
     &:has(.ta-desc:hover),
     &:has(.add-extra-info:hover),
     &:has(.hoverable:hover) {
+        background-color: #fcfcfcb2;
         box-shadow:
             6px 0 12px -3px rgba(112, 181, 255, 0.3),
             -4px 0 6px -3px rgba(112, 181, 255, 0.1);

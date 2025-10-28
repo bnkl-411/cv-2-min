@@ -143,12 +143,19 @@ const handleSidebarResize = (event) => {
 
   li {
     display: flex;
-    // flex-wrap: wrap;
     list-style: none;
     position: relative;
     padding-left: 2px;
     justify-content: space-between;
     align-items: center;
+
+    .drag-icon {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-items: center;
+      margin-left: -15px;
+    }
 
     .removeItem {
       margin-top: 0;

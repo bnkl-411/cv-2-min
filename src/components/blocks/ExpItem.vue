@@ -49,11 +49,7 @@ const category = config[props.type]
             v-model="modelValue.period"
         />
         <div class="drag-icon draggable">
-            <font-awesome-icon
-                icon="fa-solid fa-list"
-                class="fa-stack"
-                size="2xs"
-            />
+            <font-awesome-icon icon="fa-solid fa-list" />
         </div>
     </div>
     <div class="right">
@@ -149,12 +145,12 @@ const category = config[props.type]
     width: 100%;
 }
 
-.ta-desc:hover {
-    border-radius: 5px;
-    background-color: rgb(236, 236, 236);
-    color: #8a8a8a;
-    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-}
+// .ta-desc:hover {
+//     border-radius: 5px;
+//     background-color: rgb(236, 236, 236);
+//     color: #8a8a8a;
+//     box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+// }
 
 .add-extra-info {
     position: relative;

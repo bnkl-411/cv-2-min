@@ -52,7 +52,7 @@ const handleBlur = () => {
 </script>
 <template>
     <div
-        :class="['extra-padding', 'hoverable', label, { 'greyed-out': isEmpty }]"
+        :class="['extra-padding', label, 'hoverable', { 'greyed-out': isEmpty }]"
         :id="label"
         v-show="!editing"
         @click="editing = true"
@@ -62,7 +62,7 @@ const handleBlur = () => {
         {{ modelValue || label }}
     </div>
     <input
-        class="extra-padding hoverable"
+        class="extra-padding"
         ref="inputRef"
         :id="label + '-input'"
         :class="label + '-input restyle-input'"

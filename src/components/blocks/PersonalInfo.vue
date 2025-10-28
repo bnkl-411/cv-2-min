@@ -15,14 +15,20 @@ const personal = defineModel({
         id="personal-info"
         class="personal"
     >
-        <div v-resizer="{ minFontSize: 16, default: 22, id: 'username' }">
+        <div
+            v-resizer="{ minFontSize: 16, default: 22, id: 'username' }"
+            style="width: 100%;"
+        >
             <ItemEditable
                 class="username"
                 label="username"
                 v-model="personal[0].value"
             />
         </div>
-        <div v-resizer="{ minFontSize: 14, default: 18, id: 'lookup-job' }">
+        <div
+            v-resizer="{ minFontSize: 14, default: 18, id: 'lookup-job' }"
+            style="width: 100%;"
+        >
             <ItemEditable
                 class="lookup-job"
                 label="lookup-job"

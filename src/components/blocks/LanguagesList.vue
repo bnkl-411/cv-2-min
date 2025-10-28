@@ -53,6 +53,7 @@ const removeItem = (index) => {
             <li
                 v-for="(language, index) in cvData.cv.spokenLanguages"
                 :key="language.key"
+                class="hoverable"
             >
                 <label>
                     <select

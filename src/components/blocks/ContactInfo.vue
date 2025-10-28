@@ -46,11 +46,11 @@ const removeContact = (index) => {
             <li
                 v-for="(contact, index) in cvData.cv.contact"
                 :key="contact.key"
+                class="hoverable"
             >
                 <ItemEditable
                     :label="contact.key"
                     v-model="cvData.cv.contact[index].value"
-                    :defaultFontSize="11"
                     :must-focus="focusTarget === cvData.cv.contact.length"
                 />
 

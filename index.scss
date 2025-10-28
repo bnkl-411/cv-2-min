@@ -26,11 +26,23 @@ body {
     }
 }
 
-.hoverable:hover {
+.sidebar .hoverable:hover,
+.main .hoverable:hover,
+.ta-desc:hover {
     border-radius: 5px;
-    background-color: #ececec;
+    background: #fcfcfceb;
+    border-color: #e0e7ff;
+    box-shadow: inset 0 0 0 2px #e0e7ff,
+        0 2px 8px rgba(102, 126, 234, 0.08);
+}
+
+.sidebar .hoverable:hover {
     color: #8a8a8a;
-    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+}
+
+.hoverable:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .hoverable.greyed-out:hover {
