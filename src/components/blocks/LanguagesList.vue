@@ -93,6 +93,8 @@ const removeItem = (index) => {
                 />
 
             </li>
+            <div> (TOEIC 960/990) </div>
+
             <ButtonAddLanguage @addLanguage="addLanguage" />
         </ul>
     </div>

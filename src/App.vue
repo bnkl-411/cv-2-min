@@ -13,7 +13,7 @@ const cvModels = {
   'cvType3': cvType3
 };
 
-const currentModel = ref('cvType2');
+const currentModel = ref('cvType1');
 
 const dlJSON = () => {
   const jsonLocalStorage = localStorage.getItem(currentModel.value)
