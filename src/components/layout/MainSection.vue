@@ -88,7 +88,7 @@ const onEndDrag = (e) => {
                     handle=".draggable"
                     @start="onStartDrag"
                     @end="onEndDrag"
-                    animation=150
+                    :animation=150
                     easing="cubic-bezier(0.33, 1, 0.68, 1)"
                 >
                     <template #item="{ index }">

@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref, useTemplateRef, onMounted, nextTick, computed, watch, getCurrentInstance } from "vue"
+import { ref, useTemplateRef, onMounted, nextTick, computed, watch } from "vue"
 
 const model = defineModel({
     modelValue: String

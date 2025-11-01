@@ -54,7 +54,7 @@ const handleBlur = () => {
 </script>
 <template>
     <div
-        :class="[label, 'extra-padding', 'hoverable', { 'greyed - out': isEmpty }]"
+        :class="[label, 'extra-padding', { 'greyed - out': isEmpty }]"
         :id="label"
         v-show="!editing"
         @click="editing = true"

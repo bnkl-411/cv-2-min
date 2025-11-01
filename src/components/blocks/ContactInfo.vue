@@ -3,6 +3,8 @@ import { ref, inject, nextTick } from 'vue'
 import ButtonAddContact from "../ui/ButtonAddContact.vue";
 import ItemEditable from '../ui/ItemEditable.vue'
 import ButtonRemoveItem from "../ui/ButtonRemoveItem.vue";
+import draggable from 'vuedraggable'
+
 
 const cvData = inject('cvData')
 const defaultCvData = inject('defaultCvData')
@@ -43,25 +45,34 @@ const removeContact = (index) => {
             CONTACT
         </div>
         <ul class="list">
-            <li
-                v-for="(contact, index) in cvData.cv.contact"
-                :key="contact.key"
-                class="hoverable"
+            <draggable
+                v-model="cvData.cv.contact"
+                item-key="key"
+                handle=".draggable"
+                animation=150
+                easing="cubic-bezier(0.33, 1, 0.68, 1)"
             >
-                <ItemEditable
-                    class="contact-item"
-                    :label="contact.key"
-                    v-model="cvData.cv.contact[index].value"
-                    :must-focus="focusTarget === cvData.cv.contact.length"
-                    placeholder="Nouveau contact"
-                />
+                <template #item="{ element, index }">
+                    <li class="hoverable">
+                        <div class="drag-icon draggable">
 
-                <ButtonRemoveItem
-                    :show="cvData.cv.contact.length > 1"
-                    @delete="removeContact(index)"
-                />
+                            <font-awesome-icon icon="fa-solid fa-list" />
+                        </div>
+                        <ItemEditable
+                            class="contact-item"
+                            :label="element.key"
+                            v-model="element.value"
+                            :must-focus="focusTarget === cvData.cv.contact.length"
+                            placeholder="Nouveau contact"
+                        />
+                        <ButtonRemoveItem
+                            :show="cvData.cv.contact.length > 1"
+                            @delete="removeContact(index)"
+                        />
 
-            </li>
+                    </li>
+                </template>
+            </draggable>
             <ButtonAddContact
                 :storedData="cvData.cv.contact"
                 :defaultData="defaultCvData.cv.contact"
@@ -70,4 +81,45 @@ const removeContact = (index) => {
         </ul>
     </div>
 </template>
-<style scoped></style>
+<style scoped>
+.drag-icon {
+    position: absolute;
+    left: -35px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    /* background-color: #f8f8f8; */
+    background-color: #48a8c0;
+
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    /* opacity: 0; */
+    pointer-events: all;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(96, 135, 208, 0.3);
+    cursor: pointer;
+}
+
+.drag-icon:hover {
+    background-color: #48a8c0;
+}
+
+.drag-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+li:hover .drag-icon {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.drag-icon:hover {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+</style>

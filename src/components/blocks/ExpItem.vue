@@ -46,7 +46,7 @@ const category = config[props.type]
 <template>
     <div class="left">
         <ItemEditable
-            class="date extra-padding"
+            class="date extra-padding hoverable"
             label="date"
             v-model="modelValue.period"
             placeholder="Date"
@@ -57,7 +57,7 @@ const category = config[props.type]
     </div>
     <div class="right">
         <ItemEditable
-            class="job-label extra-padding"
+            class="job-label extra-padding hoverable"
             label="label"
             v-model="modelValue[category.mainField]"
             :placeholder="category.placeholder"
@@ -80,6 +80,7 @@ const category = config[props.type]
                 v-else
             >
                 <ItemEditable
+                    class="hoverable"
                     :must-focus=focusExtraInfo
                     label="extra-info"
                     v-model="modelValue.extraInfo"

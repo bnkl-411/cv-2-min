@@ -25,9 +25,11 @@ defineProps({
     z-index: 1;
     margin-top: -13px;
     opacity: 0;
+    transition: transform 0.2s;
+
 
     &>* {
-        border: 2px solid rgb(255, 255, 255);
+        border: 1px solid rgb(255, 255, 255);
         width: 20px;
         height: 20px;
         border-radius: 50%;
@@ -36,6 +38,6 @@ defineProps({
 }
 
 .removeItem:hover {
-    /* box-shadow: var(--box-shadow-hover); */
+    transform: scale(1.1);
 }
 </style>

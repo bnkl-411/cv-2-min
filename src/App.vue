@@ -48,11 +48,9 @@ const initCV = () => {
   cvData.value = uls.data.value;
 };
 
-// Provide pour les composants enfants
 provide('cvData', cvData);
 provide('defaultCvData', computed(() => cvModels[currentModel.value]));
 
-// Fonction de téléchargement
 const downloadJson = () => {
   dataToJson(cvData.value, currentModel.value);
 };
@@ -79,9 +77,24 @@ const downloadJson = () => {
       />
     </div>
   </div>
+  <div class="disclaimer">Ce site est en cours de développement. Il est fonctionnel, mais certaines anomalies ou
+    dysfonctionnements peuvent survenir.</div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.disclaimer {
+  background-color: beige;
+  font-style: italic;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  margin: 0 auto;
+  padding: 12px;
+  font-size: 8pt;
+}
+
 .sidebar,
 .main {
   min-width: 0;
@@ -95,7 +108,7 @@ const downloadJson = () => {
   width: 210mm;
   height: 297mm;
   padding: 0 12px 10px 12px;
-  margin: 38px auto;
+  margin: 38px;
   box-shadow: 0 4px 5px rgba(75, 75, 75, 0.2);
   box-sizing: border-box;
 }
@@ -127,9 +140,7 @@ const downloadJson = () => {
 @page {
   size: A4 portrait;
   margin: 0;
-  /* Pas de marge navigateur */
 
-  /* Supprime en-têtes et pieds de page du navigateur */
   @top-left {
     content: none;
   }
@@ -168,6 +179,10 @@ const downloadJson = () => {
 
   body * {
     visibility: hidden;
+  }
+
+  .disclaimer {
+    display: none;
   }
 
   #a4-container {
