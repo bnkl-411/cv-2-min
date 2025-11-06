@@ -1,5 +1,4 @@
 export function dataToJson(cvModel) {
-    console.log(cvModel);
     const jsonLocalStorage = localStorage.getItem(cvModel)
     const blob = new Blob([jsonLocalStorage], { type: 'application/json' })
     const url = URL.createObjectURL(blob)

@@ -8,10 +8,6 @@ import SkillsList from '../blocks/SkillsList.vue';
 import LanguagesList from '../blocks/LanguagesList.vue';
 import ColorPicker from '../ui/ColorPicker.vue';
 
-onMounted(() => {
-  console.log('SidebAR');
-});
-
 const props = defineProps({
   cvData: {
     type: Object,
@@ -42,7 +38,6 @@ watchEffect(() => {
 });
 
 const handleChangeColor = (color) => {
-  console.log('changed color');
   document.documentElement.style.setProperty('--main-box-color', color)
 }
 

@@ -152,7 +152,7 @@ const isLocalhost = window.location.hostname === 'localhost'
   </div>
   <div
     class="disclaimer"
-    style="display: none;"
+    v-show="!isLocalhost"
   >Ce site est en cours de développement. Il est fonctionnel, mais certaines anomalies ou
     dysfonctionnements peuvent survenir.</div>
 </template>

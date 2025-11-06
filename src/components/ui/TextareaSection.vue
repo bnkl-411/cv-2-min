@@ -36,8 +36,6 @@ watch(model, () => {
 })
 
 watch(() => props.name, (newName) => {
-    console.log(newName);
-    console.log(props.name);
     label.value = newName
     // heightAdjust()
 })

@@ -14,7 +14,6 @@ function updateTextColor(el, bgColor) {
 };
 
 function getWCAGTextColor(hex) {
-    console.log(hex);
     const rgb = hexToRgb(hex);
     if (!rgb) return '#000000';
 
