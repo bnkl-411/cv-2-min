@@ -1,10 +1,12 @@
 <script setup>
-import { ref, provide, computed, watch } from 'vue'
+import { ref, provide, computed, watch, onMounted } from 'vue'
+import ContainerLeft from "./components/layout/ContainerLeft.vue"
+import { exportToPDF } from "./utils/toPDF";
+
 import MainSection from "./components/layout/MainSection.vue";
 import Sidebar from "./components/layout/SideBar.vue";
 import { useLocalStorage } from "./composables/useLocalStorage";
 import { dataToJson } from "./utils/dataToJson";
-import { exportToPDF } from "./utils/toPDF";
 import cvType1 from "./resources/cvType1.json";
 import cvType2 from "./resources/cvType2.json";
 import cvType3 from "./resources/cvType3.json";
@@ -54,18 +56,89 @@ provide('defaultCvData', computed(() => cvModels[currentModel.value]));
 const downloadJson = () => {
   dataToJson(cvData.value, currentModel.value);
 };
+
+// Draggable functionality
+const position = ref({ x: 0, y: 0 });
+const isDragging = ref(false);
+const dragOffset = ref({ x: 0, y: 0 });
+
+const centerContainer = () => {
+  const container = document.getElementById('a4-container');
+  if (container) {
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+    position.value = {
+      x: (window.innerWidth - containerWidth) / 2,
+      y: (window.innerHeight - containerHeight) / 2
+    };
+  }
+};
+
+onMounted(() => {
+  centerContainer();
+});
+
+const handleMouseDown = (e) => {
+  if (e.target.classList.contains('drag-area')) {
+    isDragging.value = true;
+    dragOffset.value = {
+      x: e.clientX - position.value.x,
+      y: e.clientY - position.value.y
+    };
+  }
+};
+
+const handleMouseMove = (e) => {
+  if (isDragging.value) {
+    position.value = {
+      x: e.clientX - dragOffset.value.x,
+      y: e.clientY - dragOffset.value.y
+    };
+  }
+};
+
+const handleMouseUp = () => {
+  isDragging.value = false;
+};
+
+const isLocalhost = window.location.hostname === 'localhost'
+
 </script>
 
 <template>
-  <div>
+  <!-- <ContainerLeft /> -->
+
+  <div class="container-left">
     <button @click="exportToPDF">Exporter PDF</button>
     <button @click="initCV">INIT CV</button>
     <button @click="loadModel('cvType1')">LOAD CV MODEL 1</button>
     <button @click="loadModel('cvType2')">LOAD CV MODEL 2</button>
     <button @click="loadModel('cvType3')">LOAD CV MODEL 3</button>
-    <button @click="downloadJson">Télécharger</button>
+    <button
+      v-show="isLocalhost"
+      @click="downloadJson"
+    >Télécharger</button>
 
-    <div id="a4-container">
+    <div class="color-picker-container"> </div>
+  </div>
+
+  <div
+    class="drag-area"
+    @mousedown="handleMouseDown"
+    @mousemove="handleMouseMove"
+    @mouseup="handleMouseUp"
+    :style="{ cursor: isDragging ? 'grabbing' : 'default' }"
+  >
+
+    <div
+      id="a4-container"
+      :style="{
+        position: 'absolute',
+        left: position.x + 'px',
+        top: position.y + 'px',
+        pointerEvents: 'none'
+      }"
+    >
       <Sidebar
         :cvData="cvData"
         @update:cvData="cvData = $event"
@@ -77,11 +150,38 @@ const downloadJson = () => {
       />
     </div>
   </div>
-  <div class="disclaimer">Ce site est en cours de développement. Il est fonctionnel, mais certaines anomalies ou
+  <div
+    class="disclaimer"
+    style="display: none;"
+  >Ce site est en cours de développement. Il est fonctionnel, mais certaines anomalies ou
     dysfonctionnements peuvent survenir.</div>
 </template>
 
 <style scoped lang="scss">
+.container-left {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 1;
+  gap: 8px;
+}
+
+.drag-area {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  position: relative;
+
+  &:hover {
+    cursor: move;
+  }
+}
+
 .disclaimer {
   background-color: beige;
   font-style: italic;
@@ -99,6 +199,7 @@ const downloadJson = () => {
 .main {
   min-width: 0;
   min-height: 0;
+  pointer-events: auto;
 }
 
 #a4-container {
@@ -108,7 +209,6 @@ const downloadJson = () => {
   width: 210mm;
   height: 297mm;
   padding: 0 12px 10px 12px;
-  margin: 38px;
   box-shadow: 0 4px 5px rgba(75, 75, 75, 0.2);
   box-sizing: border-box;
 }
@@ -181,16 +281,27 @@ const downloadJson = () => {
     visibility: hidden;
   }
 
-  .disclaimer {
-    display: none;
+  #a4-container,
+  #a4-container * {
+    visibility: visible;
+  }
+
+  .drag-area {
+    position: static !important;
   }
 
   #a4-container {
-    margin: 0 auto;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    transform: none !important;
+    margin: 0 !important;
     box-shadow: none;
     overflow: hidden !important;
   }
 
+  .container-left,
+  .disclaimer,
   button {
     display: none !important;
   }

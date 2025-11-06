@@ -1,4 +1,4 @@
-// autoResize.js - Directive Vue pour input auto-dimensionnable
+// autoResize.js - Directive pour input auto-dimensionnable
 
 export const autoResize = {
     mounted(el) {

@@ -7,6 +7,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import sidebarResizer from './directives/sidebarResizer'
+import wcagAdapter from './directives/wcagAdapter'
 
 library.add(fas, far, fab)
 
@@ -15,4 +16,5 @@ const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.directive('sidebarResizer', sidebarResizer)
+app.directive('wcagAdapter', wcagAdapter)
 app.mount('#app')

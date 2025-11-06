@@ -90,7 +90,7 @@ const category = config[props.type]
         </div>
         <TextareaSection
             class="ta-desc"
-            :name="`job-desc-${props.index}`"
+            :name="`${props.type}-desc-${props.index}`"
             v-model="modelValue.description"
         />
     </div>
@@ -138,10 +138,6 @@ const category = config[props.type]
     flex-direction: column;
     width: 100%;
     min-width: 0;
-}
-
-.inner-icon {
-    z-index: 1;
 }
 
 .xt-info-ctn {

@@ -33,7 +33,9 @@ body {
     background: var(--hover-bg);
     border-color: var(--hover-border);
     box-shadow: var(--hover-shadow);
+    // border: 2px solid #e0e7ff;
 }
+
 
 .sidebar .hoverable:hover {
     color: var(--greyed-text);

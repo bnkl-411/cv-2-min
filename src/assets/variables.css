@@ -13,7 +13,7 @@
   --colorful-opacity: 1;
   --light-buttons: #fff;
   --light-opacity: 0.4;
-  --text-color: '#000000';
+  --text-color: #000000;
   --box-shadow-base: 0 2px 3px rgba(0, 0, 0, 0.3);;
   --box-shadow-hover: 0 3px 6px rgba(0, 0, 0, 0.3);
 }

@@ -12,12 +12,12 @@ export default {
         handle.style.cssText = `
             position: absolute;
             top: 0;
-            right: 0;
+            right: -6px;
             width: 6px;
             height: 100%;
             cursor: ew-resize;
             background: transparent;
-            z-index: 3;
+            z-index: 1;
             border-radius: 5px;
             `
         handle.style.transition = 'background 0.2s'

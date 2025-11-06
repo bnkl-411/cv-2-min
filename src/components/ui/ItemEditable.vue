@@ -66,8 +66,9 @@ const handleBlur = () => {
     <input
         class="extra-padding"
         ref="inputRef"
-        :id="label + '-input'"
+        :name="label"
         :class="label + '-input restyle-input'"
+        autocomplete=false
         v-show="editing"
         v-focus="editing"
         v-auto-resize

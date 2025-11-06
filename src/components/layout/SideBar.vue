@@ -1,11 +1,16 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, watchEffect, onMounted } from 'vue'
 import PictureUploader from "../ui/PictureUploader.vue";
 import TextareaSection from "../ui/TextareaSection.vue"
 import PersonalInfo from '../blocks/PersonalInfo.vue';
 import ContactInfo from '../blocks/ContactInfo.vue';
 import SkillsList from '../blocks/SkillsList.vue';
 import LanguagesList from '../blocks/LanguagesList.vue';
+import ColorPicker from '../ui/ColorPicker.vue';
+
+onMounted(() => {
+  console.log('SidebAR');
+});
 
 const props = defineProps({
   cvData: {
@@ -13,6 +18,8 @@ const props = defineProps({
     required: true,
   }
 });
+
+const colorPickerOpen = ref(false)
 
 const $cv = computed(() => props.cvData.cv);
 
@@ -28,11 +35,23 @@ const handleSidebarResize = (event) => {
   });
 };
 
+watchEffect(() => {
+  if (props.cvData?.layout?.color) {
+    document.documentElement.style.setProperty('--main-box-color', props.cvData.layout.color);
+  }
+});
+
+const handleChangeColor = (color) => {
+  console.log('changed color');
+  document.documentElement.style.setProperty('--main-box-color', color)
+}
+
 </script>
 <template>
   <div
     id="sidebar"
     class="sidebar"
+    v-wcag-adapter="props.cvData.layout.color"
     v-sidebar-resizer="{
       minWidth: 234,
       maxWidth: 340,
@@ -66,9 +85,18 @@ const handleSidebarResize = (event) => {
           name="hobbies"
         />
       </div>
-
-
     </div>
+    <!-- <button @click="colorPickerOpen = true">Open Modal</button>
+    <Teleport to="color-picker-container">
+      <div
+        v-if="colorPickerOpen"
+        class="modal"
+      >
+        <ColorPicker @changeColor="handleChangeColor" />
+
+        <button @click="colorPickerOpen = false">Close</button>
+      </div>
+    </Teleport> -->
   </div>
 </template>
 <style lang="scss" scoped>
@@ -98,13 +126,12 @@ const handleSidebarResize = (event) => {
 }
 
 .infos>* {
-  color: rgb(241, 241, 224);
+  color: #f0f1f1;
 }
 
 :deep(.sidebar-label) {
   font-size: larger;
   font-weight: bold;
-  color: #f0f1f1;
   margin-bottom: 6px;
 }
 

@@ -93,7 +93,6 @@ input[type="file"] {
 .radiusAdjuster {
     position: absolute;
     bottom: 10px;
-
     width: 40%;
     opacity: 0;
     z-index: 3;
