@@ -26,6 +26,14 @@ body {
     }
 }
 
+#a4-container {
+    cursor: default;
+}
+
+.hoverable {
+    cursor: text;
+}
+
 .sidebar .hoverable:hover,
 .main .hoverable:hover,
 .ta-desc:hover {

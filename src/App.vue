@@ -5,8 +5,8 @@ import { exportToPDF } from "./utils/toPDF";
 
 import MainSection from "./components/layout/MainSection.vue";
 import Sidebar from "./components/layout/SideBar.vue";
-import { useLocalStorage } from "./composables/useLocalStorage";
 import { dataToJson } from "./utils/dataToJson";
+import { useLocalStorage } from "./composables/useLocalStorage";
 import cvType1 from "./resources/cvType1.json";
 import cvType2 from "./resources/cvType2.json";
 import cvType3 from "./resources/cvType3.json";
@@ -127,7 +127,6 @@ const isLocalhost = window.location.hostname === 'localhost'
     @mousedown="handleMouseDown"
     @mousemove="handleMouseMove"
     @mouseup="handleMouseUp"
-    :style="{ cursor: isDragging ? 'grabbing' : 'default' }"
   >
 
     <div

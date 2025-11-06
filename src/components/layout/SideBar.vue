@@ -81,7 +81,7 @@ const handleChangeColor = (color) => {
         />
       </div>
     </div>
-    <!-- <button @click="colorPickerOpen = true">Open Modal</button>
+    <button @click="colorPickerOpen = true">Open Modal</button>
     <Teleport to="color-picker-container">
       <div
         v-if="colorPickerOpen"
@@ -91,7 +91,7 @@ const handleChangeColor = (color) => {
 
         <button @click="colorPickerOpen = false">Close</button>
       </div>
-    </Teleport> -->
+    </Teleport>
   </div>
 </template>
 <style lang="scss" scoped>
