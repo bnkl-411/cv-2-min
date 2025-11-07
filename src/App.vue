@@ -7,7 +7,7 @@ import Sidebar from "./components/layout/SideBar.vue";
 
 const { cvData, defaultCvData } = useCvState();
 
-document.documentElement.style.setProperty('--main-box-color', cvData.value.layout.color)
+document.documentElement.style.setProperty('--main-box-color', cvData.value.layout?.color || "#559db3")
 
 provide('cvData', cvData);
 provide('defaultCvData', defaultCvData);

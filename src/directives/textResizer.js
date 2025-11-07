@@ -1,23 +1,19 @@
 export default {
     mounted(el, binding) {
-        console.log(binding.value);
         const options = {
             id: binding.value.id,
             minFontSize: binding.value.minFontSize || 8,
             default: binding.value.default || 22
         }
 
-        console.log(options.id);
         const target = document.getElementById(options.id)
         const input = document.getElementById(options.id + '-input')
 
-        console.log(target, input);
         if (!target || !input) return
 
 
         const resize = () => {
             const parent = document.getElementById("personal-info")
-            console.log('here');
             if (!parent) return
 
             const parentWidth = parent.clientWidth
