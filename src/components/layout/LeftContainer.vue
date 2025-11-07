@@ -6,7 +6,7 @@ import ColorPicker from '../ui/ColorPicker.vue';
 
 const { currentModel, initCV, loadModel } = useCvState();
 
-defineProps({
+const props = defineProps({
     isColorWheelOpen: {
         type: Boolean,
         required: true
@@ -16,6 +16,8 @@ defineProps({
         required: true
     }
 });
+
+console.log(props.currentColor);
 
 defineEmits(['toggleColorWheel', 'changeColor']);
 

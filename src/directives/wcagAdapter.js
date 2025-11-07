@@ -22,7 +22,7 @@ function getWCAGTextColor(hex) {
     const whiteContrast = getContrastRatio(1, bgLuminance);
     const blackContrast = getContrastRatio(0, bgLuminance);
 
-    return whiteContrast > blackContrast ? '#FFFFFF' : '#000000';
+    return whiteContrast > blackContrast ? '#f7f7f7ff' : '#030303ff';
 }
 
 function hexToRgb(hex) {

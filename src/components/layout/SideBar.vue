@@ -29,6 +29,12 @@ const handleSidebarResize = (event) => {
   });
 };
 
+const handleClick = (e) => {
+  console.log(e);
+  if (e.target !== e.currentTarget) return;
+  emit('toggleColorWheel')
+}
+
 </script>
 <template>
 
@@ -47,7 +53,7 @@ const handleSidebarResize = (event) => {
     <div
       class="topbox1 box-color"
       v-color-wheel="colorWheel"
-      @click="emit('toggleColorWheel')"
+      @click="handleClick"
     ></div>
 
     <PersonalInfo v-model="$cv.personal" />
@@ -57,7 +63,11 @@ const handleSidebarResize = (event) => {
       v-model:image-border-radius="$cv.picture.imageBorderRadius"
     />
 
-    <div class="infos box-color">
+    <div
+      class="infos box-color"
+      v-color-wheel="colorWheel"
+      @click="handleClick"
+    >
 
       <ContactInfo />
 
@@ -89,7 +99,7 @@ const handleSidebarResize = (event) => {
   background-color: var(--main-box-color);
 }
 
-.sidebar:hover .box-color {
+.box-color:hover {
   box-shadow: 0 0 0 2px rgb(112, 181, 255),
     6px 0 12px -3px rgba(112, 181, 255, 0.3),
     -4px 0 6px -3px rgba(112, 181, 255, 0.1);
@@ -110,10 +120,24 @@ const handleSidebarResize = (event) => {
   border-radius: 6px;
   white-space: normal;
   word-break: break-word;
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    border-radius: 6px;
+    height: 100%;
+    width: 100%;
+    background-color: var(--main-box-color);
+  }
 }
 
 .infos>* {
-  color: #f0f1f1;
+  position: relative;
 }
 
 :deep(.sidebar-label) {

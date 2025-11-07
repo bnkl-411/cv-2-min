@@ -80,6 +80,15 @@ export default {
         el._resizeHandle = handle
     },
 
+    updated(el, binding) {
+        const userWidth = binding.value?.userWidth;
+
+        if (userWidth && !el._isResizing) {
+            document.documentElement.style.setProperty('--sidebar-width', userWidth + 'px');
+            el.style.width = userWidth + 'px';
+        }
+    },
+
     unmounted(el) {
         if (el._resizeHandle) {
             el._resizeHandle.remove()

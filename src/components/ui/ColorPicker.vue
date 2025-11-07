@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 
 const emit = defineEmits(['changeColor'])
 
@@ -101,6 +101,15 @@ function moveHuePointer(ev) { if (ev.currentTarget.hasPointerCapture(ev.pointerI
 onMounted(() => {
     setFromHex(props.initialColor)
 })
+
+watch(() => props.initialColor, (newColor) => {
+
+    console.log('updated');
+    if (newColor && newColor !== hex.value) {
+        setFromHex(newColor)
+    }
+})
+
 </script>
 
 

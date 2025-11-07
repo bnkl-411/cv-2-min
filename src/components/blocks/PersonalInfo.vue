@@ -44,5 +44,6 @@ const personal = defineModel({
     display: flex;
     flex-wrap: wrap;
     padding: 0 1px;
+    color: #0f0f0f;
 }
 </style>

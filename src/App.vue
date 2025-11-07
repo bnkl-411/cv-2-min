@@ -24,7 +24,7 @@ const handleChangeColor = (color) => {
 }
 
 // Draggable functionality - main container
-const position = ref({ x: 0, y: 0 });
+const position = ref({ x: 240, y: 0 });
 const isDragging = ref(false);
 const dragOffset = ref({ x: 0, y: 0 });
 
@@ -41,7 +41,7 @@ const centerContainer = () => {
 };
 
 onMounted(() => {
-  centerContainer();
+  // centerContainer();
 });
 
 const handleMouseDown = (e) => {
@@ -113,20 +113,6 @@ const handleMouseUp = () => {
 </template>
 
 <style scoped lang="scss">
-.container-left {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  background-color: #ffffff;
-  padding: 20px;
-  box-sizing: border-box;
-  z-index: 1;
-  gap: 8px;
-}
-
 .drag-area {
   min-height: 100vh;
   background-color: #f5f5f5;

@@ -24,6 +24,9 @@ const cvData = ref(uls.data.value);
 
 // Watch pour synchroniser les changements de données avec le localStorage
 watch(cvData, (newData) => {
+
+    console.log('watching cvDATA');
+    console.log(cvData.value.layout);
     uls.data.value = newData;
 }, { deep: true });
 
@@ -39,7 +42,7 @@ export function useCvState() {
 
     const initCV = () => {
         uls.clear()
-        cvData.value = uls.data.value
+        cvData.value = structuredClone(cvModels[currentModel.value])
     }
 
     const defaultCvData = computed(() => cvModels[currentModel.value])

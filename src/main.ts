@@ -13,6 +13,8 @@ import wcagAdapter from './directives/wcagAdapter'
 library.add(fas, far, fab)
 
 const app = createApp(App)
+app.config.performance = true
+
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 
