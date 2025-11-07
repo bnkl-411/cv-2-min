@@ -196,7 +196,7 @@ const onEndDrag = (e) => {
 #resume {
     margin-top: 27px;
     margin-bottom: 7px;
-    hyphens: auto;
+    // hyphens: auto;
 }
 
 #professional-xp .addItemButton {

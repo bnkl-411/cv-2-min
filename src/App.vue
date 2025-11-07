@@ -1,63 +1,29 @@
 <script setup>
-import { ref, provide, computed, watch, onMounted } from 'vue'
-import ContainerLeft from "./components/layout/ContainerLeft.vue"
-import { exportToPDF } from "./utils/toPDF";
-
+import { ref, provide, onMounted } from 'vue'
+import { useCvState } from "./composables/useCvState";
+import LeftContainer from "./components/layout/LeftContainer.vue"
 import MainSection from "./components/layout/MainSection.vue";
 import Sidebar from "./components/layout/SideBar.vue";
-import { dataToJson } from "./utils/dataToJson";
-import { useLocalStorage } from "./composables/useLocalStorage";
-import cvType1 from "./resources/cvType1.json";
-import cvType2 from "./resources/cvType2.json";
-import cvType3 from "./resources/cvType3.json";
 
-const cvModels = {
-  'cvType1': cvType1,
-  'cvType2': cvType2,
-  'cvType3': cvType3
-};
+const { cvData, defaultCvData } = useCvState();
 
-const currentModel = ref('cvType1');
-
-// Fonction pour créer une nouvelle instance de storage
-const createStorage = (modelKey) => {
-  return useLocalStorage(modelKey, cvModels[modelKey]);
-};
-
-// Instance actuelle du storage
-let uls = createStorage(currentModel.value);
-
-// Reactive ref pour les données
-const cvData = ref(uls.data.value);
-
-// Watch pour synchroniser les changements de données avec le localStorage
-watch(cvData, (newData) => {
-  uls.data.value = newData;
-}, { deep: true });
-
-// Fonction pour charger un nouveau modèle
-const loadModel = (model) => {
-  currentModel.value = model;
-  // Créer une nouvelle instance de storage
-  uls = createStorage(model);
-  // Mettre à jour les données réactives
-  cvData.value = uls.data.value;
-};
-
-// Fonction pour réinitialiser le CV
-const initCV = () => {
-  uls.clear();
-  cvData.value = uls.data.value;
-};
+document.documentElement.style.setProperty('--main-box-color', cvData.value.layout.color)
 
 provide('cvData', cvData);
-provide('defaultCvData', computed(() => cvModels[currentModel.value]));
+provide('defaultCvData', defaultCvData);
 
-const downloadJson = () => {
-  dataToJson(cvData.value, currentModel.value);
-};
+const isLocalhost = window.location.hostname === 'localhost'
 
-// Draggable functionality
+const isColorWheelOpen = ref(false);
+
+const toggleColorWheel = () => { isColorWheelOpen.value = !isColorWheelOpen.value; };
+
+const handleChangeColor = (color) => {
+  cvData.value.layout.color = color;
+  document.documentElement.style.setProperty('--main-box-color', color)
+}
+
+// Draggable functionality - main container
 const position = ref({ x: 0, y: 0 });
 const isDragging = ref(false);
 const dragOffset = ref({ x: 0, y: 0 });
@@ -101,26 +67,15 @@ const handleMouseUp = () => {
   isDragging.value = false;
 };
 
-const isLocalhost = window.location.hostname === 'localhost'
-
 </script>
 
 <template>
-  <!-- <ContainerLeft /> -->
-
-  <div class="container-left">
-    <button @click="exportToPDF">Exporter PDF</button>
-    <button @click="initCV">INIT CV</button>
-    <button @click="loadModel('cvType1')">LOAD CV MODEL 1</button>
-    <button @click="loadModel('cvType2')">LOAD CV MODEL 2</button>
-    <button @click="loadModel('cvType3')">LOAD CV MODEL 3</button>
-    <button
-      v-show="isLocalhost"
-      @click="downloadJson"
-    >Télécharger</button>
-
-    <div class="color-picker-container"> </div>
-  </div>
+  <LeftContainer
+    :isColorWheelOpen="isColorWheelOpen"
+    :currentColor="cvData.layout.color"
+    @toggle-color-wheel="toggleColorWheel"
+    @change-color="handleChangeColor"
+  />
 
   <div
     class="drag-area"
@@ -141,6 +96,7 @@ const isLocalhost = window.location.hostname === 'localhost'
       <Sidebar
         :cvData="cvData"
         @update:cvData="cvData = $event"
+        @toggleColorWheel="toggleColorWheel"
       />
 
       <MainSection
@@ -299,7 +255,7 @@ const isLocalhost = window.location.hostname === 'localhost'
     overflow: hidden !important;
   }
 
-  .container-left,
+  .left-container,
   .disclaimer,
   button {
     display: none !important;

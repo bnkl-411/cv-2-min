@@ -27,7 +27,7 @@ defineProps({
 <style scoped>
 .removeItem {
     cursor: pointer;
-    z-index: 9;
+    z-index: 2;
     margin-top: -13px;
     opacity: 0;
     transition: transform 0.2s;

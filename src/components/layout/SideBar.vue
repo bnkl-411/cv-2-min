@@ -1,12 +1,12 @@
 <script setup>
-import { ref, computed, watchEffect, onMounted } from 'vue'
+import { computed } from 'vue'
 import PictureUploader from "../ui/PictureUploader.vue";
 import TextareaSection from "../ui/TextareaSection.vue"
 import PersonalInfo from '../blocks/PersonalInfo.vue';
 import ContactInfo from '../blocks/ContactInfo.vue';
 import SkillsList from '../blocks/SkillsList.vue';
 import LanguagesList from '../blocks/LanguagesList.vue';
-import ColorPicker from '../ui/ColorPicker.vue';
+import colorWheel from '../../assets/icons/colorWheel.svg'
 
 const props = defineProps({
   cvData: {
@@ -15,11 +15,9 @@ const props = defineProps({
   }
 });
 
-const colorPickerOpen = ref(false)
-
 const $cv = computed(() => props.cvData.cv);
 
-const emit = defineEmits(["update:cvData"]);
+const emit = defineEmits(["update:cvData", "toggleColorWheel"]);
 
 const handleSidebarResize = (event) => {
   emit("update:cvData", {
@@ -31,18 +29,9 @@ const handleSidebarResize = (event) => {
   });
 };
 
-watchEffect(() => {
-  if (props.cvData?.layout?.color) {
-    document.documentElement.style.setProperty('--main-box-color', props.cvData.layout.color);
-  }
-});
-
-const handleChangeColor = (color) => {
-  document.documentElement.style.setProperty('--main-box-color', color)
-}
-
 </script>
 <template>
+
   <div
     id="sidebar"
     class="sidebar"
@@ -54,7 +43,12 @@ const handleChangeColor = (color) => {
     }"
     @sidebar-resized="handleSidebarResize"
   >
-    <div class="topbox1 box-color"></div>
+
+    <div
+      class="topbox1 box-color"
+      v-color-wheel="colorWheel"
+      @click="emit('toggleColorWheel')"
+    ></div>
 
     <PersonalInfo v-model="$cv.personal" />
 
@@ -81,18 +75,8 @@ const handleChangeColor = (color) => {
         />
       </div>
     </div>
-    <button @click="colorPickerOpen = true">Open Modal</button>
-    <Teleport to="color-picker-container">
-      <div
-        v-if="colorPickerOpen"
-        class="modal"
-      >
-        <ColorPicker @changeColor="handleChangeColor" />
-
-        <button @click="colorPickerOpen = false">Close</button>
-      </div>
-    </Teleport>
   </div>
+
 </template>
 <style lang="scss" scoped>
 .topbox1 {
@@ -103,6 +87,14 @@ const handleChangeColor = (color) => {
 
 .box-color {
   background-color: var(--main-box-color);
+}
+
+.sidebar:hover .box-color {
+  box-shadow: 0 0 0 2px rgb(112, 181, 255),
+    6px 0 12px -3px rgba(112, 181, 255, 0.3),
+    -4px 0 6px -3px rgba(112, 181, 255, 0.1);
+
+  transition: .2s;
 }
 
 .sidebar {
@@ -134,7 +126,7 @@ const handleChangeColor = (color) => {
 .skills,
 .languages {
   border-radius: 6px;
-  padding: 14px 12px 4px 12px;
+  margin: 14px 12px 4px 12px;
 }
 
 .hobbies {

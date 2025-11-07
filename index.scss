@@ -41,9 +41,7 @@ body {
     background: var(--hover-bg);
     border-color: var(--hover-border);
     box-shadow: var(--hover-shadow);
-    // border: 2px solid #e0e7ff;
 }
-
 
 .sidebar .hoverable:hover {
     color: var(--greyed-text);
@@ -51,6 +49,50 @@ body {
 
 .sidebar input {
     max-width: 230px;
+}
+
+.color-wheel-cursor {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 999;
+    transform: translate(0px, -24px);
+    // -webkit-animation: loading 3s linear infinite;
+    // -moz-animation: loading 3s linear infinite;
+    // animation: loading 3s steps(16) infinite;
+}
+
+@-webkit-keyframes loading {
+    0% {
+        transform: translate(0px, -24px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(0px, -24px) rotate(360deg);
+    }
+}
+
+@-moz-keyframes loading {
+    0% {
+        transform: translate(0px, -24px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(0px, -24px) rotate(360deg);
+    }
+}
+
+@keyframes loading {
+    0% {
+        transform: translate(0px, -24px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(0px, -24px) rotate(360deg);
+    }
 }
 
 .addItemButton {
@@ -67,7 +109,7 @@ body {
         content: '';
         position: absolute;
         opacity: 0;
-        transition: opacity var(--transition-fast); // Transition commune
+        transition: opacity var(--transition-fast);
     }
 
     &::before {

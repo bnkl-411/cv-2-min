@@ -95,7 +95,7 @@ input[type="file"] {
     bottom: 10px;
     width: 40%;
     opacity: 0;
-    z-index: 3;
+    z-index: 2;
     cursor: pointer;
     transition: opacity 0.3s ease;
 }

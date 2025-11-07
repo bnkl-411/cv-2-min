@@ -3,7 +3,7 @@
         "personal": [
             {
                 "key": "username",
-                "value": "Julien MAUROY",
+                "value": "Julien Mauroy",
                 "required": true
             },
             {
@@ -29,7 +29,7 @@
             },
             {
                 "key": "address",
-                "value": "Solliès-Pont, 83210",
+                "value": "Carqueiranne, 83320",
                 "required": true
             },
             {
@@ -56,20 +56,20 @@
             }
         ],
         "hobbies": "Musique, composition,  production musicale, mixage, arts graphiques, sports de glisse, sports de combat, mécanique, travail manuel",
-        "resume": "Diplômé d'un Master en Information et Communication, spécialité Ingénierie des médias, j'ai débuté comme développeur web full stack avant d'enrichir mon parcours par une expérience humaine forte au contact d'acteurs d'horizons très variés. Cette parenthèse m'a apporté un regard neuf sur les réalités de terrain et renforcé ma compréhension des enjeux sociaux et technologiques. Je maîtrise aujourd'hui, entre autres, le développement web, le webdesign et le marketing digital, avec une sensibilité particulière pour l'UX/UI et la communication.",
+        "resume": "Diplômé d'un Master en Information et Communication, spécialité Ingénierie des médias, j'ai débuté comme développeur web full stack avant d'enrichir mon parcours par avec des expériences humaines forte au contact d'acteurs d'horizons variés. Je maîtrise aujourd'hui, entre autres, le développement web, le webdesign et le marketing digital, avec une sensibilité particulière pour l'UX/UI et la communication.",
         "jobs": [
             {
                 "id": "1235411",
-                "job": "Développement d’une solution d’édition de CVs interactive",
+                "job": "Développement d’une solution d’édition de CVs interactive avec VueJS 3",
                 "period": "2025",
                 "extraInfo": "",
-                "description": "Solution axée sur l’efficacité et la facilité d’utilisation\n-> https://cv-2-min.vercel.app"
+                "description": "Solution axée sur l’efficacité et la facilité d’utilisation\nDémo disponible @https://cv-2-min.vercel.app"
             },
             {
                 "id": "1652311",
                 "job": "Aménagement de véhicules de tourisme chez Intérieurs Nomades",
                 "period": "2025",
-                "extraInfo": "",
+                "extraInfo": "Stage de découverte de 2 mois",
                 "description": "Conseil et accompagnement client. Pose de meuble, vitrage, chauffage, parquet, installation électrique, isolation, toit ouvrant, menuiserie."
             },
             {

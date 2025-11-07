@@ -89,7 +89,8 @@
         ]
     },
     "layout": {
-        "sidebarSize": 240
+        "sidebarSize": 240,
+        "color": "#eab208"
     },
     "config": {
         "limits": {
