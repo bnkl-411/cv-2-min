@@ -103,8 +103,6 @@ onMounted(() => {
 })
 
 watch(() => props.initialColor, (newColor) => {
-
-    console.log('updated');
     if (newColor && newColor !== hex.value) {
         setFromHex(newColor)
     }

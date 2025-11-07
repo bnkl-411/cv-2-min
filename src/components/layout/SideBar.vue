@@ -30,7 +30,6 @@ const handleSidebarResize = (event) => {
 };
 
 const handleClick = (e) => {
-  console.log(e);
   if (e.target !== e.currentTarget) return;
   emit('toggleColorWheel')
 }

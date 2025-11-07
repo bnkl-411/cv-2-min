@@ -58,40 +58,40 @@ body {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.2s;
-    z-index: 999;
-    transform: translate(0px, -24px);
-    // -webkit-animation: loading 3s linear infinite;
-    // -moz-animation: loading 3s linear infinite;
-    // animation: loading 3s steps(16) infinite;
+    z-index: 9;
+    transform: translate(2px, -28px);
+    -webkit-animation: loading 3s linear infinite;
+    -moz-animation: loading 3s linear infinite;
+    animation: loading 3s steps(1440) infinite;
 }
 
 @-webkit-keyframes loading {
     0% {
-        transform: translate(0px, -24px) rotate(0deg);
+        transform: translate(2px, -28px) rotate(0deg);
     }
 
     100% {
-        transform: translate(0px, -24px) rotate(360deg);
+        transform: translate(2px, -28px) rotate(360deg);
     }
 }
 
 @-moz-keyframes loading {
     0% {
-        transform: translate(0px, -24px) rotate(0deg);
+        transform: translate(2px, -28px) rotate(0deg);
     }
 
     100% {
-        transform: translate(0px, -24px) rotate(360deg);
+        transform: translate(2px, -28px) rotate(360deg);
     }
 }
 
 @keyframes loading {
     0% {
-        transform: translate(0px, -24px) rotate(0deg);
+        transform: translate(2px, -28px) rotate(0deg);
     }
 
     100% {
-        transform: translate(0px, -24px) rotate(360deg);
+        transform: translate(2px, -28px) rotate(360deg);
     }
 }
 

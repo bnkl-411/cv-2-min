@@ -24,7 +24,7 @@ const handleChangeColor = (color) => {
 }
 
 // Draggable functionality - main container
-const position = ref({ x: 240, y: 0 });
+const position = ref({ x: 0, y: 0 });
 const isDragging = ref(false);
 const dragOffset = ref({ x: 0, y: 0 });
 
@@ -34,14 +34,14 @@ const centerContainer = () => {
     const containerWidth = container.offsetWidth;
     const containerHeight = container.offsetHeight;
     position.value = {
-      x: (window.innerWidth - containerWidth) / 2,
+      x: (window.innerWidth + 250 - containerWidth) / 2,
       y: (window.innerHeight - containerHeight) / 2
     };
   }
 };
 
 onMounted(() => {
-  // centerContainer();
+  centerContainer();
 });
 
 const handleMouseDown = (e) => {

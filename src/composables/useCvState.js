@@ -24,9 +24,6 @@ const cvData = ref(uls.data.value);
 
 // Watch pour synchroniser les changements de données avec le localStorage
 watch(cvData, (newData) => {
-
-    console.log('watching cvDATA');
-    console.log(cvData.value.layout);
     uls.data.value = newData;
 }, { deep: true });
 
