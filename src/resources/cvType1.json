@@ -34,7 +34,7 @@
             },
             {
                 "key": "phoneNumber",
-                "value": "06 29 55 05 95",
+                "value": "06 07 08 09 10",
                 "required": true
             }
         ],
@@ -56,7 +56,7 @@
             }
         ],
         "hobbies": "Musique, composition,  production musicale, mixage, arts graphiques, sports de glisse, sports de combat, mécanique, travail manuel",
-        "resume": "Diplômé d'un Master en Information et Communication, spécialité Ingénierie des médias, j'ai débuté comme développeur web full stack avant d'enrichir mon parcours par avec des expériences humaines forte au contact d'acteurs d'horizons variés. Je maîtrise aujourd'hui, entre autres, le développement web, le webdesign et le marketing digital, avec une sensibilité particulière pour l'UX/UI et la communication.",
+        "resume": "Diplômé d'un Master en Information et Communication, spécialité Ingénierie des médias, j'ai débuté comme développeur web full stack avant d'enrichir mon parcours par avec des expériences humaines forte au contact d'acteurs d'horizons variés. Je développe aujourd’hui des compétences et projets en développement web, webdesign et marketing digital, avec un intérêt marqué pour l’UX/UI et la communication.",
         "jobs": [
             {
                 "id": "1235411",
@@ -144,7 +144,8 @@
     },
     "layout": {
         "sidebarSize": 234,
-        "color": "#62b1c9"
+        "mainColor": "#62b1c9",
+        "mainSectionLayout": "open"
     },
     "config": {
         "limits": {

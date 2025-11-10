@@ -5,7 +5,6 @@ import ItemEditable from '../ui/ItemEditable.vue'
 import ButtonRemoveItem from "../ui/ButtonRemoveItem.vue";
 import draggable from 'vuedraggable'
 
-
 const cvData = inject('cvData')
 const defaultCvData = inject('defaultCvData')
 const focusTarget = ref(null);
@@ -79,8 +78,9 @@ const removeContact = (index) => {
 
                         <ButtonRemoveItem
                             :show="cvData.cv.contact.length > 1"
-                            @delete="removeContact(index)"
+                            @click="removeContact(index)"
                         />
+
                     </div>
                 </li>
             </template>

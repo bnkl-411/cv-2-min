@@ -1,9 +1,20 @@
 <script setup>
 
+import ButtonRemoveItem from "../ui/ButtonRemoveItem.vue";
+import uploadIcon from '../../assets/icons/upload.svg'
+import { ref } from 'vue';
+
 const path = defineModel('path', { type: String })
+
 const imageBorderRadius = defineModel('imageBorderRadius', { type: Number, default: 2 })
 
-const isDisabled = () => path.value === "https://placehold.co/300x300?text=Photo"
+const fileInputRef = ref(null)
+
+const isDisabled = () => path.value === "https://placehold.co/300x300?text=Votre photo"
+
+const removePicture = () => {
+    path.value = "https://placehold.co/300x300?text=Votre photo"
+}
 
 const uploadPicture = (e) => {
     const file = e.target.files.item(0)
@@ -17,37 +28,42 @@ const uploadPicture = (e) => {
     reader.readAsDataURL(file)
 }
 
+const triggerFileInput = () => {
+    fileInputRef.value?.click()
+}
+
 </script>
 <template>
     <div class="picture_container">
-        <div class="image-wrapper">
+        <div
+            class="image-wrapper"
+            :style="{ borderRadius: imageBorderRadius + '%' }"
+        >
             <img
                 :src="path"
                 class="picture"
                 :style="{ borderRadius: imageBorderRadius + '%' }"
                 alt="user_picture"
+                @click="triggerFileInput"
             />
 
-            <div class="btns_container">
-                <label
-                    for="user-picture"
-                    class="image-btn custom-file-upload green"
-                >
-                    <input
-                        id="user-picture"
-                        type="file"
-                        accept="image/*"
-                        @change="uploadPicture"
-                    >
-                    {{ isDisabled() ? '+' : '↻' }}
-                </label>
+            <input
+                ref="fileInputRef"
+                type="file"
+                accept="image/*"
+                @change="uploadPicture"
+                style="display: none;"
+            />
 
-                <div
-                    id="red"
-                    class="image-btn red"
-                    :class="{ disabled: isDisabled() }"
-                    @click="!isDisabled() && (path = 'https://placehold.co/300x300?text=Photo')"
-                >−</div>
+            <div
+                class="upload-overlay"
+                @click="triggerFileInput"
+            >
+                <img
+                    :src="uploadIcon"
+                    alt="upload_icon"
+                    class="upload-icon"
+                />
             </div>
 
             <input
@@ -59,10 +75,20 @@ const uploadPicture = (e) => {
                 v-show="!isDisabled()"
             />
         </div>
+
+        <ButtonRemoveItem
+            :show="!isDisabled()"
+            :class="['remove-btn', { disabled: isDisabled() }]"
+            @click="removePicture()"
+        />
     </div>
 </template>
 
 <style scoped>
+.picture_container {
+    position: relative;
+}
+
 .image-wrapper {
     position: relative;
     display: flex;
@@ -75,10 +101,6 @@ const uploadPicture = (e) => {
 .sidebar .picture_container {
     max-width: 89%;
     align-self: center;
-}
-
-input[type="file"] {
-    display: none;
 }
 
 .picture {
@@ -101,73 +123,47 @@ input[type="file"] {
 }
 
 .image-wrapper:hover .radiusAdjuster {
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
-.image-wrapper::before {
-    content: '';
+.upload-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(223, 223, 223, 0.6);
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 1;
-}
-
-.image-wrapper:hover::before {
-    opacity: 0.9;
-}
-
-.btns_container {
-    position: absolute;
-    display: flex;
-    gap: 8px;
-    top: 14px;
-}
-
-.image-btn {
-    width: 25px;
-    height: 25px;
-    border-radius: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 500;
-    font-size: 18px;
-    color: white;
+    cursor: pointer;
+}
+
+.image-wrapper:hover .upload-overlay {
+    opacity: 0.95;
+}
+
+.upload-overlay .upload-icon {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     opacity: 0;
     z-index: 2;
     transition: opacity 0.3s ease;
-    cursor: pointer;
-    box-shadow: var(--box-shadow-base);
 }
 
-.image-btn.green {
-    background-color: #55B39A;
-}
-
-.image-btn.red {
-    background-color: #B36B55;
-}
-
-#red.disabled {
-    cursor: default;
-    background-color: grey;
-    box-shadow: none;
-    transform: none;
-    /* opacity: 0.9; */
-}
-
-.image-wrapper:hover .image-btn {
+.picture_container:hover .remove-btn {
     opacity: 0.9;
-    pointer-events: auto;
 }
 
-.image-wrapper:hover .image-btn:hover {
+.picture_container:hover .remove-btn:hover {
     opacity: 1;
-    box-shadow: var(--box-shadow-hover);
     transform: scale(1.1);
-    transition: opacity 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .image-wrapper:hover .radiusAdjuster:hover {

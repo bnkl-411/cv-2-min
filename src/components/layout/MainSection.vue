@@ -3,7 +3,7 @@
 import { computed, ref } from 'vue'
 import TextareaSection from "../ui/TextareaSection.vue"
 import ButtonRemoveItem from "../ui/ButtonRemoveItem.vue";
-import ExpItem from "../blocks/ExpItem.vue"
+import ExperienceLayout from "../blocks/ExperienceLayout.vue"
 import draggable from 'vuedraggable'
 
 
@@ -17,7 +17,6 @@ const $cv = computed(() => cvData.value.cv);
 const isDragging = ref(false)
 
 const addItem = (key) => {
-
     cvData.value =
     {
         ...cvData.value,
@@ -38,6 +37,7 @@ const addItem = (key) => {
 }
 
 const removeItem = (category, index) => {
+    console.log('lol');
     cvData.value =
     {
         ...cvData.value,
@@ -94,13 +94,13 @@ const onEndDrag = (e) => {
                     <template #item="{ index }">
                         <li class="experience-item">
                             <div class="header">
-                                <ExpItem
+                                <ExperienceLayout
                                     :index="index"
                                     type="jobs"
                                     v-model="$cv.jobs[index]"
                                 />
                                 <div class="user-actions">
-                                    <ButtonRemoveItem @delete="removeItem('jobs', index)" />
+                                    <ButtonRemoveItem @click="removeItem('jobs', index)" />
                                 </div>
                             </div>
                         </li>
@@ -131,14 +131,12 @@ const onEndDrag = (e) => {
                     <template #item="{ index }">
                         <li class="experience-item">
                             <div class="header">
-                                <ExpItem
+                                <ExperienceLayout
                                     :index="index"
                                     type="education"
                                     v-model="$cv.education[index]"
                                 />
-                                <div class="user-actions">
-                                    <ButtonRemoveItem @delete="removeItem('education', index)" />
-                                </div>
+                                <ButtonRemoveItem @delete="removeItem('education', index)" />
                             </div>
                         </li>
                     </template>
@@ -157,19 +155,6 @@ const onEndDrag = (e) => {
 </template>
 
 <style scoped lang="scss">
-.user-actions {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    margin-right: -13px;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 15px;
-    position: absolute;
-    height: 100%;
-    right: 0;
-}
-
 .is-placeholder {
     border: 2px dashed #70b5ff;
     background: transparent;
@@ -238,6 +223,12 @@ li {
 
     &:hover :deep(.draggable):not(:hover) {
         opacity: .6;
+    }
+
+    .removeItem {
+        position: absolute;
+        margin-top: -15px;
+        right: -13px;
     }
 
     & .header:hover {

@@ -1,9 +1,14 @@
 <script setup>
 
-import { ref, nextTick } from "vue"
+import { ref, nextTick, inject, computed } from "vue"
 import ItemEditable from '../ui/ItemEditable.vue'
 import TextareaSection from '../ui/TextareaSection.vue'
 
+const cvData = inject('cvData')
+
+const layout = computed(() => {
+    return cvData.value.layout.mainSectionLayout
+})
 
 const modelValue = defineModel({ type: Object, required: true })
 
@@ -44,25 +49,34 @@ const category = config[props.type]
 
 </script>
 <template>
-    <div class="left">
+    <div v-if="layout === 'open'">
         <ItemEditable
             class="date extra-padding hoverable"
             label="date"
             v-model="modelValue.period"
             placeholder="Date"
         />
-        <div class="drag-icon draggable">
-            <font-awesome-icon icon="fa-solid fa-list" />
-        </div>
     </div>
     <div class="right">
-        <ItemEditable
-            class="job-label extra-padding hoverable"
-            label="label"
-            v-model="modelValue[category.mainField]"
-            :placeholder="category.placeholder"
-        />
-
+        <div class="top-line">
+            <ItemEditable
+                class="job-label extra-padding hoverable"
+                label="label"
+                v-model="modelValue[category.mainField]"
+                :placeholder="category.placeholder"
+            />
+            <div v-if="layout === 'close'">
+                <ItemEditable
+                    class="date extra-padding hoverable"
+                    label="date"
+                    v-model="modelValue.period"
+                    placeholder="Date"
+                />
+                <!-- <div class="drag-icon draggable">
+                    <font-awesome-icon icon="fa-solid fa-list" />
+                /div> -->
+            </div>
+        </div>
         <div v-if="category.hasExtraInfo">
             <div
                 v-if="!extraInfo"
@@ -97,6 +111,11 @@ const category = config[props.type]
 </template>
 
 <style scoped lang="scss">
+.top-line {
+    display: flex;
+    justify-content: space-between;
+}
+
 .experience {
     position: relative;
 }

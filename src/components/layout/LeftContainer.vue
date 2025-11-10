@@ -1,8 +1,11 @@
 <script setup>
+import { ref } from "vue"
 import { exportToPDF } from "../../utils/toPDF";
 import { useCvState } from '../../composables/useCvState';
 import { dataToJson } from "../../utils/dataToJson";
 import ColorPicker from '../ui/ColorPicker.vue';
+import LayoutSelector from '../ui/LayoutSelector.vue'
+import chevronDown from '../../assets/icons/chevron.svg'
 
 const { currentModel, initCV, loadModel } = useCvState();
 
@@ -16,6 +19,8 @@ defineProps({
         required: true
     }
 });
+
+const isJobLayoutSelectorOpen = ref(false)
 
 defineEmits(['toggleColorWheel', 'changeColor']);
 
@@ -32,9 +37,9 @@ const downloadJson = () => {
             <button @click="exportToPDF">Exporter en PDF</button>
             <button @click="initCV">Réinitialiser les données</button>
             <div v-show="isLocalhost">
-                <button @click="() => loadModel('cvType1')">Charger le modèle n°1</button>
-                <button @click="() => loadModel('cvType2')">Charger le modèle n°2</button>
-                <button @click="() => loadModel('cvType3')">Charger le modèle n°3</button>
+                <!-- <button @click="() => loadModel('cvType1')">Charger le modèle n°1</button> -->
+                <!-- <button @click="() => loadModel('cvType2')">Charger le modèle n°2</button> -->
+                <!-- <button @click="() => loadModel('cvType3')">Charger le modèle n°3</button> -->
                 <button
                     v-show="isLocalhost"
                     @click="downloadJson"
@@ -47,14 +52,19 @@ const downloadJson = () => {
             <div class="color-picker-wrapper">
                 <button
                     @click="$emit('toggleColorWheel')"
-                    class="color-picker-button"
                     :class="{ 'active': isColorWheelOpen }"
                 >
                     Couleur de la sidebar
                     <span
                         class="chevron"
                         :class="{ 'open': isColorWheelOpen }"
-                    >▼</span>
+                    >
+                        <img
+                            :src="chevronDown"
+                            alt=""
+                            class="icon"
+                        />
+                    </span>
                 </button>
 
                 <Transition name="accordion">
@@ -67,6 +77,35 @@ const downloadJson = () => {
                             :initialColor="currentColor"
                             @changeColor="$emit('changeColor', $event)"
                         />
+                    </div>
+                </Transition>
+            </div>
+
+            <div class="layout-selection-wrapper">
+                <button
+                    @click="isJobLayoutSelectorOpen = !isJobLayoutSelectorOpen"
+                    :class="{ 'active': isJobLayoutSelectorOpen }"
+                >
+                    Expériences professionelles
+                    <span
+                        class="chevron"
+                        :class="{ 'open': isJobLayoutSelectorOpen }"
+                    >
+                        <img
+                            :src="chevronDown"
+                            alt=""
+                            class="icon"
+                        />
+                    </span>
+                </button>
+
+                <Transition name="accordion">
+                    <div
+                        v-if="isJobLayoutSelectorOpen"
+                        id="job-layout-selector"
+                        class="layout-selector-container"
+                    >
+                        <LayoutSelector />
                     </div>
                 </Transition>
             </div>
@@ -100,7 +139,7 @@ const downloadJson = () => {
 }
 
 .data-actions::after {
-    content: "Actions sur les données";
+    content: "Actions";
     position: absolute;
     top: -20px;
     left: 2px;
@@ -131,6 +170,12 @@ const downloadJson = () => {
 }
 
 .left-container button {
+    display: flex;
+    position: relative;
+    width: 100%;
+    text-align: left;
+    justify-content: space-between;
+    align-items: center;
     padding: 13px 16px;
     border: none;
     border-radius: 12px;
@@ -141,8 +186,17 @@ const downloadJson = () => {
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    position: relative;
     overflow: hidden;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    line-height: 16px;
+
+    &.active {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 }
 
 .left-container button::before {
@@ -152,7 +206,7 @@ const downloadJson = () => {
     left: 0;
     width: 0;
     height: 100%;
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    background: var(--button-bg-hover);
     transition: width 0.3s ease;
 }
 
@@ -181,31 +235,9 @@ const downloadJson = () => {
     width: 100%;
 }
 
-.color-picker-button {
-    width: 100%;
-    padding: 12px 16px;
-    background: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.2s ease;
-}
-
-.color-picker-button:hover {
-    background: #e8e8e8;
-}
-
-.color-picker-button.active {
-    border-radius: 6px 6px 0 0;
-    border-bottom: none;
-}
-
 .chevron {
+    width: 24px;
+    height: 24px;
     transition: transform 0.3s ease;
     font-size: 12px;
     color: #666;
@@ -213,18 +245,19 @@ const downloadJson = () => {
 
 .chevron.open {
     transform: rotate(180deg);
+    top: 6px;
 }
 
-.color-picker-container {
+.color-picker-container,
+.layout-selector-container {
     border-top: none;
     border-radius: 0 0 6px 6px;
     background: white;
 }
 
-/* Transition accordéon */
 .accordion-enter-active,
 .accordion-leave-active {
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-in-out;
     overflow: hidden;
 }
 
@@ -238,8 +271,7 @@ const downloadJson = () => {
 
 .accordion-enter-to,
 .accordion-leave-from {
-    max-height: 500px;
-    /* Ajustez selon la hauteur de votre ColorPicker */
+    max-height: 720px;
     opacity: 1;
 }
 </style>

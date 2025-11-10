@@ -90,7 +90,8 @@
     },
     "layout": {
         "sidebarSize": 240,
-        "color": "#62b1c9"
+        "mainColor": "#62b1c9",
+        "mainSectionLayout": "open"
     },
     "config": {
         "limits": {

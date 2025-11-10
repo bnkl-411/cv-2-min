@@ -1,12 +1,16 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, inject } from 'vue'
 
 const emit = defineEmits(['changeColor'])
 
+const cvData = inject('cvData')
+
+console.log(cvData);
 const props = defineProps({
     initialColor: { type: String, default: '#62b1c9' }
 })
 
+console.log(props.initialColor);
 const H = ref(0)
 const S = ref(0)
 const V = ref(0)
@@ -16,8 +20,8 @@ const svEl = ref(null)
 const hueEl = ref(null)
 
 const sample = {
-    vives: ['#f59e0b', '#eab308', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#62b1c9', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e', '#64748b'],
-    pastels: ['#E7BDBD', '#F6CFAF', '#F3E8B6', '#D2E5C3', '#B8D5E6', '#E3CBE2'],
+    vives: ['#f59e0b', '#eab308', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#62b1c9', '#3b82f6', '#6366f1', '#8b5cf6', '#ec4899', '#f43f5e'],
+    pastels: ['#E3CBE2', '#E7BDBD', '#F6CFAF', '#F3E8B6', '#D2E5C3', '#B8D5E6'],
     neutres: ['#F5F5F4', '#9CA3AF']
 }
 
@@ -51,6 +55,7 @@ const hthumbStyle = computed(() => ({ top: `${(H.value / 360) * 100}%`, transfor
 function renderFromHSV() {
     const rgb = hsvToRgb(H.value, S.value, V.value)
     hex.value = rgbToHex(rgb)
+    console.log(hex.value);
     emit('changeColor', hex.value)
 }
 

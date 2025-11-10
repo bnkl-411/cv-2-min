@@ -40,7 +40,7 @@ const handleClick = (e) => {
   <div
     id="sidebar"
     class="sidebar"
-    v-wcag-adapter="props.cvData.layout.color"
+    v-wcag-adapter="props.cvData.layout.mainColor"
     v-sidebar-resizer="{
       minWidth: 234,
       maxWidth: 340,
@@ -191,7 +191,6 @@ const handleClick = (e) => {
     padding-right: 10px;
 
     .removeItem {
-      margin-top: 0;
       position: absolute;
       display: flex;
       top: 0;
@@ -261,7 +260,6 @@ const handleClick = (e) => {
     }
 
     &:active {
-      border: 1px solid yellow;
       opacity: 1 !important;
     }
   }
@@ -271,9 +269,9 @@ const handleClick = (e) => {
     transform: translateY(-50%) translateX(-50%);
   }
 
-  &.is-dragging .drag-icon {
+  &.is-dragging .drag-icon,
+  &.is-dragging .removeItem {
     opacity: 0 !important;
   }
-
 }
 </style>

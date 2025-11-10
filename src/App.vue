@@ -1,13 +1,11 @@
 <script setup>
-import { ref, provide, onMounted } from 'vue'
+import { ref, provide, onMounted, watch } from 'vue'
 import { useCvState } from "./composables/useCvState";
 import LeftContainer from "./components/layout/LeftContainer.vue"
 import MainSection from "./components/layout/MainSection.vue";
 import Sidebar from "./components/layout/SideBar.vue";
 
 const { cvData, defaultCvData } = useCvState();
-
-document.documentElement.style.setProperty('--main-box-color', cvData.value.layout?.color || "#559db3")
 
 provide('cvData', cvData);
 provide('defaultCvData', defaultCvData);
@@ -18,9 +16,14 @@ const isColorWheelOpen = ref(false);
 
 const toggleColorWheel = () => { isColorWheelOpen.value = !isColorWheelOpen.value; };
 
+watch(() => cvData.value.layout?.mainColor, (newColor) => {
+  if (newColor) {
+    document.documentElement.style.setProperty('--main-box-color', newColor)
+  }
+}, { immediate: true })
+
 const handleChangeColor = (color) => {
-  cvData.value.layout.color = color;
-  document.documentElement.style.setProperty('--main-box-color', color)
+  cvData.value.layout.mainColor = color;
 }
 
 // Draggable functionality - main container
@@ -72,7 +75,7 @@ const handleMouseUp = () => {
 <template>
   <LeftContainer
     :isColorWheelOpen="isColorWheelOpen"
-    :currentColor="cvData.layout.color"
+    :currentColor="cvData.layout.mainColor"
     @toggle-color-wheel="toggleColorWheel"
     @change-color="handleChangeColor"
   />

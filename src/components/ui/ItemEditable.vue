@@ -2,12 +2,12 @@
 
 import { ref, watch, computed, nextTick, onMounted } from "vue"
 import vFocus from '../../directives/inputFocus'
-import vAutoResize from '../../directives/autoResize'
+// import vAutoResize from '../../directives/autoResize'
 
 const props = defineProps({
     label: String,
     mustFocus: Boolean,
-    placeholder: String
+    placeholder: { type: String, required: false }
 })
 
 const modelValue = defineModel({ type: String })
@@ -72,7 +72,6 @@ const handleBlur = () => {
         autocomplete=false
         v-show="editing"
         v-focus="editing"
-        v-auto-resize
         @blur="handleBlur"
         @keydown="handleKeydown"
         :placeholder=props.placeholder
@@ -123,9 +122,14 @@ const handleBlur = () => {
 .date,
 .date-input {
     font-weight: 500;
-    min-width: 5.5em;
+    width: 5.5em;
     text-align: right;
     margin-right: 5px;
+}
+
+//Fix offset on input focus
+.date-input {
+    width: 5.75em;
 }
 
 .extra-info {
