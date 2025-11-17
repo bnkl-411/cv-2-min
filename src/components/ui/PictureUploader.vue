@@ -1,19 +1,22 @@
 <script setup>
-
+import { ref, computed } from 'vue';
 import ButtonRemoveItem from "../ui/ButtonRemoveItem.vue";
-import uploadIcon from '../../assets/icons/upload.svg'
-import { ref } from 'vue';
+import uploadIcon from '@icons/upload.svg'
+import { getDefaultPicture } from '../../utils/defaultImage'
 
-const path = defineModel('path', { type: String })
-
-const imageBorderRadius = defineModel('imageBorderRadius', { type: Number, default: 2 })
-
+const picture = defineModel({ type: Object, required: true })
 const fileInputRef = ref(null)
 
-const isDisabled = () => path.value === "https://placehold.co/300x300?text=Votre photo"
+const displayImage = computed(() =>
+    picture.value.path && picture.value.path !== ''
+        ? picture.value.path
+        : getDefaultPicture('female')
+)
+
+const isDisabled = () => !picture.value.path || picture.value.path === ""
 
 const removePicture = () => {
-    path.value = "https://placehold.co/300x300?text=Votre photo"
+    picture.value.path = ""
 }
 
 const uploadPicture = (e) => {
@@ -22,7 +25,7 @@ const uploadPicture = (e) => {
 
     const reader = new FileReader()
     reader.onload = (event) => {
-        path.value = event.target.result
+        picture.value.path = event.target.result
         e.target.value = ''
     }
     reader.readAsDataURL(file)
@@ -31,18 +34,18 @@ const uploadPicture = (e) => {
 const triggerFileInput = () => {
     fileInputRef.value?.click()
 }
-
 </script>
+
 <template>
     <div class="picture_container">
         <div
             class="image-wrapper"
-            :style="{ borderRadius: imageBorderRadius + '%' }"
+            :style="{ borderRadius: picture.imageBorderRadius + '%' }"
         >
             <img
-                :src="path"
+                :src="displayImage"
                 class="picture"
-                :style="{ borderRadius: imageBorderRadius + '%' }"
+                :style="{ borderRadius: picture.imageBorderRadius + '%' }"
                 alt="user_picture"
                 @click="triggerFileInput"
             />
@@ -69,7 +72,7 @@ const triggerFileInput = () => {
             <input
                 class="radiusAdjuster"
                 type="range"
-                v-model.number="imageBorderRadius"
+                v-model.number="picture.imageBorderRadius"
                 min="2"
                 max="50"
                 v-show="!isDisabled()"

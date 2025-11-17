@@ -1,8 +1,8 @@
 export default {
     mounted(el, binding) {
-        const minWidth = binding.value?.minWidth
-        const maxWidth = binding.value?.maxWidth
-        const actual = binding.value.userWidth
+        const minWidth = 234
+        const maxWidth = 340
+        const actual = binding.value?.userWidth
 
         if (actual) {
             document.documentElement.style.setProperty('--sidebar-width', (actual) + 'px');

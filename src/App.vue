@@ -26,7 +26,6 @@ const handleChangeColor = (color) => {
   cvData.value.layout.mainColor = color;
 }
 
-// Draggable functionality - main container
 const position = ref({ x: 0, y: 0 });
 const isDragging = ref(false);
 const dragOffset = ref({ x: 0, y: 0 });
@@ -158,7 +157,6 @@ const handleMouseUp = () => {
 }
 
 :deep(textarea) {
-  all: unset;
   display: block;
   width: 100%;
   height: auto;
@@ -168,13 +166,12 @@ const handleMouseUp = () => {
   border: none;
   border-radius: 4px;
   scrollbar-width: none;
-  font-size: 11pt;
   padding: 2px;
 
-  &:focus-within {
-    box-shadow: 0 0 0 2px Highlight;
-    border-radius: 5px;
-  }
+  // &:focus-within {
+  //   box-shadow: 0 0 0 2px Highlight;
+  //   border-radius: 5px;
+  // }
 }
 
 :deep(textarea::-webkit-scrollbar) {

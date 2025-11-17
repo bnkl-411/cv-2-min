@@ -1,6 +1,6 @@
 <script setup>
 
-import cross from '../../assets/icons/cross.svg'
+import cross from '@icons/cross.svg'
 
 defineProps({
     show: { type: Boolean, default: true }

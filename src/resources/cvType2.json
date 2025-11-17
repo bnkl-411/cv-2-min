@@ -18,8 +18,8 @@
             }
         ],
         "picture": {
-            "path": "https://placehold.co/300x300?text=Clara+Dupont",
-            "imageBorderRadius": 2
+            "path": "",
+            "imageBorderRadius": 22
         },
         "contact": [
             {
@@ -91,7 +91,12 @@
     "layout": {
         "sidebarSize": 240,
         "mainColor": "#62b1c9",
-        "mainSectionLayout": "open"
+        "mainSectionLayout": "open",
+        "fontSize": {
+            "username": "21",
+            "lookupJob": "16",
+            "resume": "11"
+        }
     },
     "config": {
         "limits": {

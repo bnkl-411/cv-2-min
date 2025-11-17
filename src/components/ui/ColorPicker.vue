@@ -1,16 +1,12 @@
 <script setup>
-import { ref, computed, onMounted, watch, inject } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 
 const emit = defineEmits(['changeColor'])
 
-const cvData = inject('cvData')
-
-console.log(cvData);
 const props = defineProps({
     initialColor: { type: String, default: '#62b1c9' }
 })
 
-console.log(props.initialColor);
 const H = ref(0)
 const S = ref(0)
 const V = ref(0)
@@ -55,7 +51,6 @@ const hthumbStyle = computed(() => ({ top: `${(H.value / 360) * 100}%`, transfor
 function renderFromHSV() {
     const rgb = hsvToRgb(H.value, S.value, V.value)
     hex.value = rgbToHex(rgb)
-    console.log(hex.value);
     emit('changeColor', hex.value)
 }
 

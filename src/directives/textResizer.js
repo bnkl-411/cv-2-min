@@ -11,7 +11,6 @@ export default {
 
         if (!target || !input) return
 
-
         const resize = () => {
             const parent = document.getElementById("personal-info")
             if (!parent) return

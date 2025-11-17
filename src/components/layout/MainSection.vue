@@ -37,7 +37,6 @@ const addItem = (key) => {
 }
 
 const removeItem = (category, index) => {
-    console.log('lol');
     cvData.value =
     {
         ...cvData.value,
@@ -68,11 +67,15 @@ const onEndDrag = (e) => {
 
 </script>
 <template>
-    <div class="main">
-        <section id="resume">
+    <div
+        class="main"
+        id="main-section"
+    >
+        <section>
             <TextareaSection
                 v-model="$cv.resume"
                 name="resume"
+                placeholder="Votre profil et motivations en quelques lignes"
             />
         </section>
 
@@ -136,7 +139,7 @@ const onEndDrag = (e) => {
                                     type="education"
                                     v-model="$cv.education[index]"
                                 />
-                                <ButtonRemoveItem @delete="removeItem('education', index)" />
+                                <ButtonRemoveItem @click="removeItem('education', index)" />
                             </div>
                         </li>
                     </template>
@@ -172,10 +175,10 @@ const onEndDrag = (e) => {
     flex-wrap: nowrap;
     padding: 0 12px;
 
-    & *:focus:not(.addItemButton) {
-        box-shadow: 0 0 0 2px #667eea;
-        border-radius: 5px;
-    }
+    // & *:focus:not(.addItemButton) {
+    //     box-shadow: 0 0 0 2px #667eea;
+    //     border-radius: 5px;
+    // }
 }
 
 #resume {

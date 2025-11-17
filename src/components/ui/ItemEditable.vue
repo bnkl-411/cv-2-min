@@ -2,7 +2,6 @@
 
 import { ref, watch, computed, nextTick, onMounted } from "vue"
 import vFocus from '../../directives/inputFocus'
-// import vAutoResize from '../../directives/autoResize'
 
 const props = defineProps({
     label: String,
@@ -15,29 +14,35 @@ const modelValue = defineModel({ type: String })
 const emit = defineEmits(['handleExtra'])
 
 const editing = ref(false)
-
 const inputRef = ref(null)
 
-const isEmpty = computed(() =>
-    modelValue.value === '' ?? false
-)
+const isEmpty = computed(() => !modelValue.value)
+
+const fieldClasses = computed(() => [
+    props.label,
+    'extra-padding',
+    { 'greyed-out': isEmpty.value }
+])
+
+const inputClasses = computed(() => [
+    'extra-padding',
+    `${props.label}-input`,
+    'restyle-input'
+])
+
+const activateEditing = () => {
+    editing.value = true
+    nextTick(() => {
+        inputRef.value?.focus()
+    })
+}
 
 onMounted(() => {
-    if (props.mustFocus) {
-        editing.value = true
-        nextTick(() => {
-            inputRef.value?.focus()
-        })
-    }
+    if (props.mustFocus) activateEditing()
 })
 
 watch(() => props.mustFocus, (newVal) => {
-    if (newVal) {
-        editing.value = true
-        nextTick(() => {
-            inputRef.value?.focus()
-        })
-    }
+    if (newVal) activateEditing()
 })
 
 const handleKeydown = (e) => {
@@ -52,29 +57,29 @@ const handleBlur = () => {
 }
 
 </script>
+
 <template>
     <div
-        :class="[label, 'extra-padding', { 'greyed - out': isEmpty }]"
+        :class="fieldClasses"
         :id="label"
         v-show="!editing"
-        @click="editing = true"
+        @click="activateEditing"
         v-bind="$attrs"
         :data-attribute="label"
     >
-        {{ modelValue !== '' ? modelValue : props.placeholder }}
+        {{ modelValue || placeholder }}
     </div>
     <input
-        class="extra-padding"
         ref="inputRef"
         :name="label"
-        :id="label + '-input'"
-        :class="label + '-input restyle-input'"
-        autocomplete=false
+        :id="`${label}-input`"
+        :class="inputClasses"
+        autocomplete="off"
         v-show="editing"
         v-focus="editing"
         @blur="handleBlur"
         @keydown="handleKeydown"
-        :placeholder=props.placeholder
+        :placeholder="placeholder"
         v-model="modelValue"
     />
 </template>
@@ -137,7 +142,6 @@ const handleBlur = () => {
     justify-content: flex-start;
     align-self: flex-end;
     font-style: italic;
-    flex-basis: 100%;
     font-size: 10pt;
     margin-top: -2px;
 }

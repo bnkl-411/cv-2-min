@@ -11,7 +11,7 @@ export default {
 
             if (e.target === el) {
                 cursor.style.opacity = '1';
-                el.style.cursor = 'pointer';
+                el.style.cursor = 'none';
 
             } else {
                 cursor.style.opacity = '0';

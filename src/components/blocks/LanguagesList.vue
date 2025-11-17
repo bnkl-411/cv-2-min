@@ -93,7 +93,7 @@ const removeItem = (index) => {
 
                     <ButtonRemoveItem
                         :show="cvData.cv.spokenLanguages.length > 1"
-                        @delete="removeItem(index)"
+                        @click="removeItem(index)"
                     />
                 </div>
 
@@ -149,7 +149,7 @@ select option {
     background-color: #fff;
 }
 
-.select:focus {
+/* .select:focus {
     outline: -webkit-focus-ring-color auto 1px;
-}
+} */
 </style>

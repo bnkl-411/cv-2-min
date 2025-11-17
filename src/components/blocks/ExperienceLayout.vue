@@ -106,6 +106,7 @@ const category = config[props.type]
             class="ta-desc"
             :name="`${props.type}-desc-${props.index}`"
             v-model="modelValue.description"
+            placeholder="Description"
         />
     </div>
 </template>

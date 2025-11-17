@@ -1,88 +1,217 @@
 <script setup>
 
-import { ref, useTemplateRef, onMounted, nextTick, computed, watch } from "vue"
+import { ref, computed, nextTick, onMounted, watch, inject } from "vue"
+import vFocus from '../../directives/inputFocus'
 
-const model = defineModel({
-    modelValue: String
-})
+const cvData = inject('cvData')
 
 const props = defineProps({
-    name: {
-        type: String,
-        required: true
-    }
+    name: { type: String, required: true },
+    placeholder: { type: String, default: '' },
+    mustFocus: { type: Boolean, default: false }
 })
 
-const label = ref(props.name)
-const ta = useTemplateRef(`ta-${label.value}`)
-const textareaId = computed(() => `ta-${label.value}`)
+const customFontSize = computed(() => {
+    return cvData.value?.layout?.fontSize?.[props.name]
+        ? `${cvData.value.layout.fontSize[props.name]}pt`
+        : 'inherit'
+})
 
-const heightAdjust = async () => {
-    await nextTick()
+const modelValue = defineModel({ type: String })
+
+const emit = defineEmits(['handleExtra'])
+
+const editing = ref(false)
+const textareaRef = ref(null)
+
+const isEmpty = computed(() => !modelValue.value)
+
+const fieldClasses = computed(() => [
+    'extra-padding',
+    { 'greyed-out': isEmpty.value }
+])
+
+const textareaClasses = computed(() => [
+    'extra-padding',
+    'textarea-section',
+    `ta-${props.name}`
+])
+
+const textareaId = computed(() => `ta-${props.name}`)
+
+const heightAdjust = () => {
+    if (!textareaRef.value) return
+
     requestAnimationFrame(() => {
-        if (!ta.value) return
-        ta.value.style.height = 'auto'
-        ta.value.style.height = ta.value.scrollHeight + 'px'
-    })
-
-    ta.value?.addEventListener('input', () => {
-        ta.value.style.height = 'auto'
-        ta.value.style.height = ta.value.scrollHeight + 'px'
+        textareaRef.value.style.height = 'auto'
+        textareaRef.value.style.height = textareaRef.value.scrollHeight + 'px'
     })
 }
 
-watch(model, () => {
+const activateEditing = async () => {
+    editing.value = true
+    await nextTick()
+    textareaRef.value?.focus()
     heightAdjust()
-})
+}
 
-watch(() => props.name, (newName) => {
-    label.value = newName
-    // heightAdjust()
-})
+const handleInput = () => {
+    heightAdjust()
+}
 
-const getPlaceholder = () => {
-    switch (label.value) {
-        case "hobbies":
-            return 'Vos centres d\'intérêt';
-        case "resume":
-            return 'Votre profil et motivations en quelques lignes';
-        default:
-            return 'Description';
+const handleKeydown = (e) => {
+    if (e.key === "Enter" && e.ctrlKey) {
+        e.target.blur()
     }
 }
 
-onMounted(() => {
-    if (document.fonts) {
-        document.fonts.ready.then(heightAdjust)
+const handleBlur = () => {
+    editing.value = false
+    emit('handleExtra')
+}
+
+onMounted(async () => {
+    if (props.mustFocus) {
+        await activateEditing()
     }
-    else heightAdjust()
+
+    if (document.fonts) {
+        document.fonts.ready
+            .then(heightAdjust)
+            .catch(() => { })
+    }
+})
+
+watch(() => props.mustFocus, (newVal) => {
+    if (newVal) activateEditing()
+})
+
+watch(modelValue, () => {
+    if (editing.value) {
+        nextTick(heightAdjust)
+    }
 })
 
 </script>
 
 <template>
-    <div class="textarea-section hoverable">
-        <textarea
+    <div
+        :id="props.name"
+        :style="{ fontSize: customFontSize }"
+    >
+        <div
+            :class="[fieldClasses, 'spacing', 'hoverable']"
+            :id="name"
+            v-show="!editing"
+            @click="activateEditing"
             v-bind="$attrs"
-            :ref="`ta-${label}`"
+            :data-attribute="name"
+        >
+            {{ modelValue || placeholder }}
+        </div>
+        <textarea
+            ref="textareaRef"
+            :class="textareaClasses"
             :id="textareaId"
-            :name="label"
-            v-model="model"
+            :name="name"
+            v-show="editing"
+            v-focus="editing"
+            v-model="modelValue"
+            @input="handleInput"
+            @blur="handleBlur"
+            @keydown="handleKeydown"
             rows="1"
-            :placeholder="getPlaceholder()"
+            :placeholder="props.placeholder"
+            autocomplete="off"
         ></textarea>
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.spacing {
+    white-space: pre-wrap;
+}
+
+#username {
+    font-weight: 600;
+}
+
+#hobbies {
+    font-size: 11pt;
+    text-align: left;
+}
+
 .textarea-section {
     display: flex;
     flex: auto;
     width: 100%;
     box-sizing: border-box;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    color: inherit;
+    line-height: normal;
+    text-align: inherit;
+    appearance: none;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    cursor: text;
 
-    textarea::placeholder {
+    &:hover {
+        color: var(--greyed-text);
+        background-color: var(--hover-bg);
+    }
+
+    &::placeholder {
         color: #d8d8d8;
     }
+}
+
+.extra-padding {
+    padding: 2px;
+}
+
+.greyed-out {
+    color: #dddcdc;
+}
+
+.ta-username {
+    font-weight: 600;
+}
+
+.ta-username {
+    font-weight: 600;
+}
+
+.hover-highlight {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+
+    &:hover {
+        box-shadow:
+            0 0 0 2px rgb(112, 181, 255),
+            6px 0 12px -3px rgba(112, 181, 255, 0.3),
+            -4px 0 6px -3px rgba(112, 181, 255, 0.1);
+        border-radius: 6px;
+    }
+}
+
+.resume,
+.ta-desc {
+    text-align: justify;
+}
+
+.hobbies {
+    @extend .hover-highlight;
+    text-align: left;
+    font-size: 11pt;
+}
+
+.resume {
+    @extend .hover-highlight;
+    font-size: 11pt;
 }
 </style>

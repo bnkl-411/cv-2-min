@@ -5,7 +5,7 @@ import { useCvState } from '../../composables/useCvState';
 import { dataToJson } from "../../utils/dataToJson";
 import ColorPicker from '../ui/ColorPicker.vue';
 import LayoutSelector from '../ui/LayoutSelector.vue'
-import chevronDown from '../../assets/icons/chevron.svg'
+import chevronDown from '@icons/chevron.svg'
 
 const { currentModel, initCV, loadModel } = useCvState();
 

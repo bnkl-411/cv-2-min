@@ -6,7 +6,7 @@ import PersonalInfo from '../blocks/PersonalInfo.vue';
 import ContactInfo from '../blocks/ContactInfo.vue';
 import SkillsList from '../blocks/SkillsList.vue';
 import LanguagesList from '../blocks/LanguagesList.vue';
-import colorWheel from '../../assets/icons/colorWheel.svg'
+import colorWheel from '@icons/colorWheel.svg'
 
 const props = defineProps({
   cvData: {
@@ -15,7 +15,7 @@ const props = defineProps({
   }
 });
 
-const $cv = computed(() => props.cvData.cv);
+const $userData = computed(() => props.cvData);
 
 const emit = defineEmits(["update:cvData", "toggleColorWheel"]);
 
@@ -40,27 +40,22 @@ const handleClick = (e) => {
   <div
     id="sidebar"
     class="sidebar"
-    v-wcag-adapter="props.cvData.layout.mainColor"
+    v-wcag-adapter="props.cvData.layout.mainColor || '#62b1c9'"
     v-sidebar-resizer="{
-      minWidth: 234,
-      maxWidth: 340,
       userWidth: props.cvData.layout.sidebarSize,
     }"
     @sidebar-resized="handleSidebarResize"
   >
 
     <div
-      class="topbox1 box-color"
+      class="topbox box-color"
       v-color-wheel="colorWheel"
       @click="handleClick"
     ></div>
 
-    <PersonalInfo v-model="$cv.personal" />
+    <PersonalInfo v-model="$userData" />
 
-    <PictureUploader
-      v-model:path="$cv.picture.path"
-      v-model:image-border-radius="$cv.picture.imageBorderRadius"
-    />
+    <PictureUploader v-model="$userData.cv.picture" />
 
     <div
       class="infos box-color"
@@ -79,8 +74,9 @@ const handleClick = (e) => {
           CENTRES D'INTÉRÊT
         </div>
         <TextareaSection
-          v-model="$cv.hobbies"
+          v-model="$userData.cv.hobbies"
           name="hobbies"
+          placeholder="Vos centres d'intêret"
         />
       </div>
     </div>
@@ -88,7 +84,7 @@ const handleClick = (e) => {
 
 </template>
 <style lang="scss" scoped>
-.topbox1 {
+.topbox {
   min-height: 20px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
@@ -153,6 +149,7 @@ const handleClick = (e) => {
 }
 
 .hobbies {
+  text-align: left !important;
   padding: 15px 13px;
 
   .sidebar-label {
@@ -209,10 +206,10 @@ const handleClick = (e) => {
       }
     }
 
-    &:focus-within .hoverable {
-      box-shadow: 0 0 0 2px Highlight;
-      border-radius: 5px;
-    }
+    // &:focus-within .hoverable {
+    //   box-shadow: 0 0 0 2px Highlight;
+    //   border-radius: 5px;
+    // }
 
     &:hover .removeItem,
     .removeItem:hover {
