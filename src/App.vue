@@ -1,7 +1,7 @@
 <script setup>
 import { ref, provide, onMounted, watch } from 'vue'
 import { useCvState } from "./composables/useCvState";
-import LeftContainer from "./components/layout/LeftContainer.vue"
+import LeftContainer from "./components/layout/PropertiesPanel.vue"
 import MainSection from "./components/layout/MainSection.vue";
 import Sidebar from "./components/layout/SideBar.vue";
 
@@ -72,45 +72,24 @@ const handleMouseUp = () => {
 </script>
 
 <template>
-  <LeftContainer
-    :isColorWheelOpen="isColorWheelOpen"
-    :currentColor="cvData.layout.mainColor"
-    @toggle-color-wheel="toggleColorWheel"
-    @change-color="handleChangeColor"
-  />
+  <LeftContainer :isColorWheelOpen="isColorWheelOpen" :currentColor="cvData.layout.mainColor"
+    @toggle-color-wheel="toggleColorWheel" @change-color="handleChangeColor" />
 
-  <div
-    class="drag-area"
-    @mousedown="handleMouseDown"
-    @mousemove="handleMouseMove"
-    @mouseup="handleMouseUp"
-  >
+  <div class="drag-area" @mousedown="handleMouseDown" @mousemove="handleMouseMove" @mouseup="handleMouseUp">
 
-    <div
-      id="a4-container"
-      :style="{
-        position: 'absolute',
-        left: position.x + 'px',
-        top: position.y + 'px',
-        pointerEvents: 'none'
-      }"
-    >
-      <Sidebar
-        :cvData="cvData"
-        @update:cvData="cvData = $event"
-        @toggleColorWheel="toggleColorWheel"
-      />
+    <div id="a4-container" :style="{
+      position: 'absolute',
+      left: position.x + 'px',
+      top: position.y + 'px',
+      pointerEvents: 'none'
+    }">
+      <Sidebar :cvData="cvData" @update:cvData="cvData = $event" @toggleColorWheel="toggleColorWheel" />
 
-      <MainSection
-        :cvData="cvData"
-        @update:cvData="cvData = $event"
-      />
+      <MainSection :cvData="cvData" @update:cvData="cvData = $event" />
     </div>
   </div>
-  <div
-    class="disclaimer"
-    v-show="!isLocalhost"
-  >Ce site est en cours de développement. Il est fonctionnel, mais certaines anomalies ou
+  <div class="disclaimer" v-show="!isLocalhost">Ce site est en cours de développement. Il est fonctionnel, mais
+    certaines anomalies ou
     dysfonctionnements peuvent survenir.</div>
 </template>
 

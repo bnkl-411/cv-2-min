@@ -1,8 +1,8 @@
 <script setup>
 
 import { computed } from 'vue'
-import TextareaSection from "../ui/TextareaSection.vue"
 import ButtonRemoveItem from "../ui/ButtonRemoveItem.vue";
+import Resume from "../blocks/Resume.vue";
 import ExperienceLayout from "../blocks/ExperienceLayout.vue"
 import draggable from 'vuedraggable'
 import { useDraggable } from '@/composables/useDraggable'
@@ -60,14 +60,7 @@ const removeItem = (category, index) => {
         class="main"
         id="main-section"
     >
-        <section>
-            <TextareaSection
-                v-model="$cv.resume"
-                name="resume"
-                placeholder="Votre profil et motivations en quelques lignes"
-            />
-        </section>
-
+        <Resume />
         <section
             id="professional-xp"
             :class="{ 'is-dragging': isDragging, 'hover-disabled': hoverDisabled }"
@@ -169,12 +162,6 @@ const removeItem = (category, index) => {
     padding: 0 12px;
 }
 
-#resume {
-    margin-top: 27px;
-    margin-bottom: 7px;
-    // hyphens: auto;
-}
-
 #professional-xp .addItemButton {
     width: 100%;
 }
@@ -189,14 +176,14 @@ const removeItem = (category, index) => {
 }
 
 .experience-item {
-    padding: 4px 2px 1px 0;
+    padding: 0px 2px 1px 0;
 }
 
-:deep(#ta-resume) {
-    font-size: 11pt;
+.experience-item:nth-child(n+2) {
+    margin-top: 4px;
 }
 
-:deep(.textarea-section) {
+:deep(.ta-desc) {
     text-align: justify;
 }
 
@@ -251,7 +238,7 @@ li {
 
 .list {
     padding-left: 0;
-    margin: 4px auto;
+    margin: 8px auto 4px;
 }
 </style>
 

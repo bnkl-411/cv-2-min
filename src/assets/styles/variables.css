@@ -1,6 +1,6 @@
 :root {
   --border-radius-base: 5px;
-  --hover-bg: #fcfcfceb;
+  --hover-bg: #fcfcfc;
   --hover-border: #e0e7ff;
   --hover-shadow:  0 0 0 2px #e0e7ff, 0 2px 8px rgba(102, 126, 234, 0.08);
   --focus-color: #667eea;
@@ -8,8 +8,8 @@
   --transition-fast: 0.1s ease;
   --sidebar-width: 234px;
   --main-box-color: #559db3;
-  --colorful-button-add:  #55B39A;
-  --colorful-button-remove: #B36B55;
+  --button-positive:  #55B39A;
+  --button-negative: #d06060;
   --colorful-opacity: 1;
   --light-buttons: #fff;
   --light-opacity: 0.4;

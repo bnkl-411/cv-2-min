@@ -53,6 +53,7 @@ textarea {
 
 .sortable-chosen {
     box-shadow: none;
+    cursor: move;
 }
 
 .sortable-drag {
@@ -107,7 +108,7 @@ textarea {
     }
 
     &::before {
-        background-color: var(--colorful-button-add);
+        background-color: var(--button-positive);
         border-radius: var(--border-radius-base);
         height: 22px;
         z-index: 1;

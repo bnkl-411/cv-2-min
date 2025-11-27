@@ -10,7 +10,6 @@ const setLayout = (layoutConf) => {
 
 <template>
     <div class="layout-selector">
-        <h3>Affichage</h3>
         <div class="selectors">
 
             <button

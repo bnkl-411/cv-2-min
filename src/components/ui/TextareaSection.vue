@@ -16,17 +16,17 @@ const props = defineProps({
 const customFontSize = computed(() => {
     return cvData.value?.layout?.fontSize?.[props.name]
         ? `${cvData.value.layout.fontSize[props.name]}pt`
-        : 'inherit'
+        : ''
 })
 
 const modelValue = defineModel({ type: String })
 
 const { startEditing, endEditing } = useEditingState()
 
-
 const emit = defineEmits(['handleExtra'])
 
 const editing = ref(false)
+
 const textareaRef = ref(null)
 
 const isEmpty = computed(() => !modelValue.value)
@@ -144,7 +144,7 @@ watch(modelValue, () => {
     font-weight: 600;
 }
 
-#hobbies {
+#hobbies>* {
     font-size: 11pt;
     text-align: left;
 }
@@ -161,7 +161,6 @@ watch(modelValue, () => {
     font-family: inherit;
     color: inherit;
     line-height: normal;
-    text-align: inherit;
     appearance: none;
     outline: none;
     resize: none;
@@ -207,15 +206,8 @@ watch(modelValue, () => {
     }
 }
 
-.resume,
-.ta-desc {
-    text-align: justify;
-}
-
 .hobbies {
     @extend .hover-highlight;
-    text-align: left;
-    font-size: 11pt;
 }
 
 .resume {

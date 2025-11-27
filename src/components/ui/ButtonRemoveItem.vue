@@ -33,7 +33,7 @@ defineProps({
         height: 20px;
         padding: 3px;
         border-radius: 6px;
-        background-color: #d06060;
+        background-color: var(--button-negative);
     }
 }
 

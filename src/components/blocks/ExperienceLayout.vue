@@ -160,7 +160,7 @@ const category = config[props.type]
     width: 100%;
 }
 
-:deep(.ta-desc) {
+:deep(.ta-desc >*) {
     font-size: 10.3pt;
 }
 
