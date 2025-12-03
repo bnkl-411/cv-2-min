@@ -10,23 +10,19 @@ const cvData = defineModel({ type: Object, required: true })
         id="personal-info"
         class="personal"
     >
-        <div class="username-container">
-            <TextareaSection
-                v-font-size-editor="{ cvData, name: 'username', maxSize: 24 }"
-                v-model="cvData.cv.personal[0].value"
-                name="username"
-                placeholder="Nom Prénom"
-            />
-        </div>
+        <TextareaSection
+            v-font-size-editor="{ cvData, name: 'username', maxSize: 24 }"
+            v-model="cvData.cv.personal[0].value"
+            name="username"
+            placeholder="Nom Prénom"
+        />
 
-        <div class="job-lookup-container">
-            <TextareaSection
-                v-font-size-editor="{ cvData, name: 'lookupJob', maxSize: 18 }"
-                v-model="cvData.cv.personal[1].value"
-                name="lookupJob"
-                placeholder="Poste"
-            />
-        </div>
+        <TextareaSection
+            v-font-size-editor="{ cvData, name: 'lookupJob', maxSize: 18 }"
+            v-model="cvData.cv.personal[1].value"
+            name="lookupJob"
+            placeholder="Poste"
+        />
     </div>
 </template>
 
@@ -35,7 +31,14 @@ const cvData = defineModel({ type: Object, required: true })
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    padding: 0 1px;
+    padding: 0 10px;
     color: #0f0f0f;
+    margin-bottom: 4px;
+
+}
+
+#username>*,
+#lookupJob>* {
+    padding: 0px 2px;
 }
 </style>

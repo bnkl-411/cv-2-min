@@ -98,7 +98,7 @@ const handleBlur = () => {
     font-family: inherit;
     color: inherit;
     line-height: normal;
-    text-align: inherit;
+    // text-align: inherit;
     appearance: none;
     outline: none;
     width: 100%;
@@ -106,10 +106,6 @@ const handleBlur = () => {
 
 .extra-padding {
     padding: 2px;
-}
-
-.greyed-out {
-    color: #dddcdc;
 }
 
 .username,

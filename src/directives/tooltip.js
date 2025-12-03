@@ -1,5 +1,3 @@
-// tooltip.js - Directive Vue pour tooltips au survol avec condition
-
 const createTooltip = (el, binding) => {
     const config = typeof binding.value === 'string'
         ? { text: binding.value, show: true }

@@ -1,9 +1,12 @@
 <script setup>
 import { ref, provide, onMounted, watch } from 'vue'
 import { useCvState } from "./composables/useCvState";
+import { useCssSync } from './composables/useCssSync'
 import PropertiesPanel from "./components/layout/PropertiesPanel.vue"
 import MainSection from "./components/layout/MainSection.vue";
 import Sidebar from "./components/layout/SideBar.vue";
+import { vZoom } from './directives/zoomable';
+
 
 const { cvData, defaultCvData } = useCvState();
 
@@ -13,7 +16,12 @@ provide('defaultCvData', defaultCvData);
 const isLocalhost = window.location.hostname === 'localhost'
 
 const isColorWheelOpen = ref(false);
+
 const isPanelCollapsed = ref(true);
+
+const zoomable = ref(null);
+
+const zoom = ref(100);
 
 const toggleColorWheel = () => {
   isColorWheelOpen.value = !isColorWheelOpen.value;
@@ -23,14 +31,19 @@ const toggleColorWheel = () => {
   }
 };
 
-watch(() => cvData.value.layout?.mainColor, (newColor) => {
-  if (newColor) {
-    document.documentElement.style.setProperty('--main-box-color', newColor)
+useCssSync(cvData, [
+  {
+    path: 'configuration.sidebar.color',
+    cssVar: '--main-color'
+  },
+  {
+    path: 'configuration.mainSection.textAlign',
+    cssVar: '--text-align'
   }
-}, { immediate: true })
+])
 
 const handleChangeColor = (color) => {
-  cvData.value.layout.mainColor = color;
+  cvData.value.configuration.sidebar.color = color;
 }
 
 const position = ref({ x: 0, y: 0 });
@@ -39,19 +52,29 @@ const dragOffset = ref({ x: 0, y: 0 });
 
 const centerContainer = () => {
   const container = document.getElementById('a4-container');
-  if (container) {
-    const containerWidth = container.offsetWidth;
-    const containerHeight = container.offsetHeight;
-    position.value = {
-      x: (window.innerWidth + 250 - containerWidth) / 2,
-      y: (window.innerHeight - containerHeight) / 2
-    };
-  }
+  if (!container) return;
+
+  const scale = zoom.value / 100;
+  const scaledWidth = container.offsetWidth * scale;
+  const scaledHeight = container.offsetHeight * scale;
+
+  position.value = {
+    x: (window.innerWidth - scaledWidth) / 2,
+    y: (window.innerHeight - scaledHeight) / 2
+  };
 };
 
 onMounted(() => {
+  if (zoomable.value?._zoom) {
+    zoomable.value._zoom.onChange((z) => {
+      zoom.value = Math.round(z * 100);
+    });
+  }
+
   centerContainer();
+
 });
+
 
 const handleMouseDown = (e) => {
   if (e.target.classList.contains('drag-area')) {
@@ -81,15 +104,24 @@ const handleMouseUp = () => {
 <template>
   <PropertiesPanel
     :isColorWheelOpen="isColorWheelOpen"
-    :currentColor="cvData.layout.mainColor"
+    :currentColor="cvData.configuration.sidebar.color"
     :collapsed="isPanelCollapsed"
     @toggle-color-wheel="toggleColorWheel"
     @change-color="handleChangeColor"
     @update:collapsed="isPanelCollapsed = $event"
   />
 
+  <div class="zoom-controls">
+    <button @click="zoomable._zoom.out()">−</button>
+    <div class="zoom-level">{{ zoom }}%</div>
+    <button @click="zoomable._zoom.in()">+</button>
+    <button @click="zoomable._zoom.reset()">⟲</button>
+  </div>
+
   <div
-    class="drag-area"
+    ref="zoomable"
+    v-zoom="{ initialZoom: zoom }"
+    class="zoomable drag-area"
     @mousedown="handleMouseDown"
     @mousemove="handleMouseMove"
     @mouseup="handleMouseUp"
@@ -266,5 +298,60 @@ const handleMouseUp = () => {
     page-break-inside: avoid;
     page-break-after: avoid;
   }
+}
+
+.zoomable-wrapper {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  background: white;
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.zoomable-content {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  transform-origin: center center;
+  transition: transform 0.2s ease;
+  padding: 30px;
+}
+
+.zoom-controls {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.zoom-btn {
+  background: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.zoom-btn:hover {
+  background: #e0e0e0;
+}
+
+.zoom-level {
+  color: white;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  font-size: 14px;
 }
 </style>

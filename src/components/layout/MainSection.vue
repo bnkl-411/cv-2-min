@@ -84,7 +84,7 @@ const removeItem = (category, index) => {
             >
                 <template #item="{ index }">
                     <li class="experience-item draggable">
-                        <div :class="['item', 'header', { 'hoverable': !isDragging && !hoverDisabled }]">
+                        <div :class="['item', { 'hoverable': !isDragging && !hoverDisabled }]">
                             <ExperienceLayout
                                 :index="index"
                                 type="jobs"
@@ -119,7 +119,7 @@ const removeItem = (category, index) => {
                 >
                     <template #item="{ index }">
                         <li class="experience-item">
-                            <div class="header">
+                            <div class="item">
                                 <ExperienceLayout
                                     :index="index"
                                     type="education"
@@ -166,8 +166,11 @@ const removeItem = (category, index) => {
     width: 100%;
 }
 
-.header {
+
+.item {
     display: flex;
+    padding: 0px 2px 1px 0;
+
     width: 100%;
     min-width: 0;
     align-items: stretch;
@@ -175,16 +178,8 @@ const removeItem = (category, index) => {
     font-size: 11.5pt;
 }
 
-.experience-item {
-    padding: 0px 2px 1px 0;
-}
-
-.experience-item:nth-child(n+2) {
-    margin-top: 4px;
-}
-
 :deep(.ta-desc) {
-    text-align: justify;
+    text-align: var(--text-align);
 }
 
 .main-label {
@@ -207,12 +202,11 @@ li {
         position: absolute;
         margin-top: -13px;
         right: -10px;
+        opacity: 0;
     }
 
-    & .header:hover {
-        .removeItem {
-            opacity: 1;
-        }
+    .item:hover .removeItem {
+        opacity: 1;
     }
 
     &:hover {
@@ -223,17 +217,21 @@ li {
         border-radius: 6px;
     }
 
-    &:has(.date:hover),
-    &:has(.label:hover),
-    &:has(.plus-button:hover),
-    &:has(.ta-desc:hover),
-    &:has(.add-extra-info:hover),
-    &:has(.hoverable:hover) {
+    &:has(.date:hover,
+        .label:hover,
+        .plus-button:hover,
+        .ta-desc:hover,
+        .add-extra-info:hover,
+        .hoverable:hover) {
         background-color: #fcfcfcb2;
         box-shadow:
             6px 0 12px -3px rgba(112, 181, 255, 0.3),
             -4px 0 6px -3px rgba(112, 181, 255, 0.1);
     }
+}
+
+li+li {
+    margin-top: 4px;
 }
 
 .list {
@@ -256,7 +254,7 @@ li {
     opacity: 0 !important;
 }
 
-.list.is-dragging li .header:hover .user-actions>.removeItem {
+.list.is-dragging li .item:hover .user-actions>.removeItem {
     opacity: 0 !important;
 }
 </style>

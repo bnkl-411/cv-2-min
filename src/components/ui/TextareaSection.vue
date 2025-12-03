@@ -14,8 +14,8 @@ const props = defineProps({
 })
 
 const customFontSize = computed(() => {
-    return cvData.value?.layout?.fontSize?.[props.name]
-        ? `${cvData.value.layout.fontSize[props.name]}pt`
+    return cvData.value?.configuration?.fontSize?.[props.name]
+        ? `${cvData.value.configuration.fontSize[props.name]}pt`
         : ''
 })
 
@@ -144,11 +144,6 @@ watch(modelValue, () => {
     font-weight: 600;
 }
 
-#hobbies>* {
-    font-size: 11pt;
-    text-align: left;
-}
-
 .textarea-section {
     display: flex;
     flex: auto;
@@ -179,10 +174,6 @@ watch(modelValue, () => {
 
 .extra-padding {
     padding: 2px;
-}
-
-.greyed-out {
-    color: #dddcdc;
 }
 
 .ta-username {

@@ -93,7 +93,7 @@ const removeSkill = (index) => {
 
 <style scoped>
 .skills {
-    hyphens: auto;
+    hyphens: none;
 }
 
 .item {

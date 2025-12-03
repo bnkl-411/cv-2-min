@@ -22,9 +22,12 @@ const emit = defineEmits(["update:cvData", "toggleColorWheel"]);
 const handleSidebarResize = (event) => {
   emit("update:cvData", {
     ...props.cvData,
-    layout: {
-      ...props.cvData.layout,
-      sidebarSize: event.detail.sidebarWidth,
+    configuration: {
+      ...props.cvData.configuration,
+      sidebar: {
+        ...props.cvData.configuration.sidebar,
+        size: event.detail.sidebarWidth,
+      }
     }
   });
 };
@@ -40,9 +43,9 @@ const handleClick = (e) => {
   <div
     id="sidebar"
     class="sidebar"
-    v-wcag-adapter="props.cvData.layout.mainColor || '#62b1c9'"
+    v-wcag-adapter="props.cvData.configuration.sidebar.color || '#62b1c9'"
     v-sidebar-resizer="{
-      userWidth: props.cvData.layout.sidebarSize,
+      userWidth: props.cvData.configuration.sidebar.size,
     }"
     @sidebar-resized="handleSidebarResize"
   >
@@ -89,16 +92,17 @@ const handleClick = (e) => {
 .personnal-container {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .topbox {
   min-height: 20px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: var(--sidebar-radius);
+  border-bottom-right-radius: var(--sidebar-radius);
 }
 
 .box-color {
-  background-color: var(--main-box-color);
+  background-color: var(--main-color);
 }
 
 .box-color:hover {
@@ -114,28 +118,15 @@ const handleClick = (e) => {
   flex-flow: column nowrap;
   justify-content: flex-start;
   width: var(--sidebar-width);
-  gap: 4px;
+  gap: 10px;
 }
 
 .infos {
   flex: 1;
-  border-radius: 6px;
+  border-radius: var(--sidebar-radius);
   white-space: normal;
   word-break: break-word;
   position: relative;
-
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    border-radius: 6px;
-    height: 100%;
-    width: 100%;
-    background-color: var(--main-box-color);
-  }
 }
 
 .infos>* {
@@ -156,7 +147,7 @@ const handleClick = (e) => {
 }
 
 .hobbies {
-  text-align: left !important;
+  text-align: left;
   padding: 15px 13px;
 
   .sidebar-label {
@@ -166,6 +157,10 @@ const handleClick = (e) => {
   .textarea-section {
     padding: 2px;
   }
+}
+
+#hobbies {
+  font-size: 11pt;
 }
 
 :deep(ul) {

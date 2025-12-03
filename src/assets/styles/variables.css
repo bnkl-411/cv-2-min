@@ -7,7 +7,7 @@
   --greyed-text: #8a8a8a;
   --transition-fast: 0.1s ease;
   --sidebar-width: 234px;
-  --main-box-color: #559db3;
+  --main-color: #559db3;
   --button-positive:  #55B39A;
   --button-negative: #d06060;
   --colorful-opacity: 1;
@@ -18,4 +18,6 @@
   --box-shadow-hover: 0 3px 6px rgba(0, 0, 0, 0.3);
   --stg-selected-border: #ffffff;
   --button-bg-hover: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  --sidebar-radius: 6px;
+  --text-align: justify
 }

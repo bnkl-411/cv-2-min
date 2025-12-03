@@ -17,28 +17,27 @@ const createStorage = (modelKey) => {
     return useLocalStorage(modelKey, cvModels[modelKey]);
 };
 
-let uls = createStorage(currentModel.value);
+let localStorage = createStorage(currentModel.value);
 
 // Reactive ref pour les données
-const cvData = ref(uls.data.value);
+const cvData = ref(localStorage.data.value);
 
 // Watch pour synchroniser les changements de données avec le localStorage
 watch(cvData, (newData) => {
-    uls.data.value = newData;
+    localStorage.data.value = newData;
 }, { deep: true });
 
 export function useCvState() {
-    // Load a model
     const loadModel = (model) => {
         currentModel.value = model;
         // Créer une nouvelle instance de storage
-        uls = createStorage(model);
+        localStorage = createStorage(model);
         // Mettre à jour les données réactives
-        cvData.value = uls.data.value;
+        cvData.value = localStorage.data.value;
     };
 
     const initCV = () => {
-        uls.clear()
+        localStorage.clear()
         cvData.value = structuredClone(cvModels[currentModel.value])
     }
 

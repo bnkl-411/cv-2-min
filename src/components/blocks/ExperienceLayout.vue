@@ -7,7 +7,7 @@ import TextareaSection from '../ui/TextareaSection.vue'
 const cvData = inject('cvData')
 
 const layout = computed(() => {
-    return cvData.value.layout.mainSectionLayout
+    return cvData.value.configuration.mainSection.layout
 })
 
 const modelValue = defineModel({ type: Object, required: true })
@@ -18,12 +18,8 @@ const props = defineProps({
 })
 
 const focusExtraInfo = ref(false)
-const extraInfo = ref(modelValue.value.extraInfo !== '');
 
-const toggleExtraInfo = () => {
-    focusExtraInfo.value = !focusExtraInfo.value
-    extraInfo.value = !extraInfo.value
-}
+const extraInfo = ref(modelValue.value.extraInfo !== '');
 
 const handleExtra = () => {
     nextTick(() => {
@@ -75,23 +71,13 @@ const category = config[props.type]
             </div>
         </div>
         <div v-if="category.hasExtraInfo">
-            <div
-                v-if="!extraInfo"
-                class="add-extra-info"
-                @click="toggleExtraInfo"
-            >
-                <div class="plus-button">+</div>
-            </div>
-
-            <div
-                class="xt-info-ctn"
-                v-else
-            >
+            <div :class="{ ' add-extra-info': !extraInfo }">
                 <ItemEditable
                     class="hoverable"
                     :must-focus=focusExtraInfo
                     label="extra-info"
                     v-model="modelValue.extraInfo"
+                    :placeholder="'Entreprise, durée...'"
                     @handleExtra="handleExtra"
                 />
             </div>
@@ -154,12 +140,6 @@ const category = config[props.type]
     min-width: 0;
 }
 
-.xt-info-ctn {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
 :deep(.ta-desc >*) {
     font-size: 10.3pt;
 }
@@ -167,46 +147,20 @@ const category = config[props.type]
 .add-extra-info {
     position: relative;
     height: 0px;
-    cursor: pointer;
-
-    &::before {
-        content: '';
-        position: absolute;
-        display: block;
-        width: 99%;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -65%);
-        border-top-style: dashed;
-        border-color: #535353;
-        border-width: 2px;
-        opacity: 0;
-        background-color: #f3f3f3;
-        box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-    }
-
-    &:hover::before {
-        opacity: .8;
-    }
-
-    &:hover .plus-button {
-        opacity: 1;
-    }
+    font-style: italic;
+    padding: 0px 0px;
+    font-size: 10pt;
+    transition: all 0.15s ease-in-out;
+    transition-delay: 250ms;
+    opacity: 0;
 }
 
-.plus-button {
-    color: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -53%) rotate(45deg);
-    width: 18px;
+.item:hover .add-extra-info {
     height: 18px;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: #cccccc;
-    box-shadow: 0px 1px 1px #1e202140, 0px 0px 1px #1E1F214F;
-    opacity: 0;
-    transition: opacity 100ms ease;
+    padding: 2px 0px;
+    border-radius: var(--border-radius-base);
+    color: var(--greyed-text);
+    width: 35%;
+    opacity: 1;
 }
 </style>

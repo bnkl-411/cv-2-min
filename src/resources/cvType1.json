@@ -34,7 +34,7 @@
             },
             {
                 "key": "phoneNumber",
-                "value": "06 07 08 09 10",
+                "value": "06 29 55 05 95",
                 "required": true
             }
         ],
@@ -142,10 +142,20 @@
             }
         ]
     },
-    "layout": {
-        "sidebarSize": 234,
-        "mainColor": "#62b1c9",
-        "mainSectionLayout": "open"
+    "configuration": {
+        "sidebar": {
+            "size": 240,
+            "color": "#62b1c9"
+        },
+        "mainSection": {
+            "layout": "open",
+            "textAlign": "justify"
+        },
+        "fontSize": {
+            "username": "21",
+            "lookupJob": "16",
+            "resume": "11"
+        }
     },
     "config": {
         "limits": {

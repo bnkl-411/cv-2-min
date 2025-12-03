@@ -1,11 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import '../src/assets/styles/variables.css'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import colorWheel from './directives/colorWheel'
 import sidebarResizer from './directives/sidebarResizer'
 import fontSizeEditor from './directives/fontSizeEditor';
 import wcagAdapter from './directives/wcagAdapter'
+import { croppable } from './directives/croppable'
 import { createGtag } from "vue-gtag";
 
 const app = createApp(App)
@@ -18,10 +18,9 @@ app.use(gtag)
 
 app.config.performance = true
 
-app.component('font-awesome-icon', FontAwesomeIcon)
-
 app.directive('colorWheel', colorWheel)
 app.directive('fontSizeEditor', fontSizeEditor)
 app.directive('sidebarResizer', sidebarResizer)
+app.directive('croppable', croppable)
 app.directive('wcagAdapter', wcagAdapter)
 app.mount('#app')

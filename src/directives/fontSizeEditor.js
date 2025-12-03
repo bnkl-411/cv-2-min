@@ -59,8 +59,6 @@ export const FontSizeModalManager = {
   }
 };
 
-// Directive file\import { FontSizeModalManager } from './FontSizeModalManager';
-
 export default {
   mounted(el, binding) {
     const { cvData, name, maxSize } = binding.value;
@@ -87,7 +85,7 @@ export default {
       const newSize = Math.max(10, size + delta);
 
       el.style.fontSize = `${newSize}pt`;
-      cvData.layout.fontSize[name] = newSize;
+      cvData.configuration.fontSize[name] = newSize;
 
       FontSizeModalManager.open({
         el,

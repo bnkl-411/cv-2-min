@@ -5,11 +5,18 @@ body {
     font-family: "Inter", "Roboto", -apple-system, "San Francisco", "Segoe UI", "Helvetica Neue", sans-serif;
     background-color: #eee;
     height: 100%;
+    overflow: hidden;
+
 }
 
-body *:focus {
+body *:focus:not(button) {
     box-shadow: 0 0 0 2px Highlight;
     border-radius: 6px;
+}
+
+
+.greyed-out {
+    color: #c7c6c6;
 }
 
 @media print {
@@ -98,26 +105,30 @@ textarea {
     cursor: pointer;
     border-radius: var(--border-radius-base);
     margin: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    padding: 3px 0;
+
+    transition:
+        height var(--transition-fast),
+        margin var(--transition-fast),
+        opacity var(--transition-fast);
 
     &::before,
     &::after {
         content: '';
         position: absolute;
-        opacity: 0;
-        transition: opacity var(--transition-fast);
+        transition: all var(--transition-fast);
     }
 
     &::before {
         background-color: var(--button-positive);
         border-radius: var(--border-radius-base);
         height: 22px;
+        width: 100%;
         z-index: 1;
-        pointer-events: auto;
         box-shadow: var(--box-shadow-base);
-        transition: opacity var(--transition-fast),
-            height var(--transition-fast),
-            box-shadow var(--transition-fast),
-            transform var(--transition-fast);
     }
 
     &:hover::before {
@@ -138,17 +149,11 @@ textarea {
     }
 }
 
-.list:last-child:hover .addItemButton {
+.list:last-child:hover .addItemButton,
+.addItemButton:hover {
     height: 22px;
-    margin-bottom: 10px;
     margin-top: 7px;
-
-    &::before {
-        opacity: var(--colorful-opacity);
-        width: 100%;
-    }
-
-    &::after {
-        opacity: 0.9;
-    }
+    margin-bottom: 10px;
+    opacity: 1;
+    pointer-events: auto;
 }

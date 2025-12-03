@@ -5,7 +5,7 @@ import { useCvState } from '../../composables/useCvState';
 import { dataToJson } from "../../utils/dataToJson";
 import { vTooltip } from '../../directives/tooltip';
 import ColorPicker from '../ui/ColorPicker.vue';
-import LayoutSelector from '../ui/LayoutSelector.vue';
+import LayoutConfigurator from '../ui/LayoutConfigurator.vue';
 import chevronDown from '@icons/chevron.svg';
 import iconExport from '@icons/export.svg';
 import iconReset from '@icons/reset.svg';
@@ -26,6 +26,7 @@ const props = defineProps({
 const emit = defineEmits(['toggleColorWheel', 'changeColor', 'update:collapsed']);
 
 const isJobLayoutSelectorOpen = ref(false);
+
 const showContent = ref(!props.collapsed);
 
 const isLocalhost = window.location.hostname === 'localhost';
@@ -79,6 +80,7 @@ const containerClass = computed(() => ({
     'left-container': true,
     'collapsed': props.collapsed
 }));
+
 </script>
 
 <template>
@@ -101,7 +103,7 @@ const containerClass = computed(() => ({
 
         </button>
 
-        <div class="data-actions">
+        <div class="actions">
             <div class="category user-actions">ACTIONS</div>
             <div
                 v-if="collapsed"
@@ -149,8 +151,8 @@ const containerClass = computed(() => ({
             </div>
         </div>
 
-        <div class="design-actions">
-            <div class="category template-actions">TEMPLATE & DESIGN </div>
+        <div class="actions">
+            <div class="category design-actions">DESIGN</div>
             <div
                 v-if="collapsed"
                 class="section-separator template-separator"
@@ -194,6 +196,10 @@ const containerClass = computed(() => ({
                     </div>
                 </Transition>
             </div>
+        </div>
+
+        <div class="actions">
+            <div class="category template-actions">MISE EN FORME</div>
 
             <div class="layout-selection-wrapper">
                 <button
@@ -208,7 +214,7 @@ const containerClass = computed(() => ({
                     <span
                         class="label "
                         v-show="showContent"
-                    >Format</span>
+                    >Textes</span>
                     <span
                         class="chevron "
                         :class="{ open: isJobLayoutSelectorOpen }"
@@ -227,7 +233,7 @@ const containerClass = computed(() => ({
                         id="job-layout-selector"
                         class="layout-selector-container"
                     >
-                        <LayoutSelector />
+                        <LayoutConfigurator />
                     </div>
                 </Transition>
             </div>
@@ -245,7 +251,7 @@ const containerClass = computed(() => ({
     z-index: 3;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 9px;
     padding: 16px 16px;
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     height: 100%;
@@ -300,8 +306,7 @@ const containerClass = computed(() => ({
     transform: rotate(180deg);
 }
 
-.data-actions,
-.design-actions {
+.actions {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -317,8 +322,12 @@ const containerClass = computed(() => ({
     color: #3b82f6;
 }
 
-.template-actions {
+.design-actions {
     color: #8b5cf6;
+}
+
+.template-actions {
+    color: #ec4899;
 }
 
 .left-container button {

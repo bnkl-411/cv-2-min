@@ -71,7 +71,7 @@
             {
                 "job": "Assistante communication",
                 "period": "2022-2023",
-                "extraInfo": "Start-up Greenly",
+                "extraInfo": "",
                 "description": "Création de contenus, gestion des réseaux sociaux, reporting et suivi des performances."
             },
             {
@@ -82,8 +82,8 @@
             },
             {
                 "job": "Assistante marketing",
-                "period": "2020-2021",
-                "extraInfo": "Boutique EcoMarket",
+                "period": "2020",
+                "extraInfo": "Stage de 6 mois chez EcoMarket",
                 "description": "Animation du site e-commerce, rédaction de fiches produits, analyse des ventes et recommandations d’amélioration."
             }
         ],
@@ -105,10 +105,15 @@
             }
         ]
     },
-    "layout": {
-        "sidebarSize": 240,
-        "mainColor": "#62b1c9",
-        "mainSectionLayout": "open",
+    "configuration": {
+        "sidebar": {
+            "size": 240,
+            "color": "#62b1c9"
+        },
+        "mainSection": {
+            "layout": "open",
+            "textAlign": "justify"
+        },
         "fontSize": {
             "username": "21",
             "lookupJob": "16",

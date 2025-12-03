@@ -98,7 +98,7 @@ function applySuggestion() {
     background-color: #f5f5f5;
 
     &>* {
-        text-align: justify;
+        text-align: var(--text-align);
     }
 }
 
