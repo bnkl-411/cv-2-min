@@ -10,14 +10,11 @@
   --main-color: #559db3;
   --button-positive:  #55B39A;
   --button-negative: #d06060;
-  --colorful-opacity: 1;
-  --light-buttons: #fff;
-  --light-opacity: 0.4;
   --text-color: #000000;
   --box-shadow-base: 0 2px 3px rgba(0, 0, 0, 0.3);;
   --box-shadow-hover: 0 3px 6px rgba(0, 0, 0, 0.3);
-  --stg-selected-border: #ffffff;
   --button-bg-hover: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
   --sidebar-radius: 6px;
-  --text-align: justify
+  --text-align: justify;
+  --sidebar-text-align: end;
 }

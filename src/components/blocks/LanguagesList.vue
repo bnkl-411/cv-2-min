@@ -44,7 +44,7 @@ const removeItem = (index) => {
 
 </script>
 <template>
-    <div class="languages">
+    <div class="block languages">
         <div class="sidebar-label">
             LANGUES
         </div>
@@ -52,31 +52,28 @@ const removeItem = (index) => {
             <li
                 v-for="(language, index) in cvData.cv.spokenLanguages"
                 :key="language.key"
+                class="hoverable item"
             >
-                <div
-                    class="hoverable"
-                    style="display: flex; flex: 1;flex-direction: row;justify-content: space-between;"
-                >
 
-                    <label>
-                        <select
-                            name="language-name"
-                            :id="`language-select-${index}`"
-                            class="language-select"
-                            v-model="cvData.cv.spokenLanguages[index].value"
+                <label>
+                    <select
+                        name="language-name"
+                        :id="`language-select-${index}`"
+                        class="language-select"
+                        v-model="cvData.cv.spokenLanguages[index].value"
+                    >
+                        <option value="">--</option>
+                        <option
+                            v-for="item in languageList"
+                            :key="item.code"
+                            :value="item.name"
                         >
-                            <option value="">--</option>
-                            <option
-                                v-for="item in languageList"
-                                :key="item.code"
-                                :value="item.name"
-                            >
-                                {{ item.name }}
-                            </option>
-                        </select>
-                    </label>
+                            {{ item.name }}
+                        </option>
+                    </select>
+                </label>
 
-                    <label :for="`level-select-${index}`"></label>
+                <label :for="`level-select-${index}`">
                     <select
                         name="language-level"
                         :id="`level-select-${index}`"
@@ -90,12 +87,12 @@ const removeItem = (index) => {
                         <option value="C1">C1</option>
                         <option value="C2">C2</option>
                     </select>
+                </label>
 
-                    <ButtonRemoveItem
-                        :show="cvData.cv.spokenLanguages.length > 1"
-                        @click="removeItem(index)"
-                    />
-                </div>
+                <ButtonRemoveItem
+                    :show="cvData.cv.spokenLanguages.length > 1"
+                    @click="removeItem(index)"
+                />
 
             </li>
             <!-- <div> (TOEIC 960/990) </div> -->
@@ -105,20 +102,16 @@ const removeItem = (index) => {
     </div>
 </template>
 <style scoped>
-.languages {
-    display: flex;
-    flex-direction: column;
-
-    label {
-        flex: 1 1 auto;
-    }
-}
-
 ul li {
+    display: flex;
+    flex: 1 1 auto;
     justify-content: space-between;
+    padding-top: 1px;
 }
 
 .language-select {
+    text-align: left;
+
     width: 98%;
 }
 
@@ -135,7 +128,6 @@ select {
     font-family: "Inter";
     outline: none;
     box-shadow: none;
-    width: 20%;
     min-width: 0;
     height: auto;
     text-align: inherit;
@@ -148,8 +140,4 @@ select option {
     color: #000;
     background-color: #fff;
 }
-
-/* .select:focus {
-    outline: -webkit-focus-ring-color auto 1px;
-} */
 </style>

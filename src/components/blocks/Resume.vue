@@ -95,7 +95,6 @@ function applySuggestion() {
 #resume {
     position: relative;
     z-index: 1;
-    background-color: #f5f5f5;
 
     &>* {
         text-align: var(--text-align);

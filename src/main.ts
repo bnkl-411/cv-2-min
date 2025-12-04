@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import '../src/assets/styles/variables.css'
+import '@styles/variables.css'
+import '@styles/template-air.scss'
 import colorWheel from './directives/colorWheel'
 import sidebarResizer from './directives/sidebarResizer'
 import fontSizeEditor from './directives/fontSizeEditor';

@@ -160,6 +160,7 @@ const removeItem = (category, index) => {
     flex-direction: column;
     flex-wrap: nowrap;
     padding: 0 12px;
+    padding-right: 14px;
 }
 
 #professional-xp .addItemButton {
@@ -170,12 +171,12 @@ const removeItem = (category, index) => {
 .item {
     display: flex;
     padding: 0px 2px 1px 0;
-
     width: 100%;
     min-width: 0;
     align-items: stretch;
     border-radius: 4px;
     font-size: 11.5pt;
+    white-space: pre-wrap;
 }
 
 :deep(.ta-desc) {
@@ -188,6 +189,11 @@ const removeItem = (category, index) => {
     font-size: 15pt;
     border-bottom: 2px solid #cbcfd1;
 }
+
+// .template-air .main-label {
+//     border-bottom: 2px solid var(--main-color);
+//     background: white;
+// }
 
 li {
     list-style: none;

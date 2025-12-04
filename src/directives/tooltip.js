@@ -63,6 +63,7 @@ const createTooltip = (el, binding) => {
 
     el.addEventListener('mouseenter', showTooltip);
     el.addEventListener('mouseleave', hideTooltip);
+    el.addEventListener('click', hideTooltip);
 
     el._showTooltip = showTooltip;
     el._hideTooltip = hideTooltip;
@@ -72,6 +73,7 @@ const destroyTooltip = (el) => {
     if (el._showTooltip) {
         el.removeEventListener('mouseenter', el._showTooltip);
         el.removeEventListener('mouseleave', el._hideTooltip);
+        el.removeEventListener('click', el._hideTooltip);
     }
     if (el._tooltip) {
         el._tooltip.remove();

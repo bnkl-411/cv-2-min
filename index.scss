@@ -14,6 +14,19 @@ body *:focus:not(button) {
     border-radius: 6px;
 }
 
+.sidebar-label {
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+#personal-info.personal .item {
+    color: #000;
+}
+
+#sidebar .item {
+    text-align: left;
+}
 
 .greyed-out {
     color: #c7c6c6;
@@ -108,7 +121,7 @@ textarea {
     height: 0;
     opacity: 0;
     pointer-events: none;
-    padding: 3px 0;
+    padding: 0 0;
 
     transition:
         height var(--transition-fast),

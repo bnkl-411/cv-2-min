@@ -97,8 +97,6 @@ const handleBlur = () => {
     font-size: inherit;
     font-family: inherit;
     color: inherit;
-    line-height: normal;
-    // text-align: inherit;
     appearance: none;
     outline: none;
     width: 100%;
@@ -110,8 +108,6 @@ const handleBlur = () => {
 
 .username,
 .username-input,
-.label,
-.label-input,
 .xtra-label,
 .xtra-label-input {
     font-weight: bold;
@@ -128,6 +124,7 @@ const handleBlur = () => {
     width: 5.5em;
     text-align: right;
     margin-right: 5px;
+    line-height: 14pt;
 }
 
 //Fix offset on input focus

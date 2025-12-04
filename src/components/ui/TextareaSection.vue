@@ -13,17 +13,17 @@ const props = defineProps({
     mustFocus: { type: Boolean, default: false }
 })
 
+const modelValue = defineModel({ type: String })
+
+const emit = defineEmits(['handleExtra'])
+
 const customFontSize = computed(() => {
     return cvData.value?.configuration?.fontSize?.[props.name]
         ? `${cvData.value.configuration.fontSize[props.name]}pt`
         : ''
 })
 
-const modelValue = defineModel({ type: String })
-
 const { startEditing, endEditing } = useEditingState()
-
-const emit = defineEmits(['handleExtra'])
 
 const editing = ref(false)
 
@@ -31,18 +31,18 @@ const textareaRef = ref(null)
 
 const isEmpty = computed(() => !modelValue.value)
 
-const fieldClasses = computed(() => [
+const itemClasses = computed(() => [
     'extra-padding',
+    'item',
     { 'greyed-out': isEmpty.value }
 ])
 
 const textareaClasses = computed(() => [
     'extra-padding',
     'textarea-section',
+    'hoverable',
     `ta-${props.name}`
 ])
-
-const textareaId = computed(() => `ta-${props.name}`)
 
 const heightAdjust = () => {
     if (!textareaRef.value) return
@@ -108,8 +108,7 @@ watch(modelValue, () => {
         :style="{ fontSize: customFontSize }"
     >
         <div
-            :class="[fieldClasses, 'spacing', 'hoverable']"
-            :id="name"
+            :class="itemClasses"
             v-show="!editing"
             @click="activateEditing"
             v-bind="$attrs"
@@ -120,7 +119,6 @@ watch(modelValue, () => {
         <textarea
             ref="textareaRef"
             :class="textareaClasses"
-            :id="textareaId"
             :name="name"
             v-show="editing"
             v-focus="editing"
@@ -136,10 +134,6 @@ watch(modelValue, () => {
 </template>
 
 <style scoped lang="scss">
-.spacing {
-    white-space: pre-wrap;
-}
-
 #username {
     font-weight: 600;
 }
@@ -174,10 +168,6 @@ watch(modelValue, () => {
 
 .extra-padding {
     padding: 2px;
-}
-
-.ta-username {
-    font-weight: 600;
 }
 
 .ta-username {

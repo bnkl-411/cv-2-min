@@ -55,9 +55,9 @@ const category = config[props.type]
     </div>
     <div class="right">
         <div class="top-line">
-            <ItemEditable
-                class="job-label extra-padding hoverable"
-                label="label"
+            <TextareaSection
+                class="job-label"
+                :name="`${props.type}-desc-${props.index}`"
                 v-model="modelValue[category.mainField]"
                 :placeholder="category.placeholder"
             />
@@ -71,7 +71,7 @@ const category = config[props.type]
             </div>
         </div>
         <div v-if="category.hasExtraInfo">
-            <div :class="{ ' add-extra-info': !extraInfo }">
+            <div :class="{ 'add-extra-info': !extraInfo }">
                 <ItemEditable
                     class="hoverable"
                     :must-focus=focusExtraInfo
@@ -95,6 +95,7 @@ const category = config[props.type]
 .top-line {
     display: flex;
     justify-content: space-between;
+    line-height: 14pt;
 }
 
 .experience {
@@ -104,6 +105,16 @@ const category = config[props.type]
 .left {
     display: flex;
     flex-direction: column;
+}
+
+.job-label {
+    display: flex;
+    flex: 1;
+    font-weight: 600;
+}
+
+.job-label-input {
+    line-height: 15pt;
 }
 
 .draggable {

@@ -92,7 +92,7 @@ const triggerFileInput = () => {
 </script>
 
 <template>
-    <div class="picture_container">
+    <div class="picture-container">
         <div
             class="image-wrapper"
             :style="{ borderRadius: picture.imageBorderRadius + '%' }"
@@ -167,7 +167,7 @@ const triggerFileInput = () => {
 </template>
 
 <style scoped>
-.picture_container {
+.picture-container {
     position: relative;
 }
 
@@ -179,10 +179,17 @@ const triggerFileInput = () => {
     overflow: hidden;
 }
 
-.sidebar .picture_container {
+.sidebar .picture-container {
     max-width: 88%;
     align-self: center;
 }
+
+/* 
+.template-air .sidebar .picture-container {
+    max-width: 80%;
+    align-self: end;
+    margin-right: 12px;
+} */
 
 .picture {
     width: 100%;
@@ -270,11 +277,11 @@ const triggerFileInput = () => {
     transition: opacity 0.3s ease;
 }
 
-.picture_container:hover .remove-btn {
+.picture-container:hover .remove-btn {
     opacity: 0.9;
 }
 
-.picture_container:hover .remove-btn:hover {
+.picture-container:hover .remove-btn:hover {
     opacity: 1;
     transform: scale(1.1);
     transition: opacity 0.2s ease, transform 0.2s ease;

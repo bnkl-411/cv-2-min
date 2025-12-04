@@ -50,7 +50,7 @@ const removeContact = (index) => {
 
 <template>
     <div
-        class="contact"
+        class="block contact"
         :class="{ 'is-dragging': isDragging, 'hover-disabled': hoverDisabled }"
         @mousemove="handleMouseMove"
     >

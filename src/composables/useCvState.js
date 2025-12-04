@@ -10,7 +10,7 @@ const cvModels = {
     'cvType3': cvType3
 };
 
-const currentModel = ref('cvType2');
+const currentModel = ref('cvType1');
 
 // Fonction pour créer une nouvelle instance de storage
 const createStorage = (modelKey) => {

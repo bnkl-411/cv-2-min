@@ -39,7 +39,6 @@ const handleClick = (e) => {
 
 </script>
 <template>
-
   <div
     id="sidebar"
     class="sidebar"
@@ -53,7 +52,6 @@ const handleClick = (e) => {
 
       <div
         class="topbox box-color"
-        v-color-wheel="colorWheel"
         @click="handleClick"
       ></div>
 
@@ -74,7 +72,7 @@ const handleClick = (e) => {
 
       <LanguagesList />
 
-      <div class="hobbies">
+      <div class="block hobbies">
         <div class="sidebar-label">
           CENTRES D'INTÉRÊT
         </div>
@@ -96,7 +94,7 @@ const handleClick = (e) => {
 }
 
 .topbox {
-  min-height: 16px;
+  height: 16px;
   border-bottom-left-radius: var(--sidebar-radius);
   border-bottom-right-radius: var(--sidebar-radius);
 }
@@ -104,6 +102,10 @@ const handleClick = (e) => {
 .box-color {
   background-color: var(--main-color);
 }
+
+// .template-air .box-color {
+//   background-color: transparent;
+// }
 
 .box-color:hover {
   box-shadow: 0 0 0 2px rgb(112, 181, 255),
@@ -126,11 +128,6 @@ const handleClick = (e) => {
   border-radius: var(--sidebar-radius);
   white-space: normal;
   word-break: break-word;
-  position: relative;
-}
-
-.infos>* {
-  position: relative;
 }
 
 :deep(.sidebar-label) {
@@ -139,20 +136,12 @@ const handleClick = (e) => {
   margin-bottom: 6px;
 }
 
-.contact,
-.skills,
-.languages {
+.block {
   border-radius: 6px;
   margin: 14px 12px 4px 12px;
 }
 
 .hobbies {
-  padding: 15px 13px;
-
-  .sidebar-label {
-    padding: 0 2px;
-  }
-
   .textarea-section {
     padding: 2px;
   }
@@ -176,15 +165,9 @@ const handleClick = (e) => {
   margin: 4px 0 -8px 0px;
   gap: 3px;
 
-  &>div {
-    border: 1px solid;
-  }
-
   li {
-    display: flex;
-    list-style: none;
     position: relative;
-    align-items: center;
+    list-style: none;
     margin-right: -10px;
     padding-right: 10px;
 
@@ -209,7 +192,7 @@ const handleClick = (e) => {
 
     &:hover .removeItem,
     .removeItem:hover {
-      opacity: var(--colorful-opacity);
+      opacity: 1;
       transform: translateX(86%);
     }
   }
@@ -217,14 +200,5 @@ const handleClick = (e) => {
   & p {
     margin: 0 0;
   }
-}
-
-:deep(.list li) {
-  display: flex;
-  list-style: none;
-  position: relative;
-  padding-left: 1px;
-  align-items: center;
-
 }
 </style>

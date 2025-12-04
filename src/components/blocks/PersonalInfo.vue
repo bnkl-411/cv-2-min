@@ -32,10 +32,13 @@ const cvData = defineModel({ type: Object, required: true })
     flex-direction: column;
     flex-wrap: wrap;
     padding: 0 10px;
-    color: #0f0f0f;
     margin-bottom: 4px;
-
 }
+
+/* .template-air .personal {
+    margin-right: 14px;
+    border-right: 8px solid var(--main-color);
+} */
 
 #username>*,
 #lookupJob>* {

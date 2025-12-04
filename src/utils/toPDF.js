@@ -4,8 +4,10 @@ export async function exportToPDF() {
             document.title = 'Mon_CV';
         };
 
-        window.addEventListener('beforeprint', beforePrint);
-        window.print();
-        window.removeEventListener('beforeprint', beforePrint);
+        setTimeout(() => {
+            window.addEventListener('beforeprint', beforePrint);
+            window.print();
+            window.removeEventListener('beforeprint', beforePrint);
+        }, 500);
     }
 };

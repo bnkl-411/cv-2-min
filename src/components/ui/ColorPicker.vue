@@ -184,7 +184,6 @@ watch(() => props.initialColor, (newColor) => {
                     </div>
                 </template>
             </div>
-            <div class="label">Arrondi</div>
         </div>
     </div>
 </template>

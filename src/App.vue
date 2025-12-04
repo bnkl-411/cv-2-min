@@ -126,9 +126,9 @@ const handleMouseUp = () => {
     @mousemove="handleMouseMove"
     @mouseup="handleMouseUp"
   >
-
     <div
       id="a4-container"
+      :class="cvData.configuration.template"
       :style="{
         position: 'absolute',
         left: position.x + 'px',
@@ -138,7 +138,7 @@ const handleMouseUp = () => {
     >
       <div class="top-layout"></div>
 
-      <div class="container classic-layout">
+      <div class="container">
         <Sidebar
           :cvData="cvData"
           @update:cvData="cvData = $event"
@@ -194,10 +194,10 @@ const handleMouseUp = () => {
 }
 
 #a4-container {
-  background-color: whitesmoke;
+  background-color: #f8f8f8;
   width: 210mm;
   height: 297mm;
-  padding: 0 12px 10px 12px;
+  padding: 9px 9px;
   box-shadow: 0 4px 5px rgba(75, 75, 75, 0.2);
   box-sizing: border-box;
 }
@@ -297,6 +297,10 @@ const handleMouseUp = () => {
   * {
     page-break-inside: avoid;
     page-break-after: avoid;
+  }
+
+  .zoom-controls {
+    display: none !important;
   }
 }
 

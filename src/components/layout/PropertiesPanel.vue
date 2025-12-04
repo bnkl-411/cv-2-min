@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, inject } from "vue";
 import { exportToPDF } from "../../utils/toPDF";
 import { useCvState } from '../../composables/useCvState';
 import { dataToJson } from "../../utils/dataToJson";
@@ -236,6 +236,13 @@ const containerClass = computed(() => ({
                         <LayoutConfigurator />
                     </div>
                 </Transition>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="category template-actions">TEMPLATE</div>
+
+            <div class="template-selector-wrapper">
+
             </div>
         </div>
     </div>

@@ -48,7 +48,7 @@ const removeSkill = (index) => {
 
 <template>
     <div
-        class="skills"
+        class="block skills"
         :class="{ 'is-dragging': isDragging, 'hover-disabled': hoverDisabled }"
         @mousemove="handleMouseMove"
     >
