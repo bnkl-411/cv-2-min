@@ -18,7 +18,6 @@ export function useDraggable() {
 
     const handleMouseMove = () => {
         if (hoverDisabled.value) {
-            git
             hoverDisabled.value = false
         }
     }
