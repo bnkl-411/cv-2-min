@@ -9,15 +9,18 @@ export function useLocalStorage(key, defaultValue) {
       const item = localStorage.getItem(key)
       if (item) {
         data.value = JSON.parse(item)
+        return true
       }
     } catch (e) {
       console.error('Erreur de chargement:', e)
     }
+    return false
   }
 
   const save = () => {
     try {
       localStorage.setItem(key, JSON.stringify(data.value))
+      console.log('saved data');
     } catch (e) {
       console.error('Erreur de sauvegarde:', e)
     }
@@ -28,8 +31,13 @@ export function useLocalStorage(key, defaultValue) {
     localStorage.removeItem(key)
   }
 
+  const hasLoadedData = load()
+
+  if (!hasLoadedData) {
+    save()
+  }
+
   watch(data, save, { deep: true })
-  load()
 
   return { data, load, save, clear }
 }

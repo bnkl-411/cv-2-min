@@ -10,7 +10,7 @@ const cvModels = {
 
 const currentModel = ref('cvType1');
 
-// Fonction pour créer une nouvelle instance de storage
+// Créé une nouvelle instance de storage
 const createStorage = (modelKey) => {
     return useLocalStorage(modelKey, cvModels[modelKey]);
 };

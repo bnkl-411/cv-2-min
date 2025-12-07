@@ -17,16 +17,9 @@ const props = defineProps({
     type: { type: String, required: true }
 })
 
-const focusExtraInfo = ref(false)
-
-const extraInfo = ref(modelValue.value.extraInfo !== '');
-
-const handleExtra = () => {
-    nextTick(() => {
-        extraInfo.value = modelValue.value.extraInfo !== '' ?? false
-        focusExtraInfo.value = false
-    })
-}
+const extraInfo = computed(() => {
+    return modelValue.value.extraInfo !== ''
+})
 
 const config = {
     jobs: {
@@ -74,11 +67,9 @@ const category = config[props.type]
             <div :class="{ 'add-extra-info': !extraInfo }">
                 <ItemEditable
                     class="hoverable"
-                    :must-focus=focusExtraInfo
                     label="extra-info"
                     v-model="modelValue.extraInfo"
                     :placeholder="'Entreprise, durée...'"
-                    @handleExtra="handleExtra"
                 />
             </div>
         </div>

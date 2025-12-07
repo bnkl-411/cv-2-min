@@ -9,6 +9,9 @@ import { vZoom } from '../directives/zoomable';
 
 const { cvData, defaultCvData } = useCvState();
 
+const items = { ...localStorage };
+console.log(items);
+
 provide('cvData', cvData);
 provide('defaultCvData', defaultCvData);
 
@@ -92,6 +95,8 @@ const handleMouseUp = () => {
 </script>
 
 <template>
+    <RouterView />
+
     <PropertiesPanel
         :isColorWheelOpen="isColorWheelOpen"
         :currentColor="cvData.configuration.sidebar.color"

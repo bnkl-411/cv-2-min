@@ -15,8 +15,6 @@ const props = defineProps({
 
 const modelValue = defineModel({ type: String })
 
-const emit = defineEmits(['handleExtra'])
-
 const customFontSize = computed(() => {
     return cvData.value?.configuration?.fontSize?.[props.name]
         ? `${cvData.value.configuration.fontSize[props.name]}pt`
@@ -76,7 +74,6 @@ const handleKeydown = (e) => {
 const handleBlur = () => {
     editing.value = false
     endEditing()
-    emit('handleExtra')
 }
 
 onMounted(async () => {

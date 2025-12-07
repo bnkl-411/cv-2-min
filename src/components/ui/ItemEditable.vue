@@ -13,8 +13,6 @@ const modelValue = defineModel({ type: String })
 
 const { startEditing, endEditing } = useEditingState()
 
-const emit = defineEmits(['handleExtra'])
-
 const editing = ref(false)
 const inputRef = ref(null)
 const isEmpty = computed(() => !modelValue.value)
@@ -56,7 +54,6 @@ const handleKeydown = (e) => {
 const handleBlur = () => {
     editing.value = false
     endEditing()
-    emit('handleExtra')
 }
 </script>
 
