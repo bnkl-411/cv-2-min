@@ -2,6 +2,7 @@
 import { ref, watch, computed, nextTick, onMounted } from "vue"
 import vFocus from '../../directives/inputFocus'
 import { useEditingState } from '@/composables/useEditingState'
+import { useDebouncer } from '@/composables/useDebouncer'
 
 const props = defineProps({
     label: String,
@@ -11,11 +12,16 @@ const props = defineProps({
 
 const modelValue = defineModel({ type: String })
 
-const { startEditing, endEditing } = useEditingState()
+const { editing, startEditing, endEditing } = useEditingState()
 
-const editing = ref(false)
+const { localValue, updateModelValue, flushUpdate, resetLocal } = useDebouncer(
+    modelValue,
+    { delay: 500, isEditing: editing }
+)
+
 const inputRef = ref(null)
-const isEmpty = computed(() => !modelValue.value)
+
+const isEmpty = computed(() => !localValue.value)
 
 const fieldClasses = computed(() => [
     props.label,
@@ -30,11 +36,15 @@ const inputClasses = computed(() => [
 ])
 
 const activateEditing = () => {
-    editing.value = true
+    resetLocal()
     startEditing()
     nextTick(() => {
         inputRef.value?.focus()
     })
+}
+
+const handleInput = () => {
+    updateModelValue()
 }
 
 onMounted(() => {
@@ -52,7 +62,7 @@ const handleKeydown = (e) => {
 }
 
 const handleBlur = () => {
-    editing.value = false
+    flushUpdate()
     endEditing()
 }
 </script>
@@ -66,7 +76,7 @@ const handleBlur = () => {
         v-bind="$attrs"
         :data-attribute="label"
     >
-        {{ modelValue || placeholder }}
+        {{ localValue || placeholder }}
     </div>
     <input
         ref="inputRef"
@@ -77,9 +87,10 @@ const handleBlur = () => {
         v-show="editing"
         v-focus="editing"
         @blur="handleBlur"
+        @input="handleInput"
         @keydown="handleKeydown"
         :placeholder="placeholder"
-        v-model="modelValue"
+        v-model="localValue"
     />
 </template>
 

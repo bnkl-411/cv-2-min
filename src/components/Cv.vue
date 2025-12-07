@@ -9,9 +9,6 @@ import { vZoom } from '../directives/zoomable';
 
 const { cvData, defaultCvData } = useCvState();
 
-const items = { ...localStorage };
-console.log(items);
-
 provide('cvData', cvData);
 provide('defaultCvData', defaultCvData);
 

@@ -1,9 +1,8 @@
 <script setup>
-
 import { ref, computed, nextTick, onMounted, watch, inject } from "vue"
 import vFocus from '../../directives/inputFocus'
 import { useEditingState } from '@/composables/useEditingState'
-
+import { useDebouncer } from '@/composables/useDebouncer'
 
 const cvData = inject('cvData')
 
@@ -15,19 +14,22 @@ const props = defineProps({
 
 const modelValue = defineModel({ type: String })
 
+const { editing, startEditing, endEditing } = useEditingState()
+
+const { localValue, updateModelValue, flushUpdate, resetLocal } = useDebouncer(
+    modelValue,
+    { delay: 500, isEditing: editing }
+)
+
 const customFontSize = computed(() => {
     return cvData.value?.configuration?.fontSize?.[props.name]
         ? `${cvData.value.configuration.fontSize[props.name]}pt`
         : ''
 })
 
-const { startEditing, endEditing } = useEditingState()
-
-const editing = ref(false)
-
 const textareaRef = ref(null)
 
-const isEmpty = computed(() => !modelValue.value)
+const isEmpty = computed(() => !localValue.value)
 
 const itemClasses = computed(() => [
     'extra-padding',
@@ -53,7 +55,7 @@ const heightAdjust = () => {
 }
 
 const activateEditing = async () => {
-    editing.value = true
+    resetLocal()
     startEditing()
 
     await nextTick()
@@ -63,6 +65,7 @@ const activateEditing = async () => {
 
 const handleInput = () => {
     heightAdjust()
+    updateModelValue()
 }
 
 const handleKeydown = (e) => {
@@ -72,7 +75,7 @@ const handleKeydown = (e) => {
 }
 
 const handleBlur = () => {
-    editing.value = false
+    flushUpdate()
     endEditing()
 }
 
@@ -92,12 +95,11 @@ watch(() => props.mustFocus, (newVal) => {
     if (newVal) activateEditing()
 })
 
-watch(modelValue, () => {
+watch(localValue, () => {
     if (editing.value) {
         nextTick(heightAdjust)
     }
 })
-
 </script>
 
 <template>
@@ -112,7 +114,7 @@ watch(modelValue, () => {
             v-bind="$attrs"
             :data-attribute="name"
         >
-            {{ modelValue || placeholder }}
+            {{ localValue || placeholder }}
         </div>
         <textarea
             ref="textareaRef"
@@ -120,7 +122,7 @@ watch(modelValue, () => {
             :name="name"
             v-show="editing"
             v-focus="editing"
-            v-model="modelValue"
+            v-model="localValue"
             @input="handleInput"
             @blur="handleBlur"
             @keydown="handleKeydown"
@@ -130,68 +132,3 @@ watch(modelValue, () => {
         ></textarea>
     </div>
 </template>
-
-<style scoped lang="scss">
-#username {
-    font-weight: 600;
-}
-
-.textarea-section {
-    display: flex;
-    flex: auto;
-    width: 100%;
-    box-sizing: border-box;
-    background: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-    font-family: inherit;
-    color: inherit;
-    text-align: inherit;
-    line-height: inherit;
-    appearance: none;
-    outline: none;
-    resize: none;
-    overflow: hidden;
-    cursor: text;
-
-    &:hover {
-        color: var(--greyed-text);
-        background-color: var(--hover-bg);
-    }
-
-    &::placeholder {
-        color: #d8d8d8;
-    }
-}
-
-.extra-padding {
-    padding: 2px;
-}
-
-.ta-username {
-    font-weight: 600;
-}
-
-.hover-highlight {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-
-    &:hover {
-        box-shadow:
-            0 0 0 2px rgb(112, 181, 255),
-            6px 0 12px -3px rgba(112, 181, 255, 0.3),
-            -4px 0 6px -3px rgba(112, 181, 255, 0.1);
-        border-radius: 6px;
-    }
-}
-
-.hobbies {
-    @extend .hover-highlight;
-}
-
-.resume {
-    @extend .hover-highlight;
-    font-size: 11pt;
-}
-</style>

@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref, nextTick, inject, computed } from "vue"
+import { inject, computed } from "vue"
 import ItemEditable from '../ui/ItemEditable.vue'
 import TextareaSection from '../ui/TextareaSection.vue'
 
