@@ -4,7 +4,7 @@ import AddItemButton from "../ui/AddItemButton.vue";
 import ItemEditable from '../ui/ItemEditable.vue'
 import RemoveItemButton from "../ui/RemoveItemButton.vue";
 import draggable from 'vuedraggable'
-import { useDraggable } from '@/composables/useDraggable'
+import { useDraggable } from '@composables/useDraggable'
 
 const cvData = inject('cvData')
 const defaultCvData = inject('defaultCvData')

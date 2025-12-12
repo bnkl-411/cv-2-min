@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue';
-import { exportToPDF } from '../../utils/toPDF';
-import { useCvState } from '../../composables/useCvState';
-import { dataToJson } from '../../utils/dataToJson';
+import { exportToPDF } from '@utils/toPDF';
+import { dataToJson } from '@utils/dataToJson';
+import { useCvState } from '@composables/useCvState';
 import PropertiesPanelButton from './PropertiesPanelButton.vue';
-import { propertiesPanelSections } from '../../config/propertiesPanelConfig';
+import { propertiesPanelSections } from '@/config/propertiesPanelConfig';
 
 const { initCV, currentModel } = useCvState();
 

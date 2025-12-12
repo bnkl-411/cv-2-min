@@ -1,5 +1,5 @@
 <script setup>
-import { vTooltip } from '../../directives/tooltip';
+import { vTooltip } from '@directives/tooltip';
 
 const props = defineProps({
     icon: { type: String, required: true },

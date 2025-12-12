@@ -1,12 +1,12 @@
 <script setup>
 import { ref, provide, onMounted, watch, nextTick } from 'vue'
-import { useCvState } from "../composables/useCvState";
-import { useCssSync } from '../composables/useCssSync'
-import PropertiesPanel from "../components/layout/PropertiesPanel.vue"
-import MainSection from "../components/layout/MainSection.vue";
-import Sidebar from "../components/layout/SideBar.vue";
-import { vZoom } from '../directives/zoomable';
 import { useRoute } from 'vue-router'
+import { useCvState } from "@composables/useCvState";
+import { useCssSync } from '@composables/useCssSync'
+import { vZoom } from '@directives/zoomable';
+import MainSection from "../layout/MainSection.vue";
+import PropertiesPanel from "../layout/propertiesPanel/PropertiesPanel.vue"
+import Sidebar from "../layout/SideBar.vue";
 
 const route = useRoute()
 

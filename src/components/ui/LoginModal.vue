@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useLoginModal } from '@/composables/useLoginModal'
+import { useLoginModal } from '@composables/useLoginModal'
 
 const router = useRouter()
 const { close, redirectTo } = useLoginModal()

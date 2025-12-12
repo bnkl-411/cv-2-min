@@ -1,8 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import PropertiesPanelButton from './PropertiesPanelButton.vue';
-import LayoutConfigurator from '../ui/LayoutConfigurator.vue';
-import { propertiesPanelSections } from '../../config/propertiesPanelConfig';
+import LayoutConfigurator from '../../ui/LayoutConfigurator.vue';
+import { propertiesPanelSections } from '../../../config/propertiesPanelConfig';
 import chevronDown from '@icons/chevron.svg';
 
 const isLayoutSelectorOpen = defineModel('isLayoutSelectorOpen', { type: Boolean, required: true })

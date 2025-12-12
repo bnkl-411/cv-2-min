@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed, nextTick, onMounted, watch, inject } from "vue"
-import vFocus from '../../directives/inputFocus'
-import { useEditingState } from '@/composables/useEditingState'
-import { useDebouncer } from '@/composables/useDebouncer'
+import vFocus from '@directives/inputFocus'
+import { useEditingState } from '@composables/useEditingState'
+import { useDebouncer } from '@composables/useDebouncer'
 
 const cvData = inject('cvData')
 

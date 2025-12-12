@@ -4,7 +4,7 @@ import ItemEditable from '../ui/ItemEditable.vue'
 import RemoveItemButton from "../ui/RemoveItemButton.vue";
 import AddItemButton from "../ui/AddItemButton.vue"
 import draggable from 'vuedraggable'
-import { useDraggable } from '@/composables/useDraggable'
+import { useDraggable } from '@composables/useDraggable'
 
 const cvData = inject('cvData')
 const focusTarget = ref(null)

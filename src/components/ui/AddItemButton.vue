@@ -1,6 +1,6 @@
 <script setup>
 import { toRefs } from 'vue';
-import { useNextItem } from '@/composables/useNextItem';
+import { useNextItem } from '@composables/useNextItem';
 
 const props = defineProps({
     ariaLabel: {

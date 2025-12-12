@@ -1,8 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import PropertiesPanelButton from './PropertiesPanelButton.vue';
-import ColorPicker from '../ui/ColorPicker.vue';
-import { propertiesPanelSections } from '../../config/propertiesPanelConfig';
+import ColorPicker from '../../ui/ColorPicker.vue';
+import { propertiesPanelSections } from '@/config/propertiesPanelConfig';
 import chevronDown from '@icons/chevron.svg';
 
 const props = defineProps({

@@ -5,7 +5,7 @@ import RemoveItemButton from "../ui/RemoveItemButton.vue";
 import Resume from "../blocks/Resume.vue";
 import ExperienceLayout from "../blocks/ExperienceLayout.vue"
 import draggable from 'vuedraggable'
-import { useDraggable } from '@/composables/useDraggable'
+import { useDraggable } from '@composables/useDraggable'
 
 const cvData = defineModel('cvData', {
     type: Object,

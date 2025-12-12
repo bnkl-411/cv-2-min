@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject } from 'vue';
 import PropertiesPanelButton from './PropertiesPanelButton.vue';
-import { propertiesPanelSections } from '../../config/propertiesPanelConfig';
+import { propertiesPanelSections } from '../../../config/propertiesPanelConfig';
 import chevronDown from '@icons/chevron.svg';
 
 const cvData = inject('cvData')

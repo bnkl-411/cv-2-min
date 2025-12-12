@@ -1,5 +1,5 @@
 <script setup>
-import { useLoginModal } from '@/composables/useLoginModal'
+import { useLoginModal } from '@composables/useLoginModal'
 import LoginModal from './components/ui/LoginModal.vue'
 
 const { isOpen } = useLoginModal()

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, inject } from "vue"
 import TextareaSection from "../ui/TextareaSection.vue"
-import { useAI } from '@/composables/useAI'
+import { useAI } from '@composables/useAI'
 
 const cvData = inject('cvData')
 

@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import Cv from './components/Cv.vue'
-import { useLoginModal } from '@/composables/useLoginModal'
+import Cv from './components/pages/Cv.vue'
+import { useLoginModal } from '@composables/useLoginModal'
 
 const routes = [
     {
