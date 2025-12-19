@@ -108,10 +108,6 @@ const handleBlur = () => {
     width: 100%;
 }
 
-.extra-padding {
-    padding: 2px;
-}
-
 .username,
 .username-input,
 .xtra-label,

@@ -11,9 +11,9 @@ const cvData = defineModel({ type: Object, required: true })
         class="personal"
     >
         <TextareaSection
-            v-font-size-editor="{ cvData, name: 'fullname', maxSize: 24 }"
+            v-font-size-editor="{ cvData, name: 'fullName', maxSize: 24 }"
             v-model="cvData.cv.personal[2].value"
-            name="username"
+            name="fullName"
             placeholder="Nom et prénom"
         />
 

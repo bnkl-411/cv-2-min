@@ -2,18 +2,12 @@
 <!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="800px" height="800px" viewBox="0 0 800 800" enable-background="new 0 0 800 800" xml:space="preserve">
-<path opacity="0.6" fill="none" stroke="#0035AA" stroke-width="48" enable-background="new    " d="M100.167,1273
-	c0-175.755,0-263.632,54.6-318.233c54.6-54.6,142.478-54.6,318.233-54.6c175.754,0,263.633,0,318.232,54.6
-	c54.601,54.6,54.601,142.478,54.601,318.233c0,175.754,0,263.633-54.601,318.232c-54.598,54.601-142.478,54.601-318.232,54.601
-	c-175.755,0-263.632,0-318.233-54.601C100.167,1536.633,100.167,1448.754,100.167,1273z"/>
-<g>
-	<path fill="#00569F" d="M12.467,238.019h116.146c63.318,0,116.146,50.304,116.146,113.688c0,62.578-51.684,115.097-116.146,115.097
-		H94.094v95.579H12.467V238.019z M165.994,352.11c0-19.72-15.639-34.61-37.38-34.61H94.094v69.823l34.519,0.201
-		C150.546,387.725,165.994,372.03,165.994,352.11z"/>
-	<path fill="#00569F" d="M548.187,400.603c0,100.609-63.89,161.779-168.403,161.779H279.467V238.22l100.317-0.201
-		C484.297,237.617,548.187,299.189,548.187,400.603z M466.37,400.402c0-50.908-33.566-81.896-88.683-81.896h-18.69v162.786h19.453
-		C432.994,481.292,466.37,450.707,466.37,400.402z"/>
-	<path fill="#00569F" d="M668.907,318.104v52.517h97.647v72.036h-97.647v120.128h-80.673V237.214h199.299v80.89H668.907z"/>
-</g>
+	 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<path fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14,2H6
+	C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V8L14,2z"/>
+<polyline fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="14,2 14,8 20,8 
+	"/>
+<line fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="16" y1="13" x2="8" y2="13"/>
+<line fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="16" y1="17" x2="8" y2="17"/>
+<polyline fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="10,9 9,9 8,9 "/>
 </svg>

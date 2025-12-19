@@ -1,12 +1,7 @@
 import { onBeforeUnmount } from 'vue'
 
 export function useAutoSave(cvState, options = {}) {
-    const {
-        intervalMs = 30000,
-        saveOnUnload = true,
-        saveOnVisibilityChange = true,
-        saveOnBlur = true
-    } = options
+    const { intervalMs = 30000 } = options
 
     let saveInterval = null
 
@@ -15,9 +10,8 @@ export function useAutoSave(cvState, options = {}) {
             clearInterval(saveInterval)
         }
 
-        //Auto-save périodique
         saveInterval = setInterval(() => {
-            if (cvState.isDirty.value) {
+            if (cvState.hasPendingSync.value) {
                 cvState.saveToServer()
             }
         }, intervalMs)
@@ -30,59 +24,37 @@ export function useAutoSave(cvState, options = {}) {
         }
     }
 
-    const handleBeforeUnload = (event) => {
-        if (cvState.isDirty.value) {
-            const blob = new Blob([JSON.stringify({
-                data: cvState.cvData.value
-            })], { type: 'application/json' })
-
-            navigator.sendBeacon('/api/cv/save', blob)
+    const handleBeforeUnload = () => {
+        if (cvState.hasPendingSync.value && cvState.cvData.value) {
+            fetch('http://localhost:3000/api/cv/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                keepalive: true,
+                body: JSON.stringify({
+                    data: cvState.cvData.value
+                })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('✅ Sync beforeunload réussie')
+                }
+            }).catch(err => {
+                console.warn('⚠️ Sync beforeunload échouée (sera retry au reload)', err)
+            })
         }
     }
 
-    const handleVisibilityChange = () => {
-        if (document.hidden && cvState.isDirty.value) {
-            cvState.saveToServer()
-        }
-    }
-
-    //Save on input blur
-    const handleBlur = () => {
-        if (cvState.isDirty.value) {
-            cvState.saveToServer()
-        }
-    }
-
-    if (saveOnUnload) {
-        window.addEventListener('beforeunload', handleBeforeUnload)
-    }
-
-    if (saveOnVisibilityChange) {
-        document.addEventListener('visibilitychange', handleVisibilityChange)
-    }
-
-    if (saveOnBlur) {
-        window.addEventListener('blur', handleBlur)
-    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
 
     startAutoSave()
 
     onBeforeUnmount(() => {
         stopAutoSave()
+        window.removeEventListener('beforeunload', handleBeforeUnload)
 
-        if (saveOnUnload) {
-            window.removeEventListener('beforeunload', handleBeforeUnload)
-        }
-
-        if (saveOnVisibilityChange) {
-            document.removeEventListener('visibilitychange', handleVisibilityChange)
-        }
-
-        if (saveOnBlur) {
-            window.removeEventListener('blur', handleBlur)
-        }
-
-        if (cvState.isDirty.value) {
+        if (cvState.hasPendingSync.value) {
             cvState.saveToServer()
         }
     })

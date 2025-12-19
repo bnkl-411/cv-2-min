@@ -1,20 +1,26 @@
-import { ref, computed, watch } from "vue"
+import { ref, computed, watch, nextTick } from "vue"
 import { useLocalStorage } from "./useLocalStorage"
 import cvType from "../resources/cvType.json"
 
 const currentModel = ref(null)
 const cvData = ref(null)
-const isDirty = ref(false)
 const isSaving = ref(false)
 const lastSyncedAt = ref(null)
 const error = ref(null)
 let cvStorage = null
+let unwatchCvData = null
 
 export function useCvState() {
-    const loadModel = (model, serverData = null, serverTimestamp = null) => {
+    const hasPendingSync = computed(() => cvStorage?.needsSync.value || false)
+
+    const loadModel = async (model, serverData = null, serverTimestamp = null) => {
         currentModel.value = model
 
-        // Vérifier si localStorage existe et comparer les timestamps
+        if (unwatchCvData) {
+            unwatchCvData()
+            unwatchCvData = null
+        }
+
         const localStorageKey = model
         const stored = localStorage.getItem(localStorageKey)
 
@@ -26,7 +32,6 @@ export function useCvState() {
                 const parsed = JSON.parse(stored)
                 localTimestamp = parsed.lastModifiedAt
 
-                // Si on a des données serveur, comparer les timestamps
                 if (serverTimestamp && localTimestamp) {
                     shouldUseLocalStorage = localTimestamp > serverTimestamp
 
@@ -36,45 +41,46 @@ export function useCvState() {
                         console.log('Serveur:', new Date(serverTimestamp))
                     }
                 } else if (localTimestamp) {
-                    // Pas de timestamp serveur = utiliser localStorage
                     shouldUseLocalStorage = true
                 }
             } catch (e) {
                 console.error('Erreur parsing localStorage:', e)
+                localStorage.removeItem(localStorageKey)
             }
         }
 
-        // Décider quelle source utiliser
         const initialData = shouldUseLocalStorage
-            ? null  // useLocalStorage va charger automatiquement depuis localStorage
+            ? null
             : (serverData || cvType)
 
         cvStorage = useLocalStorage(model, initialData || cvType)
         cvData.value = cvStorage.data.value
 
-        // Mettre à jour les états
         if (shouldUseLocalStorage) {
-            // LocalStorage plus récent = données non sync avec serveur
-            isDirty.value = true
             lastSyncedAt.value = null
         } else if (serverData) {
-            // Données viennent du serveur = sync
-            isDirty.value = false
             lastSyncedAt.value = serverTimestamp || Date.now()
         } else {
-            // Données par défaut = pas encore sync
-            isDirty.value = true
             lastSyncedAt.value = null
         }
 
         console.log('Model loaded:', model)
         console.log('Source:', shouldUseLocalStorage ? 'localStorage' : 'serveur')
-        console.log('isDirty:', isDirty.value)
+        console.log('needsSync:', cvStorage.needsSync.value)
+
+        if (cvStorage.needsSync.value) {
+            console.log('📤 Données non sync détectées, sync automatique...')
+            await saveToServer()
+        }
+
+        await nextTick()
+
+        unwatchCvData = watch(cvData, () => { }, { deep: true })
     }
 
     const saveToServer = async () => {
-        if (!isDirty.value || isSaving.value) {
-            return { success: false, reason: 'nothing_to_save' }
+        if (isSaving.value) {
+            return { success: false, reason: 'already_saving' }
         }
 
         isSaving.value = true
@@ -92,20 +98,25 @@ export function useCvState() {
                 })
             })
 
+            if (response.status === 401 || response.status === 403) {
+                error.value = 'session_expired'
+                return { success: false, error: 'session_expired' }
+            }
+
             if (!response.ok) {
                 throw new Error(`Erreur ${response.status}`)
             }
 
             const result = await response.json()
 
-            isDirty.value = false
+            cvStorage.markAsSynced()
             lastSyncedAt.value = Date.now()
 
-            console.log('Sauvegarde serveur réussie')
+            console.log('✅ Sauvegarde serveur réussie')
 
             return { success: true, data: result }
         } catch (err) {
-            console.error('Erreur sauvegarde serveur:', err)
+            console.error('⚠️ Erreur sauvegarde serveur:', err)
             error.value = err.message
             return { success: false, error: err.message }
         } finally {
@@ -113,21 +124,15 @@ export function useCvState() {
         }
     }
 
-    watch(
-        cvData,
-        () => {
-            if (cvData.value !== null) {
-                isDirty.value = true
-            }
-        },
-        { deep: true }
-    )
-
     const initCV = () => {
         if (!cvStorage) return
+
+        if (hasPendingSync.value) {
+            throw new Error('unsaved_changes')
+        }
+
         cvStorage.clear()
         cvData.value = structuredClone(cvType)
-        isDirty.value = true
     }
 
     const defaultCvData = computed(() => cvType)
@@ -136,7 +141,7 @@ export function useCvState() {
         cvData,
         defaultCvData,
         currentModel,
-        isDirty,
+        hasPendingSync,
         isSaving,
         lastSyncedAt,
         error,

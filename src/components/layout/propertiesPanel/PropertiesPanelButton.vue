@@ -54,7 +54,7 @@ const handleClick = (event) => {
     background: #ffffff;
     color: #1e293b;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);

@@ -1,9 +1,10 @@
 <script setup>
-import { computed } from 'vue'
-import { exportToPDF } from '@utils/toPDF'
+import { ref, computed } from 'vue'
+import { generatePDF } from '@utils/generatePDF'
 import { dataToJson } from '@utils/dataToJson'
 import { useCvState } from '@composables/useCvState'
 import PropertiesPanelButton from './PropertiesPanelButton.vue'
+import ShareCvModal from '../../ui/ShareCvModal.vue'
 import { propertiesPanelSections } from '@/config/propertiesPanelConfig'
 import { useRoute } from 'vue-router'
 
@@ -22,10 +23,17 @@ const actionsSection = computed(() =>
     propertiesPanelSections.find(section => section.id === 'actions')
 )
 
+const isModalOpen = ref(false)
+
+const share = () => {
+    isModalOpen.value = !isModalOpen.value
+}
+
 const actionHandlers = {
-    exportToPDF: () => exportToPDF(route),
-    initCV: initCV,
-    downloadJson: () => dataToJson(currentModel.value)
+    exportToPDF: () => generatePDF(route),
+    initCV,
+    downloadJson: () => dataToJson(currentModel.value),
+    share
 }
 
 const shouldShowButton = (button) => {
@@ -62,6 +70,10 @@ const shouldShowButton = (button) => {
             :show-content="showContent"
             @click="actionHandlers[button.action]()"
         />
+
+        <ShareCvModal v-model="isModalOpen" />
+
+
     </div>
 </template>
 

@@ -80,7 +80,6 @@ router.beforeEach(async (to, from) => {
         })
 
         if (!response.ok) {
-            console.log('intercept login modal')
             useLoginModal().open(to.fullPath)
             return { name: 'home' }
         }

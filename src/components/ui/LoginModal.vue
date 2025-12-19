@@ -73,7 +73,9 @@ const handleSubmit = async () => {
         }
 
     } catch (err) {
-        error.value = err.message
+        console.
+            error(err);
+        error.value = 'Impossible de contacter le serveur'
     }
 }
 </script>

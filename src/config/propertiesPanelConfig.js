@@ -25,7 +25,7 @@ export const propertiesPanelSections = [
                 icon: iconShare,
                 label: 'Partager votre CV',
                 tooltip: 'Partagez votre CV',
-                action: 'shareSecretLink'
+                action: 'share'
             },
             {
                 id: 'reset',
