@@ -73,17 +73,12 @@ const handleSubmit = async () => {
         }
 
     } catch (err) {
-        console.
-            error(err);
-        error.value = 'Impossible de contacter le serveur'
+        error.value = err
     }
 }
 </script>
 <template>
-    <div
-        class="modal-overlay"
-        @click.self="close"
-    >
+    <div class="modal-overlay">
         <div class="login-container">
             <button
                 class="close-btn"

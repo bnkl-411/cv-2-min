@@ -2,16 +2,17 @@ import { createWebHistory, createRouter } from 'vue-router'
 import Cv from './components/pages/Cv.vue'
 import Home from './components/pages/Home.vue'
 import Pdf from './components/pages/Pdf.vue'
+import NotFound404 from './components/pages/NotFound404.vue'
 import CvSetup from './components/pages/CvSetup.vue'
 import { useLoginModal } from '@composables/useLoginModal'
 import { API_URL } from '@config/urls'
 
 const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: Home
-    },
+    // {
+    //     path: '/',
+    //     name: 'home',
+    //     component: Home
+    // },
     {
         path: '/cv/setup',
         name: 'cv.setup',
@@ -32,7 +33,7 @@ const routes = [
     {
         path: '/cv/:slug',
         name: 'cv.show',
-        component: Pdf
+        component: Cv
     },
     {
         path: '/cv/edit/:slug',
@@ -46,10 +47,9 @@ const routes = [
     {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
-        redirect: { name: 'home' }
+        component: NotFound404
     }
 ]
-
 const authGuards = {
     redirectToUserCv: (to, user) => {
         if (!user.cvSlug) {
@@ -60,7 +60,7 @@ const authGuards = {
 
     mustOwnResource: (to, user) => {
         if (user.cvSlug !== to.params.slug) {
-            return { name: 'cv.edit', params: { slug: user.cvSlug } }
+            return { name: 'not-found' }
         }
     }
 }

@@ -1,17 +1,37 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import path from 'path'
+import fs from 'fs'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
     vueDevTools(),
+    {
+      name: 'serve-static-pages',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          const staticRoutes = {
+            '/': '/landing.html',
+            '/about': '/about.html'
+          }
+
+          if (staticRoutes[req.url]) {
+            const filePath = path.join(__dirname, 'public', staticRoutes[req.url])
+            if (fs.existsSync(filePath)) {
+              res.setHeader('Content-Type', 'text/html')
+              res.end(fs.readFileSync(filePath))
+              return
+            }
+          }
+          next()
+        })
+      }
+    }
   ],
   resolve: {
     alias: {

@@ -1,41 +1,7 @@
-<script setup>
-import { vTooltip } from '@directives/tooltip';
+body {
+    font-family: Inter;
+}
 
-const AtsTooltip = "Un fichier ATS est un CV ou document formaté pour être lu et trié automatiquement par les logiciels de recrutement."
-</script>
-
-<template>
-    <div class="navigation-container">
-        <h1 class="heading">Le CV parfait. Sans effort.</h1>
-
-        <h2 class="subheading">
-            Créez un CV optimisé <span v-tooltip:top="AtsTooltip">ATS*</span> en
-            quelques minutes avec un
-            éditeur intelligent qui vous guide à chaque étape.
-        </h2>
-
-        <h3 class="h3-heading">Valorisez votre parcours, multipliez vos opportunités.</h3>
-
-        <div class="button-group">
-            <a
-                href="/cv"
-                class="nav-button"
-            >
-                Créer votre CV
-            </a>
-
-            <a
-                href="/cv"
-                class="nav-button"
-            >
-                Importer un CV
-            </a>
-        </div>
-    </div>
-</template>
-
-
-<style scoped>
 .navigation-container {
     display: flex;
     flex-direction: column;
@@ -44,7 +10,6 @@ const AtsTooltip = "Un fichier ATS est un CV ou document formaté pour être lu 
     width: 100%;
     max-width: 1252px;
     margin: 0 auto;
-    padding: 20px;
     text-align: center;
     justify-content: flex-start;
     margin: 12vh auto;
@@ -102,4 +67,3 @@ const AtsTooltip = "Un fichier ATS est un CV ou document formaté pour être lu 
 .nav-button:active {
     transform: translateY(0);
 }
-</style>

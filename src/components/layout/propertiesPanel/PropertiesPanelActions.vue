@@ -6,9 +6,6 @@ import { useCvState } from '@composables/useCvState'
 import PropertiesPanelButton from './PropertiesPanelButton.vue'
 import ShareCvModal from '../../ui/ShareCvModal.vue'
 import { propertiesPanelSections } from '@/config/propertiesPanelConfig'
-import { useRoute } from 'vue-router'
-
-const route = useRoute().fullPath
 
 const { initCV, currentModel } = useCvState()
 
@@ -29,8 +26,17 @@ const share = () => {
     isModalOpen.value = !isModalOpen.value
 }
 
+const exportPdf = async () => {
+    try {
+        await generatePDF('download')
+    } catch (err) {
+        console.error('Erreur export PDF:', err)
+        // Optionnel : afficher un toast d'erreur
+    }
+}
+
 const actionHandlers = {
-    exportToPDF: () => generatePDF(route),
+    exportToPDF: exportPdf,
     initCV,
     downloadJson: () => dataToJson(currentModel.value),
     share

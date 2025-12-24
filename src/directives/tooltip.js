@@ -18,9 +18,11 @@ const createTooltip = (el, binding) => {
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.2s ease;
-      white-space: nowrap;
+      white-space: break-spaces;
       z-index: 9999;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      max-width: 200px;
+      text-align: center;
     `;
 
     document.body.appendChild(tooltipEl);
