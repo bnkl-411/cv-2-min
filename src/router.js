@@ -1,7 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Cv from './components/pages/Cv.vue'
-import Home from './components/pages/Home.vue'
-import Pdf from './components/pages/Pdf.vue'
 import NotFound404 from './components/pages/NotFound404.vue'
 import CvSetup from './components/pages/CvSetup.vue'
 import { useLoginModal } from '@composables/useLoginModal'
@@ -13,6 +11,10 @@ const routes = [
     //     name: 'home',
     //     component: Home
     // },
+    {
+        path: '/app',
+        redirect: '/cv'
+    },
     {
         path: '/cv/setup',
         name: 'cv.setup',
@@ -50,6 +52,7 @@ const routes = [
         component: NotFound404
     }
 ]
+
 const authGuards = {
     redirectToUserCv: (to, user) => {
         if (!user.cvSlug) {

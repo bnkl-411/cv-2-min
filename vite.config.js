@@ -16,8 +16,7 @@ export default defineConfig({
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           const staticRoutes = {
-            '/': '/landing.html',
-            '/about': '/about.html'
+            '/': '/index.html'
           }
 
           if (staticRoutes[req.url]) {
@@ -44,4 +43,11 @@ export default defineConfig({
       '@config': path.resolve(__dirname, './src/config'),
     },
   },
+  publicDir: 'public',
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: path.resolve(__dirname, 'app/index.html')
+    }
+  }
 })
