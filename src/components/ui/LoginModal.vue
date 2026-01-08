@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoginModal } from '@composables/useLoginModal'
+import { API_URL } from '@config/urls'
+
 
 const router = useRouter()
 const { close, redirectTo } = useLoginModal()
@@ -26,8 +28,8 @@ const handleSubmit = async () => {
     error.value = ''
 
     const endpoint = isLogin.value
-        ? 'http://localhost:3000/api/auth/login'
-        : 'http://localhost:3000/api/auth/signup'
+        ? `${API_URL}/api/auth/login`
+        : `${API_URL}/api/auth/signup`
 
     try {
         const response = await fetch(endpoint, {

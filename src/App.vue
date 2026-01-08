@@ -1,17 +1,43 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+import { loader } from '@utils/renderLoader'
 import { useLoginModal } from '@composables/useLoginModal'
 import LoginModal from './components/ui/LoginModal.vue'
 
+
 const { isOpen } = useLoginModal()
+
+const isRouterLoading = ref(true)
+
+onMounted(() => {
+	loader.onChange(loading => {
+		isRouterLoading.value = loading
+	})
+})
+
 </script>
 
 <template>
 	<main>
-		<RouterView />
+		<div
+			v-if="isRouterLoading"
+			class="loader-container"
+		>
+			<div class="loader">
+				<div class="loader-spinner"></div>
+				<p class="loader-text">Chargement de l'app...</p>
+			</div>
+		</div>
+		<div v-else>
 
-		<Teleport to="body">
-			<LoginModal v-if="isOpen" />
-		</Teleport>
+			<RouterView />
+
+			<Teleport to="body">
+				<LoginModal v-if="isOpen" />
+			</Teleport>
+		</div>
+
+
 	</main>
 </template>
 

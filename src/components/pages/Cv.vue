@@ -483,19 +483,6 @@ onMounted(async () => {
     opacity: 0;
 }
 
-.loader-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f5f5f5;
-    z-index: 9999;
-}
-
 .loader-overlay {
     position: fixed;
     top: 0;
@@ -508,36 +495,5 @@ onMounted(async () => {
     background-color: rgba(245, 245, 245, 0.85);
     backdrop-filter: blur(4px);
     z-index: 10000;
-}
-
-.loader {
-    text-align: center;
-    background: white;
-    padding: 32px 48px;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-}
-
-.loader-spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid #e5e7eb;
-    border-top-color: #2563eb;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 16px;
-}
-
-.loader-text {
-    color: #1f2937;
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
 }
 </style>

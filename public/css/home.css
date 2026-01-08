@@ -58,6 +58,14 @@ body {
 
 }
 
+.nav-button:active {
+    transform: translateY(0);
+}
+
+.nav-button {
+    transition: all 0.3s ease;
+}
+
 .nav-button:hover {
     background: #0075de;
     transform: translateY(-2px);
@@ -66,4 +74,21 @@ body {
 
 .nav-button:active {
     transform: translateY(0);
+}
+
+.nav-button.disabled {
+    background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+    color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+    border-color: light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3));
+    cursor: not-allowed;
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.nav-button.disabled:hover,
+.nav-button.disabled:active {
+    background: inherit !important;
+    transform: none !important;
+    box-shadow: none !important;
 }

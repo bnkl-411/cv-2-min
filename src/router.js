@@ -4,6 +4,8 @@ import NotFound404 from './components/pages/NotFound404.vue'
 import CvSetup from './components/pages/CvSetup.vue'
 import { useLoginModal } from '@composables/useLoginModal'
 import { API_URL } from '@config/urls'
+import { loader } from '@utils/renderLoader'
+
 
 const routes = [
     // {
@@ -74,7 +76,12 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-    if (!to.meta.requireAuth) return
+    loader.show()
+
+    if (!to.meta.requireAuth) {
+        loader.hide()
+        return
+    }
 
     try {
         const response = await fetch(`${API_URL}/api/auth/me`, {
@@ -100,6 +107,9 @@ router.beforeEach(async (to, from) => {
         console.error('Auth error:', error)
         useLoginModal().open(to.fullPath)
         return { name: 'home' }
+    }
+    finally {
+        loader.hide()
     }
 })
 
